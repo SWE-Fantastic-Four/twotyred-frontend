@@ -1,8 +1,9 @@
 import React from 'react'
+import MainLayout from '../../layout/MainLayout'
 
 const Profile = () => {
   return (
-    <div>Profile</div>
+    <MainLayout>Profile</MainLayout>
   )
 }
 

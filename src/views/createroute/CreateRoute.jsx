@@ -1,8 +1,9 @@
 import React from 'react'
+import MainLayout from '../../layout/MainLayout'
 
 const CreateRoute = () => {
   return (
-    <div>CreateRoute</div>
+    <MainLayout>CreateRoute</MainLayout>
   )
 }
 
