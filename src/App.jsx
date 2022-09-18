@@ -7,7 +7,6 @@ import Profile from './views/profile/Profile'
 import CreateRoute from './views/createroute/CreateRoute'
 
 function App() {
-
   return (
     <BrowserRouter>
       <Routes>
