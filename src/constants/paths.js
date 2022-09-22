@@ -1,6 +1,6 @@
 const PATHS = {
-  DASHBOARD: "/",
-  LOGIN: "/login",
+  DASHBOARD: "/dashboard",
+  LOGIN: "/",
   PROFILE: "/profile",
   CREATEROUTE: "/route"
 }
