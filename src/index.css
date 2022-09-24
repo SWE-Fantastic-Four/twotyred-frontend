@@ -16,3 +16,7 @@
   -webkit-text-size-adjust: 100%;
   --max-screen-width: 1280px;
 }
+
+body {
+  overflow-y: overlay;
+}

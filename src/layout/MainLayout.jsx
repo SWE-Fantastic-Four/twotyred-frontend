@@ -10,7 +10,7 @@ const MainLayout = ({ children }) => {
     <div>
       {location.pathname === P.LOGIN ? <MainHeaderDisabled /> : <MainHeader />}
       <div className="flex flex-col justify-center items-center">
-        <div className="max-w-[var(--max-screen-width)]">
+        <div className={`${location.pathname === P.CREATEROUTE ? "": "max-w-[var(--max-screen-width)]"}`}>
           {children}
         </div>
       </div>
