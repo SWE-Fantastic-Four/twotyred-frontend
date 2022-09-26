@@ -32,7 +32,6 @@ const SignInCard = ({ links }) => {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      dispatch(login());
     } catch (error) {
       setErrorMsg(error.message);
     }
