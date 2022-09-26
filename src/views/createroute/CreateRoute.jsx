@@ -1,6 +1,8 @@
 import React from 'react'
 import MainLayout from '../../layout/MainLayout'
 import Map from '../../components/Map';
+import RouteDescription from './RouteDescription';
+import RouteSelection from './RouteSelection';
 
 const CreateRoute = () => {
   const location = {
@@ -12,7 +14,7 @@ const CreateRoute = () => {
     <MainLayout>
       <div className="h-[calc(100vh-98px)] w-screen relative">
         <div className="text-red-300 font-bold text-[32px] z-10 absolute">
-          Test
+          <RouteDescription />
         </div>
         <div className="h-full w-full">
           <Map location={location} />
