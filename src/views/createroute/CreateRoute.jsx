@@ -10,9 +10,15 @@ const CreateRoute = () => {
   }
   return (
     <MainLayout>
-      <div className="h-[calc(100vh-98px)] w-screen">
-        <Map location={location} />
+      <div className="h-[calc(100vh-98px)] w-screen relative">
+        <div className="text-red-300 font-bold text-[32px] z-10 absolute">
+          Test
+        </div>
+        <div className="h-full w-full">
+          <Map location={location} />
+        </div>
       </div>
+
     </MainLayout>
   )
 }

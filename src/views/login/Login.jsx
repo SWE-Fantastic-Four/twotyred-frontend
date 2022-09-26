@@ -59,7 +59,7 @@ const Login = () => {
   }
 
   return (
-    <main className="relative bg-[url('assets/bike.png'),_url('assets/bike.png')] bg-no-repeat bg-[position:calc(50%-700px)_60px,_calc(50%+750px)_200px]"> 
+    <main className="relative bg-[url('assets/bike.png'),_url('assets/bike.png')] bg-no-repeat bg-[position:calc(50%-700px)_60px,_calc(50%+750px)_200px] self-center"> 
       <MainLayout>
           <section className="pt-[105px] pb-[105px] min-h-[650px]">
             <div className="m-auto w-[494px] bg-off-white p-[60px] shadow-md rounded-[58px] flex flex-col overflow-hidden">
