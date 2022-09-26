@@ -1,18 +1,29 @@
-import React, { useEffect } from 'react'
-import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
-import P from '../constants/paths'
-import CreateSpeechTopDark from "../assets/CreateSpeechTopDark.svg";
-import CreateSpeechBtmDark from "../assets/CreateSpeechBtmDark.svg";
-import ProfileSpeechTopDark from "../assets/ProfileSpeechTopDark.svg";
-import ProfileSpeechBtmDark from "../assets/ProfileSpeechBtmDark.svg";
+import { getAuth, signOut } from "firebase/auth";
+import React from 'react';
 import { useDispatch } from 'react-redux';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import CreateSpeechBtmDark from "../assets/CreateSpeechBtmDark.svg";
+import CreateSpeechTopDark from "../assets/CreateSpeechTopDark.svg";
+import ProfileSpeechBtmDark from "../assets/ProfileSpeechBtmDark.svg";
+import ProfileSpeechTopDark from "../assets/ProfileSpeechTopDark.svg";
+import P from '../constants/paths';
 import { logout } from '../store/auth';
 
 const MainHeader = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const navigate = useNavigate();
+  const auth = getAuth();
   const pathname = location.pathname;
+
+  const logoutHandler = () => {
+    try {
+      signOut(auth);
+      dispatch(logout());
+    } catch (error) {
+      // TODO: link to 404 page
+      console.error(error);
+    }
+  }
 
   return (
     <nav className="flex w-full justify-center shadow-lg h-[98px] sticky top-0 bg-white z-50">
@@ -25,7 +36,7 @@ const MainHeader = () => {
               <img src={ProfileSpeechTopDark} className="absolute invisible peer-hover:visible top-[6px] -z-10" />
             </div>
             <div className="h-[64px] w-[202px] mx-auto">
-              <Link onClick={() => dispatch(logout())} to={P.LOGIN} className="h-full w-full hover:text-black cursor-pointer flex items-center justify-center peer">Logout</Link>
+              <Link onClick={logoutHandler} to={P.LOGIN} className="h-full w-full hover:text-black cursor-pointer flex items-center justify-center peer">Logout</Link>
               <img src={ProfileSpeechBtmDark} className="absolute invisible peer-hover:visible top-[98px] -z-10" />
             </div>
           </div>

@@ -1,15 +1,17 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import MainLayout from '../../layout/MainLayout';
-import SignInCard from './SignInCard';
 import RegistrationCard from './RegistrationCard';
-import ResetCard from './ResetCard';
 import RegistrationSuccessCard from './RegistrationSuccessCard';
+import ResetCard from './ResetCard';
+import ResetSuccessCard from './ResetSuccessCard';
+import SignInCard from './SignInCard';
 
 const loginCards = {
   signIn: "signIn",
   registration: "registration",
   reset: "reset",
-  registrationSuccess: "registrationSuccess"
+  registrationSuccess: "registrationSuccess",
+  resetSuccess: "resetSuccess"
 }
 
 const Login = () => {
@@ -30,19 +32,26 @@ const Login = () => {
     setCard(loginCards.registrationSuccess);
   }
 
+  const showResetSuccess = () => {
+    setCard(loginCards.resetSuccess);
+  }
+
   const renderCard = () => {
     switch (card) {
       case loginCards.signIn:
         return <SignInCard links={{ showRegistration, showReset }} />
       
       case loginCards.registration:
-        return <RegistrationCard links={{ showRegistrationSuccess }}/>
+        return <RegistrationCard links={{ showRegistrationSuccess, showSignIn }} />
 
       case loginCards.reset:
-        return <ResetCard />
+        return <ResetCard links={{ showSignIn, showResetSuccess }} />
 
       case loginCards.registrationSuccess:
-        return <RegistrationSuccessCard links={{ showSignIn }}/>
+        return <RegistrationSuccessCard links={{ showSignIn }} />
+
+      case loginCards.resetSuccess:
+        return <ResetSuccessCard links={{ showSignIn }} />
 
       default:
         break;

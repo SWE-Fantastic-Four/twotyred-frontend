@@ -1,9 +1,15 @@
-import React from 'react'
+import React from "react";
 
-const PrimaryButton = ({ children, className, onClick }) => {
+const PrimaryButton = ({ children, className, onClick, type }) => {
   return (
-    <button onClick={onClick} className={`w-max px-[10px] py-[6px] bg-light-green text-[20px] leading-[23px] box-border hover:border hover:py-[5px] hover:px-[9px] ${className}`}>{children}</button>
-  )
-}
+    <button
+      type={type}
+      onClick={onClick}
+      className={`w-max px-[10px] py-[6px] bg-light-green text-[20px] leading-[23px] box-border hover:border hover:py-[5px] hover:px-[9px] ${className}`}
+    >
+      {children}
+    </button>
+  );
+};
 
-export default PrimaryButton
+export default PrimaryButton;

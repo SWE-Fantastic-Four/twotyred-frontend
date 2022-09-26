@@ -1,9 +1,15 @@
-import React from 'react'
+import React from "react";
 
-const TertiaryButton = ({ children, className, onClick }) => {
+const TertiaryButton = ({ children, className, onClick, type }) => {
   return (
-    <button className={`mt-[8px] w-max text-[15px] hover:underline ${className}`} onClick={onClick}>{children}</button>
-  )
-}
+    <button
+      className={`mt-[8px] w-max text-[15px] hover:underline ${className}`}
+      onClick={onClick}
+      type={type}
+    >
+      {children}
+    </button>
+  );
+};
 
-export default TertiaryButton
+export default TertiaryButton;

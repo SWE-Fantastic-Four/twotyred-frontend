@@ -1,8 +1,8 @@
-import React from 'react'
-import MainHeader from './MainHeader'
-import MainHeaderDisabled from './MainHeaderDisabled';
+import React from 'react';
 import { useLocation } from "react-router-dom";
 import P from '../constants/paths';
+import MainHeader from './MainHeader';
+import MainHeaderDisabled from './MainHeaderDisabled';
 
 const MainLayout = ({ children }) => {
   const location = useLocation();
