@@ -17,6 +17,7 @@ module.exports = {
       },
       fontFamily: {
         'primary': ['Roboto', 'sans-serif'],
+        'secondary': ['Jaldi', 'sans-serif']
       },
     },
   },

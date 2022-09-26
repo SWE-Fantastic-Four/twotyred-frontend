@@ -7,6 +7,7 @@ import CreateRoute from './views/createroute/CreateRoute'
 import Dashboard from './views/dashboard/Dashboard'
 import Login from './views/login/Login'
 import Profile from './views/profile/Profile'
+import NotFound from "./views/notfound/NotFound"
 
 function App() {
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
@@ -25,9 +26,10 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path={P.DASHBOARD} element={<Dashboard />} />
-        <Route path={P.LOGIN} element={isLoggedIn ? <Navigate to={P.DASHBOARD} replace/> : <Login />}/>
+        <Route path={P.LOGIN} element={isLoggedIn ? <Navigate to={P.DASHBOARD} replace /> : <Login />}/>
         <Route path={P.PROFILE} element={<Profile />}/>
         <Route path={P.CREATEROUTE} element={<CreateRoute />}/>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   )
