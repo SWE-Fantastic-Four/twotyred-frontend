@@ -10,26 +10,26 @@ npm start
 The webapp will be running on [http://127.0.0.1:5173/](http://127.0.0.1:5173/) by default
 
 ### File Structure
-- src/assets
+- `src/assets`:
 where all images, icons and misc. project assets will go
 
-- src/components
+- `src/components`:
 where all reusable components will go
 
-- src/constants
+- `src/constants`:
 where all project constants will go
 
-- src/layout
+- `src/layout`:
 where the general layout of each page will go
 
-- src/views
+- `src/views`:
 where code for each page lies
 
-- main.jsx
+- `main.jsx`:
 entry point for react code
 
-- index.css
+- `index.css`:
 global css properties
 
-- App.jsx
+- `App.jsx`:
 entry point to main.jsx file, contains all website routes
