@@ -8,7 +8,7 @@ const MainLayout = ({ children }) => {
   const location = useLocation();
   return (
     <div>
-      {location.pathname === P.LOGIN ? <MainHeaderDisabled /> : <MainHeader />}
+      {location.pathname === P.LOGIN ? <MainHeader /> : <MainHeader />}
       <div className="flex flex-col justify-center items-center">
         <div className={`${location.pathname === P.CREATEROUTE ? "": "max-w-[var(--max-screen-width)]"}`}>
           {children}
