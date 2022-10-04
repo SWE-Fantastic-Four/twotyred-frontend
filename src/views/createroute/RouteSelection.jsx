@@ -7,7 +7,7 @@ import cross from "../../assets/cross.svg";
 const SmallBox = ({ children, className }) => {
   return (
     <button
-      className={`flex flex-row gap-[20px] items-center rounded-[10px] w-full px-[20px] py-[14px] bg-white text-[20px] text-[#0c0c0c] leading-[23px] box-border hover:border ${className}`}
+      className={`flex flex-row gap-[20px] items-center rounded-[10px] w-full px-[20px] py-[14px] hover:px-[19px] hover:py-[13px] bg-white text-[20px] text-[#0c0c0c] leading-[23px] box-border hover:border ${className}`}
     >
       {children}
     </button>
@@ -17,7 +17,7 @@ const SmallBox = ({ children, className }) => {
 const PointsBox = ({ children, className }) => {
   return (
     <button
-      className={`flex gap-[23px] flex-row items-center rounded-[10px] w-full px-[20px] py-[14px] bg-white text-[20px] text-[#0c0c0c] leading-[23px] box-border hover:border ${className}`}
+      className={`flex gap-[23px] flex-row items-center rounded-[10px] w-full px-[20px] py-[14px] hover:px-[19px] hover:py-[13px] bg-white text-[20px] text-[#0c0c0c] leading-[23px] box-border hover:border ${className}`}
     >
       {children}
     </button>
