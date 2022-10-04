@@ -7,7 +7,7 @@ import smile from "../../assets/smile.svg";
 const SmallBox = ({ children, className }) => {
   return (
     <button 
-      className={`flex flex-col gap-[10px] py-[4px] mt-[10px] rounded-[10px] w-full px-[16px] text-[20px] text-[#0c0c0c] leading-[23px] box-border hover:border hover:py-[5px] hover:px-[9px] ${className}`}
+      className={`flex flex-col gap-[10px] py-[4px] mt-[10px] rounded-[10px] w-full px-[16px] text-[20px] text-[#0c0c0c] leading-[23px] box-border hover:border hover:py-[3px] hover:px-[15px] ${className}`}
     >
       {children}
     </button>
@@ -17,7 +17,7 @@ const SmallBox = ({ children, className }) => {
 const SmallButton = ({ children, className }) => {
   return (
     <button
-      className={`mt-[8px] w-max text-[15px] text-[#2E57A7] hover:underline ${className}`}
+      className={`mt-[8px] w-max text-[15px] text-[#2E57A7] hover:underline rounded-[4px] ${className}`}
     >
       {children}
     </button>
