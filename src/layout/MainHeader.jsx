@@ -1,15 +1,16 @@
+import { ChevronLeftIcon } from "@heroicons/react/24/solid";
+import { Transition } from "@headlessui/react";
 import { getAuth, signOut } from "firebase/auth";
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import CreateSpeechBtmDark from "../assets/CreateSpeechBtmDark.svg";
 import CreateSpeechTopDark from "../assets/CreateSpeechTopDark.svg";
+import Menu from "../assets/Menu.svg";
 import ProfileSpeechBtmDark from "../assets/ProfileSpeechBtmDark.svg";
 import ProfileSpeechTopDark from "../assets/ProfileSpeechTopDark.svg";
-import { ChevronLeftIcon } from "@heroicons/react/24/solid";
 import P from '../constants/paths';
 import { logout } from '../store/auth';
-import Menu from "../assets/Menu.svg";
 
 const MainHeader = () => {
   const dispatch = useDispatch();
@@ -89,11 +90,19 @@ const MainHeader = () => {
           <p className="font-medium text-[20px]">{mobileNavbarText}</p>
         </div>
       </nav>
-      {
-        showMobileMenu && <div className="fixed left-0 top-0 h-screen w-[calc(100vw-23px)] z-50 rounded-r-[20px] shadow-2xl bg-white pt-[23px] pr-[15px] pb-[27px] pl-[25px] flex flex-col">
-          <ChevronLeftIcon className="self-end text-dark-gray" height={25} width={25} />
+      <Transition
+        show={showMobileMenu}
+        enter="transition-all duration-150"
+        enterFrom="-translate-x-full"
+        enterTo="-translate-x-0"
+        leave="transition-all duration-150"
+        leaveFrom="-translate-x-0"
+        leaveTo="-translate-x-full"
+      >
+        <div className="fixed h-screen w-[calc(100vw-23px)] z-50 rounded-r-[20px] shadow-2xl bg-white pt-[23px] pr-[15px] pb-[27px] pl-[25px] flex flex-col">
+          <ChevronLeftIcon className="self-end text-dark-gray" height={25} width={25} onClick={() => setShowMobileMenu(false)}/>
         </div>
-      }
+      </Transition>
     </>
   )
 }
