@@ -1,9 +1,12 @@
 import React from 'react'
 import MainLayout from '../../layout/MainLayout'
+import ProfileHeader from './ProfileHeader'
 
 const Profile = () => {
   return (
-    <MainLayout>Profile</MainLayout>
+    <MainLayout>
+      <ProfileHeader />
+    </MainLayout>
   )
 }
 
