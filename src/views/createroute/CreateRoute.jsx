@@ -20,7 +20,6 @@ const CreateRoute = () => {
           <Map location={location} />
         </div>
       </div>
-
     </MainLayout>
   )
 }

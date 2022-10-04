@@ -41,26 +41,26 @@ const RouteSelection = () => {
         <div className="flex flex-col gap-[25px]">
           <div>
             <SmallBox>
-              <img src={green} className="h-[30px]" />
+              <img src={green} className="h-[40px] mt-[-9px] mb-[-9px]" />
               Taman Jurong Food Centre
             </SmallBox>
           </div>
           <div className="justify-between">
             <PointsBox>  
-              <div className="flex flex-grow-0"><img src={location} className="h-[30px]" /></div>
+              <div className="flex flex-grow-0"><img src={location} className="h-[40px] mt-[-9px] mb-[-9px]" /></div>
               <div className="flex flex-grow"><p>Jurong Lake Gardens </p></div>
               <div className="flex flex-grow-1"><img src={cross} className="" /></div>
             </PointsBox>
           </div>
           <div className="flex justify-between flex-row">
             <PointsBox>
-              <div className="flex flex-grow-0"><img src={location} className="h-[30px]" /></div>
+              <div className="flex flex-grow-0"><img src={location} className="h-[40px] mt-[-9px] mb-[-9px]" /></div>
               <div className="flex flex-grow"><p>Boon Lay Place Market </p></div>
               <div className="flex flex-grow-1"><img src={cross} className="" /></div>
             </PointsBox>
           </div>
           <SmallBox className="text-[#696868]">
-            <img src={search} className="h-[30px]" />
+            <img src={search} className="h-[40px] mt-[-9px] mb-[-9px]" />
             Add destination
           </SmallBox>        
         </div>
