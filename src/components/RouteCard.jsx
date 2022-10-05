@@ -25,28 +25,28 @@ import { useState } from "react";
 export default function RouteCard() {
   const [starFilled, setStarFilled] = useState(false);
 
-  const [heartColour, setHeartColour] = React.useState("black");
-  const [heartFilled, setHeartFilled] = React.useState(HeartIcon);
+//   const [heartColour, setHeartColour] = React.useState("black");
+  const [heartFilled, setHeartFilled] = React.useState(false);
 
-  const heart = {
-    fillstate: heartFilled,
-    colourstate: heartColour,
-  };
-  function changeHeartColour() {
-    setHeartColour(function (oldValue) {
-      return heartColour == "black" ? "red-600" : "black";
-    });
-  }
-  function changeHeartFill() {
-    setHeartFilled(function (oldValue) {
-      return heartFilled == HeartIcon ? HeartIconSolid : HeartIcon;
-    });
-  }
+//   const heart = {
+//     fillstate: heartFilled,
+//     colourstate: heartColour,
+//   };
+//   function changeHeartColour() {
+//     setHeartColour(function (oldValue) {
+//       return heartColour == "black" ? "red-600" : "black";
+//     });
+//   }
+//   function changeHeartFill() {
+//     setHeartFilled(function (oldValue) {
+//       return heartFilled == HeartIcon ? HeartIconSolid : HeartIcon;
+//     });
+//   }
 
-  function clickHeart() {
-    changeHeartColour();
-    changeHeartFill();
-  }
+//   function clickHeart() {
+//     changeHeartColour();
+//     changeHeartFill();
+//   }
 
   return (
     <div className="wholecard w-[337px] h-[328px] rounded-[5px] border-[2px] border-solid border-dark-gray shadow-lg hover:border-black hover:cursor-pointer">
@@ -70,10 +70,18 @@ export default function RouteCard() {
                 />
               )}
             </button>
-            <button onClick={clickHeart}>
-              <heart.fillstate
-                className={`heart stroke-[3] mt-[7px] h-[19px] pl-[4px] pr-[4px] text-${heart.colourstate}`}
-              />
+            <button onClick={()=>setHeartFilled(!heartFilled)}>
+              {
+                heartFilled ? (
+                  <HeartIconSolid
+                  className={`heart stroke-[3] mt-[7px] h-[19px] pl-[4px] pr-[4px] text-red-600`}
+                  />
+                ):(
+                  <HeartIcon
+                  className={`heart stroke-[3] mt-[7px] h-[19px] pl-[4px] pr-[4px] text-black`}
+                  />
+                )
+              }
             </button>
             <h1 className="totalLikes flex justify-start mt-2 font-bold text-[20px]">
               5000
