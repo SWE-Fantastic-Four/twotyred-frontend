@@ -1,5 +1,5 @@
 import React from 'react';
-import Cog from "../../assets/Cog.svg"
+import Cog from "../../assets/cog.svg"
 import AvatarImage from '../../assets/AvatarImage.png';
 import ProfileHeaderImg from "../../assets/ProfileHeader.png";
 import AvatarIcon from "../../components/AvatarIcon";
