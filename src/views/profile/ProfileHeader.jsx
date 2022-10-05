@@ -26,20 +26,20 @@ const ProfileHeader = () => {
         </div>
 
         <div className="userStats flex justify-center">
-          <div className="flex border-light-gray border rounded-full">
-            <div className="distCycled flex-col justify-center items-center w-40 my-2  px-3 border-light-gray border-r-[1px]">
+          <div className="flex border-dark-gray border rounded-full">
+            <div className="distCycled flex-col justify-center items-center w-40 my-2  px-3 border-dark-gray border-r-[1px]">
               <div className="stats text-xl flex justify-center font-medium">
                 100 KM
               </div>
-              <div className="type flex justify-center text-xs text-light-gray">
+              <div className="type flex justify-center text-xs text-dark-gray">
                 distance travelled
               </div>
             </div>
-            <div className="durationCycled flex-col justify-center items-center w-40 my-2  px-3 border-light-gray">
+            <div className="durationCycled flex-col justify-center items-center w-40 my-2  px-3 border-dark-gray">
               <div className="stats text-xl flex justify-center font-medium">
                 100 MINS
               </div>
-              <div className="type flex justify-center text-xs text-light-gray">
+              <div className="type flex justify-center text-xs text-dark-gray">
                 duration cycled
               </div>
             </div>
