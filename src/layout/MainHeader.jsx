@@ -1,5 +1,6 @@
-import { ChevronLeftIcon } from "@heroicons/react/24/solid";
-import { Transition } from "@headlessui/react";
+// import { ChevronLeftIcon, ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
+import { ChevronDownIcon, ChevronLeftIcon } from "@heroicons/react/24/outline";
+import { Transition, Disclosure } from "@headlessui/react";
 import { getAuth, signOut } from "firebase/auth";
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -11,14 +12,22 @@ import ProfileSpeechBtmDark from "../assets/ProfileSpeechBtmDark.svg";
 import ProfileSpeechTopDark from "../assets/ProfileSpeechTopDark.svg";
 import P from '../constants/paths';
 import { logout } from '../store/auth';
+import AvatarIcon from "../components/AvatarIcon";
+import AvatarImage from "../assets/AvatarImage.png";
 
 const MainHeader = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const auth = getAuth();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [showMobileCreateRouteMenu, setShowMobileCreateRouteMenu] = useState(false);
 
   const pathname = location.pathname;
+  let state = null;
+  if (pathname === P.CREATEROUTE) {
+    state = location.state.mode;
+  }
+
   let mobileNavbarText;
   switch (pathname) {
     case P.CREATEROUTE:
@@ -91,7 +100,7 @@ const MainHeader = () => {
         </div>
       </nav>
       <Transition
-        className="top-0 w-[calc(100vw-23px)] fixed h-screen z-50 bg-white shadow-2xl rounded-r-[20px] pt-[23px] pr-[15px] pb-[27px] pl-[25px] flex flex-col"
+        className="top-0 w-[297px] fixed h-screen z-50 bg-white shadow-2xl rounded-r-[20px] pt-[23px] pr-[15px] pb-[27px] pl-[25px] flex flex-col"
         show={showMobileMenu}
         enter="transition-all duration-500 ease-in-out"
         enterFrom="-translate-x-full"
@@ -100,7 +109,47 @@ const MainHeader = () => {
         leaveFrom="-translate-x-0"
         leaveTo="-translate-x-full"
       >
-        <ChevronLeftIcon className="self-end text-dark-gray" height={25} width={25} onClick={() => setShowMobileMenu(false)}/>
+        <div className="relative flex flex-col h-full justify-between">
+          <ChevronLeftIcon className="absolute right-0 top-0 text-dark-gray stroke-2 cursor-pointer" height={25} width={25} onClick={() => setShowMobileMenu(false)}/>
+          <div>
+
+            <div className="flex flex-col items-center max-w-max">
+              <AvatarIcon className="mt-[20px] w-[105.24px] h-[105.24px]" src={AvatarImage} />
+              <p className="mt-[10px] font-medium text-[18.93px]">@johnteo</p>
+            </div>
+            <div className="border-t w-[236.36px] mt-[17.5px] py-[16px] font-medium">
+              <NavLink to={P.DASHBOARD} className={({isActive}) => (isActive ? "text-black" : "text-dark-gray") + " text-[24px]"}>
+                Dashboard
+              </NavLink>
+              <Disclosure>
+                {({ open }) => (
+                  <>
+                    <Disclosure.Button as="div" className={(pathname === P.CREATEROUTE ? "text-black" : "text-dark-gray") + " flex justify-between items-center mt-[25px] text-[24px] leading-[28px] cursor-pointer"}>
+                      Create New Route
+                      <ChevronDownIcon className={`stroke-2 transition-all duration-300 ${open ? "rotate-180" : ""}`} height={25} width={25}/>
+                    </Disclosure.Button>
+                    <Transition
+                      show={open}
+                      enter="transition duration-200 ease-out"
+                      enterFrom="-translate-y-4 opacity-50"
+                      enterTo="translate-y-0 opacity-100"
+                      leave="transition duration-200 ease-out"
+                      leaveFrom="translate-y-0 opacity-100"
+                      leaveTo="-translate-y-4 opacity-50"
+                    >
+                      <Disclosure.Panel>
+                        <Link to={P.CREATEROUTE} state={{mode: "default"}} className={`text-[20px] mt-[20px] w-[215px] pl-[8px] py-[10px] ${state === "default" ? "bg-light-gray" : "bg-white"} rounded-[10px]`}>Customise Route</Link>
+                        <Link to={P.CREATEROUTE} state={{mode: "lucky"}} className={`text-[20px] mt-[8px] w-[215px] pl-[8px] py-[10px] ${state === "lucky" ? "bg-light-gray" : "bg-white"} rounded-[10px]`}>I'm Feeling Lucky</Link>
+                      </Disclosure.Panel>
+                    </Transition>
+                  </>
+                )}
+              </Disclosure>
+
+            </div>
+          </div>
+          <Link onClick={logoutHandler} to={P.LOGIN} className="text-[22px] font-medium">Logout</Link>
+        </div>
       </Transition>
     </>
   )
