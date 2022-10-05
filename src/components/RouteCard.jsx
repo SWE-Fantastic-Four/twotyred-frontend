@@ -1,52 +1,14 @@
-import React from "react";
 import {
-  StarIcon,
-  HeartIcon,
-  ArrowRightIcon,
-  ArrowDownIcon,
+  ArrowRightIcon, HeartIcon, StarIcon
 } from "@heroicons/react/24/outline";
-import { StarIcon as StarIconSolid } from "@heroicons/react/24/solid";
-import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
+import { HeartIcon as HeartIconSolid, StarIcon as StarIconSolid } from "@heroicons/react/24/solid";
+import React, { useState } from "react";
+import ProfilePic from "../assets/ProfilePic.svg";
 import Map from "./Map";
-import { useState } from "react";
-
-// function changefill(){
-//     setcolour(function(oldValue){
-//         return !oldValue;
-//     })
-//     console.log(colour)
-// }
-
-// function changefill(){
-//     console.log("fuck");
-//     setcolour("notshag");
-// }
 
 export default function RouteCard() {
   const [starFilled, setStarFilled] = useState(false);
-
-//   const [heartColour, setHeartColour] = React.useState("black");
   const [heartFilled, setHeartFilled] = React.useState(false);
-
-//   const heart = {
-//     fillstate: heartFilled,
-//     colourstate: heartColour,
-//   };
-//   function changeHeartColour() {
-//     setHeartColour(function (oldValue) {
-//       return heartColour == "black" ? "red-600" : "black";
-//     });
-//   }
-//   function changeHeartFill() {
-//     setHeartFilled(function (oldValue) {
-//       return heartFilled == HeartIcon ? HeartIconSolid : HeartIcon;
-//     });
-//   }
-
-//   function clickHeart() {
-//     changeHeartColour();
-//     changeHeartFill();
-//   }
 
   return (
     <div className="wholecard w-[337px] h-[328px] rounded-[5px] border-[2px] border-solid border-dark-gray shadow-lg hover:border-black hover:cursor-pointer">
@@ -70,7 +32,7 @@ export default function RouteCard() {
                 />
               )}
             </button>
-            <button onClick={()=>setHeartFilled(!heartFilled)}>
+            <button onClick={() => setHeartFilled(!heartFilled)}>
               {
                 heartFilled ? (
                   <HeartIconSolid
@@ -92,7 +54,7 @@ export default function RouteCard() {
           <p className="startlocation font-[Roboto] font-normal text-[10px] leading-[12px] text-[#6B6B6B]">
             Boon Lay Place Market and Fo...
           </p>
-          <ArrowRightIcon className="arrow w-[11.26px] h-[12]" />
+          <ArrowRightIcon className="arrow w-[11.26px] h-[12] mx-[2px]" />
           <p className="endlocation font-[Roboto] font-normal text-[10px] leading-[12px] text-[#6B6B6B]">
             Taman Jurong Food Centre | 5KM
           </p>
@@ -100,7 +62,7 @@ export default function RouteCard() {
         <div className="third flex pl-[15px] pt-[8px]">
           <img
             className="profilepic w-[34px] h-[34px] left-[122px] top-[589px]"
-            src="src\assets\ProfilePic.svg"
+            src={ProfilePic}
           />
           <div className="userinfo pt-[3px] pl-[5px]">
             <h1 className="name font-[Roboto] font-bold text-[12px] leading-[14px] text-black">
