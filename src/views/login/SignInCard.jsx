@@ -40,14 +40,14 @@ const SignInCard = ({ links }) => {
 
   return (
     <>
-      <p className="mb-[7px] font-extralight text-[32px]">Sign In</p>
-      <p className="mb-[10px] font-extralight text-[20px] text-[#C52424] h-[23px]">{errorMsg}</p>
+      <p className="sm:mb-[7px] mb-[2px] font-extralight sm:text-[32px] text-[26px]">Sign In</p>
+      <p className="sm:mb-[10px] font-extralight sm:text-[20px] text-[15px] text-[#C52424] sm:h-[23px] h-[18px]">{errorMsg}</p>
       <form className="flex flex-col" onSubmit={loginHandler}>
-        <div className="flex flex-col gap-[20px]">
+        <div className="flex flex-col sm:gap-[20px] gap-[15px]">
           <LoginInput placeholder="enter email address" type="email" name="email" onChange={inputHandler} value={email} />
           <LoginInput placeholder="enter password" type="password" name="password" onChange={inputHandler} value={password} />
         </div>
-        <TertiaryButton type="button" className="self-end mb-[14px]" onClick={links.showReset}>forgot password</TertiaryButton>
+        <TertiaryButton type="button" className="self-end sm:mb-[14px] mb-[17px] sm:mt-[8px] mt-[4px]" onClick={links.showReset}>forgot password</TertiaryButton>
         <div className="flex justify-between items-center">
           <PrimaryButton type="submit">Sign In</PrimaryButton>
           <TertiaryButton type="button" onClick={links.showRegistration}>create account</TertiaryButton>
