@@ -3,9 +3,6 @@ import { StarIcon, HeartIcon, ArrowRightIcon, ArrowDownIcon } from "@heroicons/r
 import { StarIcon as StarIconSolid } from "@heroicons/react/24/solid";
 import { HeartIcon as HeartIconSolid} from "@heroicons/react/24/solid";
 import Map from "./Map"
-import "./styles.css"
-
-
 
 // function changefill(){
 //     setcolour(function(oldValue){
