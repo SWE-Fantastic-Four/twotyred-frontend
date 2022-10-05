@@ -52,10 +52,10 @@ const RegistrationCard = ({ links }) => {
   return (
     <>
       <div>
-        <p className="mb-[7px] font-extralight text-[32px]">Account Registration</p>
-        <p className="mb-[10px] font-extralight text-[20px] text-[#C52424] h-[23px]">{errorMsg}</p>
+        <p className="sm:mb-[7px] mb-[2px] font-extralight sm:text-[32px] text-[26px]">Account Registration</p>
+        <p className="sm:mb-[10px] font-extralight sm:text-[20px] text-[15px] text-[#C52424] sm:h-[23px] h-[18px]">{errorMsg}</p>
         <form className="flex flex-col" onSubmit={registerHandler}>
-          <div className="flex flex-col gap-[20px] mb-[40px]">
+          <div className="flex flex-col sm:gap-[20px] gap-[15px] sm:mb-[40px] mb-[30px]">
             <LoginInput placeholder="enter email address" type="email" onChange={inputHandler} value={email} name="email" />
             <LoginInput placeholder="enter username" type="text" onChange={inputHandler} value={username} name="username" />
             <LoginInput placeholder="enter password" type="password" onChange={inputHandler} value={password} name="password" />
