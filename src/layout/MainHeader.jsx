@@ -112,11 +112,10 @@ const MainHeader = () => {
         <div className="relative flex flex-col h-full justify-between">
           <ChevronLeftIcon className="absolute right-0 top-0 text-dark-gray stroke-2 cursor-pointer" height={25} width={25} onClick={() => setShowMobileMenu(false)}/>
           <div>
-
-            <div className="flex flex-col items-center max-w-max">
+            <Link to={P.PROFILE} className="flex flex-col items-center max-w-max">
               <AvatarIcon className="mt-[20px] w-[105.24px] h-[105.24px]" src={AvatarImage} />
               <p className="mt-[10px] font-medium text-[18.93px]">@johnteo</p>
-            </div>
+            </Link>
             <div className="border-t w-[236.36px] mt-[17.5px] py-[16px] font-medium">
               <NavLink to={P.DASHBOARD} className={({isActive}) => (isActive ? "text-black" : "text-dark-gray") + " text-[24px]"}>
                 Dashboard
@@ -138,8 +137,8 @@ const MainHeader = () => {
                       leaveTo="-translate-y-4 opacity-50"
                     >
                       <Disclosure.Panel>
-                        <Link to={P.CREATEROUTE} state={{mode: "default"}} className={`text-[20px] mt-[20px] w-[215px] pl-[8px] py-[10px] ${state === "default" ? "bg-light-gray" : "bg-white"} rounded-[10px]`}>Customise Route</Link>
-                        <Link to={P.CREATEROUTE} state={{mode: "lucky"}} className={`text-[20px] mt-[8px] w-[215px] pl-[8px] py-[10px] ${state === "lucky" ? "bg-light-gray" : "bg-white"} rounded-[10px]`}>I'm Feeling Lucky</Link>
+                        <Link to={P.CREATEROUTE} state={{mode: "default"}} className={`block text-[20px] mt-[20px] w-[215px] pl-[8px] py-[5px] ${state === "default" ? "bg-light-gray" : "bg-white"} rounded-[10px]`}>Customise Route</Link>
+                        <Link to={P.CREATEROUTE} state={{mode: "lucky"}} className={`block text-[20px] mt-[8px] w-[215px] pl-[8px] py-[5px] ${state === "lucky" ? "bg-light-gray" : "bg-white"} rounded-[10px]`}>I'm Feeling Lucky</Link>
                       </Disclosure.Panel>
                     </Transition>
                   </>
