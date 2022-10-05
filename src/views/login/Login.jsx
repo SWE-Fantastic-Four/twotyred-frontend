@@ -59,10 +59,10 @@ const Login = () => {
   }
 
   return (
-    <main className="relative bg-[url('assets/bike.png'),_url('assets/bike.png')] bg-no-repeat bg-[position:calc(50%-700px)_60px,_calc(50%+750px)_200px] self-center"> 
+    <main className="relative bg-[url('assets/bike.png'),_url('assets/bike.png')] bg-no-repeat sm:bg-[position:calc(50%-700px)_60px,_calc(50%+750px)_200px] bg-[position:calc(50%-250px)_60px,_calc(50%+250px)_400px] bg-[length:300px] sm:bg-[length:auto] self-center"> 
       <MainLayout>
           <section className="pt-[105px] pb-[105px] min-h-[650px]">
-            <div className="m-auto w-[494px] bg-off-white p-[60px] shadow-md rounded-[58px] flex flex-col overflow-hidden">
+            <div className="m-auto sm:w-[494px] w-[296px] bg-off-white sm:p-[60px] py-[30px] px-[24px] shadow-md sm:rounded-[58px] rounded-[39.35px] flex flex-col overflow-hidden">
               {renderCard()}
             </div>
           </section>

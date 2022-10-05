@@ -91,17 +91,16 @@ const MainHeader = () => {
         </div>
       </nav>
       <Transition
+        className="top-0 w-[calc(100vw-23px)] fixed h-screen z-50 bg-white shadow-2xl rounded-r-[20px] pt-[23px] pr-[15px] pb-[27px] pl-[25px] flex flex-col"
         show={showMobileMenu}
-        enter="transition-all duration-150"
+        enter="transition-all duration-500 ease-in-out"
         enterFrom="-translate-x-full"
         enterTo="-translate-x-0"
-        leave="transition-all duration-150"
+        leave="transition-all duration-500 ease-in-out"
         leaveFrom="-translate-x-0"
         leaveTo="-translate-x-full"
       >
-        <div className="fixed h-screen w-[calc(100vw-23px)] z-50 rounded-r-[20px] shadow-2xl bg-white pt-[23px] pr-[15px] pb-[27px] pl-[25px] flex flex-col">
-          <ChevronLeftIcon className="self-end text-dark-gray" height={25} width={25} onClick={() => setShowMobileMenu(false)}/>
-        </div>
+        <ChevronLeftIcon className="self-end text-dark-gray" height={25} width={25} onClick={() => setShowMobileMenu(false)}/>
       </Transition>
     </>
   )
