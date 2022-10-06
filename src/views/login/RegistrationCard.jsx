@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, updateProfile } from "firebase/auth";
 import React, { useState } from 'react';
 import PrimaryButton from '../../components/PrimaryButton';
 import SecondaryButton from '../../components/SecondaryButton';
@@ -42,7 +42,13 @@ const RegistrationCard = ({ links }) => {
       if (password !== cfmPassword) {
         throw new Error("Passwords do not match.");
       }
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredentials.user;
+      await updateProfile(user, {
+        displayName: username,
+        photoUrl: ""
+      });
+
       links.showRegistrationSuccess();
     } catch (error) {
       setErrorMsg(error.message);

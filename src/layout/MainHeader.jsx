@@ -19,8 +19,9 @@ const MainHeader = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const auth = getAuth();
+  const username = auth.currentUser.displayName;
+  const displayImage = auth.currentUser.photoURL;
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [showMobileCreateRouteMenu, setShowMobileCreateRouteMenu] = useState(false);
 
   const pathname = location.pathname;
   let state = null;
@@ -113,8 +114,8 @@ const MainHeader = () => {
           <ChevronLeftIcon className="absolute right-0 top-0 text-dark-gray stroke-2 cursor-pointer" height={25} width={25} onClick={() => setShowMobileMenu(false)}/>
           <div>
             <Link to={P.PROFILE} className="flex flex-col items-center max-w-max">
-              <AvatarIcon className="mt-[20px] w-[105.24px] h-[105.24px]" src={AvatarImage} />
-              <p className="mt-[10px] font-medium text-[18.93px]">@johnteo</p>
+              <AvatarIcon className="mt-[20px]" size="[105.24px]" src={displayImage === null ? AvatarImage : displayImage} />
+              <p className="mt-[10px] font-medium text-[18.93px]">@{username}</p>
             </Link>
             <div className="border-t w-[236.36px] mt-[17.5px] py-[16px] font-medium">
               <NavLink to={P.DASHBOARD} className={({isActive}) => (isActive ? "text-black" : "text-dark-gray") + " text-[24px]"}>

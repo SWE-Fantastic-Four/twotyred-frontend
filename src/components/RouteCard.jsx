@@ -10,6 +10,23 @@ export default function RouteCard() {
   const [starFilled, setStarFilled] = useState(false);
   const [heartFilled, setHeartFilled] = useState(false);
 
+  const starClickHandler = () => {
+    setStarFilled(!starFilled)
+    if (starFilled) {
+      // increment favourite here
+    } else {
+      // decrement favourite here
+    }
+  }
+  const heartClickHandler = () => {
+    setHeartFilled(!heartFilled)
+    if (heartFilled) {
+      // increment likes here
+    } else {
+      // decrement likes here
+    }
+  }
+
   return (
     <div className="wholecard w-[337px] h-[328px] rounded-[5px] border-[2px] border-solid border-dark-gray shadow-lg hover:border-black hover:cursor-pointer">
       <div className="map h-[216px] overflow-x-hidden">
@@ -21,7 +38,8 @@ export default function RouteCard() {
             My first cycle
           </h1>
           <div className="icons flex justify-[right]">
-            <button onClick={() => setStarFilled(!starFilled)}>
+            {/* star button */}
+            <button onClick={starClickHandler}>
               {starFilled ? (
                 <StarIconSolid
                 className={`star stroke-[3] mt-[7px] h-[18px] text-yellow-300`}
@@ -32,7 +50,8 @@ export default function RouteCard() {
                 />
               )}
             </button>
-            <button onClick={() => setHeartFilled(!heartFilled)}>
+            {/* heart button */}
+            <button onClick={heartClickHandler}>
               {
                 heartFilled ? (
                   <HeartIconSolid
