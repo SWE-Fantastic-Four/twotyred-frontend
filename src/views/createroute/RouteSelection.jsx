@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react';
 import location from "../../assets/location.svg";
 import green from "../../assets/green.svg";
 import search from "../../assets/search.svg";
@@ -14,10 +14,10 @@ const SmallBox = ({ children, className }) => {
   );
 };
 
-const PointsBox = ({ children, className }) => {
+const PlaceBox = ({ children, className }) => {
   return (
     <button
-      className={`flex gap-[23px] flex-row items-center rounded-[10px] w-full px-[20px] py-[14px] bg-white text-[20px] text-[#0c0c0c] leading-[23px] box-border hover:border hover:px-[19px] hover:py-[13px] ${className}`}
+      className={`flex gap-[23px] items-center rounded-[10px] mt-[-50px] w-full px-[20px] py-[14px] bg-white text-[20px] text-[#0c0c0c] leading-[23px] box-border hover:border hover:px-[19px] hover:py-[13px] ${className}`}
     >
       {children}
     </button>
@@ -35,6 +35,30 @@ const SmallButton = ({ children, className}) => {
 };
 
 const RouteSelection = () => {
+  const [places, setPlace] = React.useState([{
+      id: 0,
+      name: 'Jurong Lake Gardens',
+    }, {
+      id: 1,
+      name: 'Boon Lay Place Market',
+  }])
+  
+  const removeItem = (index) => {
+    setPlace(places.filter((o, i) => index !== i));
+  };
+
+  const placesList = places.map(place =>
+    <li key={place.id} value={place.name}>
+      <div className="flex justify-between flex-row">
+        <PlaceBox>  
+          <div className="flex flex-grow-0"><img src={location} className="h-[40px] mt-[-9px] mb-[-9px]" /></div>
+          <div className="flex flex-grow"><p>{place.name} </p></div>
+          <div className="flex flex-grow-1"><img src={cross} onClick={() => removeItem(places.indexOf(place))} /></div>
+        </PlaceBox>
+      </div>
+    </li>
+  );
+
   return (
     <>
       <div className="flex flex-col m-[10px] h-[593px] w-[387px] bg-[#918d8db4] px-[12px] py-[14px] rounded-[10px] overflow-hidden">
@@ -45,20 +69,7 @@ const RouteSelection = () => {
               Taman Jurong Food Centre
             </SmallBox>
           </div>
-          <div className="justify-between">
-            <PointsBox>  
-              <div className="flex flex-grow-0"><img src={location} className="h-[40px] mt-[-9px] mb-[-9px]" /></div>
-              <div className="flex flex-grow"><p>Jurong Lake Gardens </p></div>
-              <div className="flex flex-grow-1"><img src={cross} className="" /></div>
-            </PointsBox>
-          </div>
-          <div className="flex justify-between flex-row">
-            <PointsBox>
-              <div className="flex flex-grow-0"><img src={location} className="h-[40px] mt-[-9px] mb-[-9px]" /></div>
-              <div className="flex flex-grow"><p>Boon Lay Place Market </p></div>
-              <div className="flex flex-grow-1"><img src={cross} className="" /></div>
-            </PointsBox>
-          </div>
+          {placesList}
           <SmallBox className="text-[#696868]">
             <img src={search} className="h-[40px] mt-[-9px] mb-[-9px]" />
             Add destination
