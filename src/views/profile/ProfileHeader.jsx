@@ -3,8 +3,12 @@ import Cog from "../../assets/cog.svg";
 import AvatarImage from "../../assets/AvatarImage.png";
 import ProfileHeaderImg from "../../assets/ProfileHeader.png";
 import AvatarIcon from "../../components/AvatarIcon";
+import { getAuth } from "firebase/auth";
 
-const ProfileHeader = () => {
+const ProfileHeader = ({ openSettings }) => {
+  const auth = getAuth();
+  const username = auth.currentUser.displayName;
+
   return (
     <div className="header justify-center">
       <div className="HeaderImage">
@@ -14,15 +18,15 @@ const ProfileHeader = () => {
         <div className="userImage flex justify-center -mt-20">
           <AvatarIcon
             src={AvatarImage}
-            size="40"
-            borderWidth="8"
             borderColour="white"
+            className="border-0"
+            size="[139px]"
           />
         </div>
 
         <div className="userName flex items-center justify-center m-4 text-2xl font-medium ">
-          <div className="pr-2 font-medium">@Chay002</div>
-          <img className="w-6 h-6" src={Cog} />
+          <div className="pr-2 font-medium">@{username}</div>
+          <img className="w-6 h-6 cursor-pointer" src={Cog} onClick={openSettings} />
         </div>
 
         <div className="userStats flex justify-center">
