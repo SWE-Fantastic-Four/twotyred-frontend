@@ -1,12 +1,13 @@
 import React from 'react'
 import { useState } from 'react'
+import RouteCard from '../../components/RouteCard';
 
 const ProfileBody = ({ className }) => {
   const [showFavourites, setShowFavourites] = useState(false);
 
   return (
     <div className={`w-screen flex flex-col items-center ${className} font-medium sm:text-[15px] text-[11.1px]`}>
-      <div className="sm:w-[284px] w-[210px] border-b flex">
+      <div className="sm:w-[284px] w-[210px] border-b flex mb-[10px]">
         <div className="w-1/2 flex justify-center items-center">
           <div className={`border-b-[3px] ${showFavourites ? "border-transparent" : ""} flex items-center cursor-pointer sm:leading-[18px] leading-[14px] sm:pb-[4px] pb-[3px]`} onClick={() => setShowFavourites(false)}>
             <div className="mr-[3px]">Past Routes</div>
@@ -20,6 +21,7 @@ const ProfileBody = ({ className }) => {
           </div>
         </div>
       </div>
+      <RouteCard />
     </div>
   )
 }
