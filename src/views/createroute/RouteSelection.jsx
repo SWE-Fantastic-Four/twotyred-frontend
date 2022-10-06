@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react';
 import location from "../../assets/location.svg";
 import green from "../../assets/green.svg";
 import search from "../../assets/search.svg";
@@ -15,10 +15,10 @@ const SmallBox = ({ children, className, onClick }) => {
   );
 };
 
-const PointsBox = ({ children, className }) => {
+const PlaceBox = ({ children, className }) => {
   return (
     <button
-      className={`flex gap-[23px] flex-row items-center rounded-[10px] w-full px-[20px] py-[14px] bg-white text-[20px] text-[#0c0c0c] leading-[23px] box-border hover:border hover:px-[19px] hover:py-[13px] ${className}`}
+      className={`flex gap-[23px] items-center rounded-[10px] mt-[-50px] w-full px-[20px] py-[14px] bg-white text-[20px] text-[#0c0c0c] leading-[23px] box-border hover:border hover:px-[19px] hover:py-[13px] ${className}`}
     >
       {children}
     </button>

@@ -1,18 +1,21 @@
 import { initializeApp } from "firebase/app"
 import React, { useEffect } from 'react'
-import { useSelector, useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import P from './constants/paths'
 import CreateRoute from './views/createroute/CreateRoute'
 import Dashboard from './views/dashboard/Dashboard'
 import Login from './views/login/Login'
 import Profile from './views/profile/Profile'
-import { login, logout, updateProfilePhoto, updateDisplayName } from "./store/auth";
-import { getAuth } from "firebase/auth";
+import { getAuth } from "firebase/auth"
+import { login, logout, updateDisplayName, updateProfilePhoto } from "./store/auth"
+import NotFound from "./views/notfound/NotFound"
 
 function App() {
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
   const dispatch = useDispatch();
+
+
   initializeApp({
     "apiKey": "AIzaSyDQo2Q0zwwsmdKmYuxMkC-xrkZfDuO_3hM",
     "authDomain": "swe-backend-20cf0.firebaseapp.com",
@@ -44,9 +47,10 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path={P.DASHBOARD} element={<Dashboard />} />
-        <Route path={P.LOGIN} element={isLoggedIn ? <Navigate to={P.DASHBOARD} replace/> : <Login />}/>
+        <Route path={P.LOGIN} element={isLoggedIn ? <Navigate to={P.DASHBOARD} replace /> : <Login />}/>
         <Route path={P.PROFILE} element={<Profile />}/>
         <Route path={P.CREATEROUTE} element={<CreateRoute />}/>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   )

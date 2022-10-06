@@ -25,15 +25,16 @@ const ProfileModal = ({ open, onClose }) => {
   const [imageSrc, setImageSrc] = useState("");
   
   const hiddenFileInput = useRef(null);
+  const titleRef = useRef(null);
 
-  useEffect(() => {
-    setUsername(storeUsername);
-  },[storeUsername]);
+  // useEffect(() => {
+  //   setUsername(storeUsername);
+  // },[storeUsername]);
 
   useEffect(() => {
     setImageSrc(storeProfileSrc);
   },[storeProfileSrc]);
-  
+
   const profileChangeHandler = async() => {
     try {
       const photoUrl = auth.currentUser.photoURL;
@@ -89,7 +90,7 @@ const ProfileModal = ({ open, onClose }) => {
 
   return (
     <Transition appear show={open} as={Fragment} >
-      <Dialog onClose={onClose} className="relative z-50">
+      <Dialog onClose={onClose} className="relative z-50" initialFocus={titleRef}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -112,24 +113,24 @@ const ProfileModal = ({ open, onClose }) => {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <Dialog.Panel className="bg-white p-[32px] shadow-lg w-[504px]">
+            <Dialog.Panel className="bg-white sm:p-[32px] pt-[11px] pl-[17px] pr-[13px] pb-[18px] shadow-lg w-[504px]">
               <div className="relative flex flex-col items-center">
-                {editingPhoto && <ChevronLeftIcon className="absolute top-0 left-0 stroke-2 text-dark-gray cursor-pointer" height={28} width={28} onClick={() => setEditingPhoto(false)}/>}
-                <XMarkIcon className="absolute top-0 right-0 stroke-2 text-dark-gray cursor-pointer" height={28} width={28} onClick={onClose} />
-                <Dialog.Title className="font-medium text-[25px] leading-[28px]" >Edit Profile</Dialog.Title>
-                <AvatarIcon src={imageSrc === null ? AvatarImage : imageSrc} className="mt-[24px] h-[139px] w-[139px]" editPhoto={!editingPhoto ? () => setEditingPhoto(true) : null} />
+                {editingPhoto && <ChevronLeftIcon className="absolute top-0 left-0 stroke-2 text-dark-gray cursor-pointer sm:w-[28px] w-[20px]" onClick={() => setEditingPhoto(false)}/>}
+                <XMarkIcon className="absolute top-0 right-0 stroke-2 text-dark-gray cursor-pointer sm:w-[28px] w-[20px]" onClick={onClose} />
+                <Dialog.Title className="font-medium sm:text-[25px] text-[22px] sm:leading-[28px] leading-[26px]" ref={titleRef}>Edit Profile</Dialog.Title>
+                <AvatarIcon src={imageSrc === null ? AvatarImage : imageSrc} className="sm:mt-[24px] mt-[15px] sm:h-[139px] sm:w-[139px] w-[96px] h-[96px]" editPhoto={!editingPhoto ? () => setEditingPhoto(true) : null} />
                 {editingPhoto ? 
                   <>
-                    <SecondaryButton className="mt-[50px]" onClick={handleRemove}>Remove Current Photo</SecondaryButton>
+                    <SecondaryButton className="sm:mt-[50px] mt-[52px]" onClick={handleRemove}>Remove Current Photo</SecondaryButton>
                     <PrimaryButton className="mt-[18px]" onClick={() => hiddenFileInput.current.click()}>Upload Photo</PrimaryButton>
                     <input type="file" accept="image/*" className="hidden" ref={hiddenFileInput} onChange={handleUpload}/>
                   </>:
                   <>
-                    <div className="mt-[18px] w-full font-medium text-[15px]">
+                    <div className="sm:mt-[18px] mt-[10px] w-full font-medium text-[15px]">
                       <p>Username</p>
                       <input type="text" className="w-full h-[33px] py-[8px] pl-[16px] mt-[10px] border-gray border rounded-[4px]" value={username} onChange={(e) => setUsername(e.target.value)} />
                     </div>
-                    <div className="flex justify-between w-full mt-[18px]">
+                    <div className="flex justify-between w-full sm:mt-[18px] mt-[28px]">
                       <SecondaryButton onClick={onClose}>Cancel</SecondaryButton>
                       <PrimaryButton onClick={profileChangeHandler}>Make Changes</PrimaryButton>
                     </div>
