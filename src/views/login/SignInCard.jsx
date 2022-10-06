@@ -31,8 +31,7 @@ const SignInCard = ({ links }) => {
   const loginHandler = async (e) => {
     e.preventDefault();
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
+      await signInWithEmailAndPassword(auth, email, password);
       dispatch(login());
     } catch (error) {
       setErrorMsg(error.message);
