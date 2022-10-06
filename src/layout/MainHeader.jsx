@@ -2,8 +2,8 @@
 import { ChevronDownIcon, ChevronLeftIcon } from "@heroicons/react/24/outline";
 import { Transition, Disclosure } from "@headlessui/react";
 import { getAuth, signOut } from "firebase/auth";
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import CreateSpeechBtmDark from "../assets/CreateSpeechBtmDark.svg";
 import CreateSpeechTopDark from "../assets/CreateSpeechTopDark.svg";
@@ -13,15 +13,17 @@ import ProfileSpeechTopDark from "../assets/ProfileSpeechTopDark.svg";
 import P from '../constants/paths';
 import { logout } from '../store/auth';
 import AvatarIcon from "../components/AvatarIcon";
-import AvatarImage from "../assets/AvatarImage.png";
+import useProfilePhoto from "../hooks/useProfilePhoto";
 
 const MainHeader = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const auth = getAuth();
-  const username = auth.currentUser.displayName;
-  const displayImage = auth.currentUser.photoURL;
+
+  const username = useSelector(state => state.auth.displayName);
+  
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const profilePhoto = useProfilePhoto();
 
   const pathname = location.pathname;
   let state = null;
@@ -114,7 +116,7 @@ const MainHeader = () => {
           <ChevronLeftIcon className="absolute right-0 top-0 text-dark-gray stroke-2 cursor-pointer" height={25} width={25} onClick={() => setShowMobileMenu(false)}/>
           <div>
             <Link to={P.PROFILE} className="flex flex-col items-center max-w-max">
-              <AvatarIcon className="mt-[20px]" size="[105.24px]" src={displayImage === null ? AvatarImage : displayImage} />
+              <AvatarIcon className="mt-[20px] h-[139px] w-[139px]" src={profilePhoto} />
               <p className="mt-[10px] font-medium text-[18.93px]">@{username}</p>
             </Link>
             <div className="border-t w-[236.36px] mt-[17.5px] py-[16px] font-medium">

@@ -6,42 +6,67 @@ import { XMarkIcon, ChevronLeftIcon } from '@heroicons/react/24/outline'
 import AvatarIcon from '../../components/AvatarIcon'
 import AvatarImage from "../../assets/AvatarImage.png"
 import { updateProfile, getAuth } from 'firebase/auth'
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getStorage, ref, uploadBytes, deleteObject } from "firebase/storage";
+import { useSelector, useDispatch } from 'react-redux'
 import useProfilePhoto from '../../hooks/useProfilePhoto'
+import { updateProfilePhoto } from '../../store/auth'
 
 const ProfileModal = ({ open, onClose }) => {
   const auth = getAuth();
   const storage = getStorage();
   
-  const [username, setUsername] = useState(auth.currentUser.displayName);
+  const dispatch = useDispatch();
+  const storeUsername = useSelector(state => state.auth.displayName);
+  const [username, setUsername] = useState("");
   const [editingPhoto, setEditingPhoto] = useState(false);
-
-  const hiddenFileInput = useRef(null);
   const [image, setImage] = useState(null);
-  const [imageSrc, setImageSrc] = useState(null);
+
+  const storeProfileSrc = useProfilePhoto();
+  const [imageSrc, setImageSrc] = useState("");
+  
+  const hiddenFileInput = useRef(null);
 
   useEffect(() => {
-    const updateProfileImage = async () => {
-      const photoUrl = auth.currentUser.photoURL;
-      if (photoUrl) {
-        const url = await getDownloadURL(ref(storage, photoUrl));
-        setImageSrc(url);
-      }
-    }
-    updateProfileImage();
-  }, [])
-  
+    setUsername(storeUsername);
+  },[storeUsername]);
+
+  useEffect(() => {
+    setImageSrc(storeProfileSrc);
+  },[storeProfileSrc]);
   
   const profileChangeHandler = async() => {
     try {
-      const storageRef = ref(storage, "images/" + image.name);
-      const response = await uploadBytes(storageRef, image);
-      const uploadedPhotoURL = response.metadata.fullPath;
-      await updateProfile(auth.currentUser, {
-        displayName: username,
-        photoURL: uploadedPhotoURL
+      const photoUrl = auth.currentUser.photoURL;
+      // delete current profile pic if it exists
+      if (photoUrl) {
+        const desertRef = ref(storage, photoUrl);
+        await deleteObject(desertRef);
+      }
+    } catch (error) {
+      updateProfile(auth.currentUser, {
+        photoURL: ""
       });
-      setUsername("");
+    }
+
+    try {
+      // upload new profile pic if it exists
+      if (image) {
+        const storageRef = ref(storage, "images/" + image.name);
+        const response = await uploadBytes(storageRef, image);
+        const uploadedPhotoURL = response.metadata.fullPath;
+        console.log(uploadedPhotoURL);
+        await updateProfile(auth.currentUser, {
+          displayName: username,
+          photoURL: uploadedPhotoURL
+        });
+        dispatch(updateProfilePhoto(uploadedPhotoURL));
+      } else {
+        await updateProfile(auth.currentUser, {
+          displayName: username,
+          photoURL: ""
+        });
+        dispatch(updateProfilePhoto(""));
+      }
       onClose();
     } catch (error) {
       // Redirect to 404 page
@@ -58,6 +83,7 @@ const ProfileModal = ({ open, onClose }) => {
   }
 
   const handleRemove = () => {
+    setImageSrc(null);
     setImage(null);
   }
 
@@ -91,7 +117,7 @@ const ProfileModal = ({ open, onClose }) => {
                 {editingPhoto && <ChevronLeftIcon className="absolute top-0 left-0 stroke-2 text-dark-gray cursor-pointer" height={28} width={28} onClick={() => setEditingPhoto(false)}/>}
                 <XMarkIcon className="absolute top-0 right-0 stroke-2 text-dark-gray cursor-pointer" height={28} width={28} onClick={onClose} />
                 <Dialog.Title className="font-medium text-[25px] leading-[28px]" >Edit Profile</Dialog.Title>
-                <AvatarIcon src={imageSrc === null ? AvatarImage : imageSrc} size="[139px]" className="border-0 mt-[24px]" editPhoto={!editingPhoto ? () => setEditingPhoto(true) : null} />
+                <AvatarIcon src={imageSrc === null ? AvatarImage : imageSrc} className="mt-[24px] h-[139px] w-[139px]" editPhoto={!editingPhoto ? () => setEditingPhoto(true) : null} />
                 {editingPhoto ? 
                   <>
                     <SecondaryButton className="mt-[50px]" onClick={handleRemove}>Remove Current Photo</SecondaryButton>

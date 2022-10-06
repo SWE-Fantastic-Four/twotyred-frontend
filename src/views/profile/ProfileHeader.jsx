@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useMemo } from "react";
 import Cog from "../../assets/cog.svg";
-import AvatarImage from "../../assets/AvatarImage.png";
 import ProfileHeaderImg from "../../assets/ProfileHeader.png";
 import AvatarIcon from "../../components/AvatarIcon";
 import { getAuth } from "firebase/auth";
+import useProfilePhoto from "../../hooks/useProfilePhoto";
+import { useSelector } from "react-redux";
 
 const ProfileHeader = ({ openSettings }) => {
   const auth = getAuth();
-  const username = auth.currentUser.displayName;
+  const username = useSelector(state => state.auth.displayName);
+  const profilePhoto = useProfilePhoto();
 
   return (
     <div className="header justify-center">
@@ -17,10 +19,8 @@ const ProfileHeader = ({ openSettings }) => {
       <div className="userInfo">
         <div className="userImage flex justify-center -mt-20">
           <AvatarIcon
-            src={AvatarImage}
-            borderColour="white"
-            className="border-0"
-            size="[139px]"
+            src={profilePhoto}
+            className="h-[139px] w-[139px]"
           />
         </div>
 
