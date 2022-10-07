@@ -6,6 +6,7 @@ import RouteSelection from './RouteSelection';
 import { urls } from '../../constants/constants';
 import { capitalise } from '../../utils/string';
 import GreenButton from './GreenButton';
+import { useSelector } from 'react-redux';
 
 const CreateRoute = () => {
   const [selection, setSelection] = useState(2); // 0 is selecting start point, 1 is selecting intermediate points
@@ -25,31 +26,32 @@ const CreateRoute = () => {
   }
 
   const clickHandler = async(e) => {
+    const lat = e.latLng.lat();
+    const lng = e.latLng.lng();
     try {
-      const { lat, lng } = e;
-      console.log(lat, lng);
       if (places.length >= 4) {
         throw new Error("Too many places selected.");
-      }
-      const revGeoResponse = await fetch(urls.backend + "/geocode", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({lat, lng})
-      });
-      const resJSON = await revGeoResponse.json();
-      const address = capitalise(resJSON.address);
-      const newPlace = {
-        id: `${lat},${lng}`,
-        name: address,
-        lat,
-        lng
-      }
-      if (selection === 0) {
-        setStart(newPlace);
-      } else {
-        setPlaces([...places, newPlace]);
+      } else if (selection === 0 || selection === 1) {
+        const revGeoResponse = await fetch(urls.backend + "/geocode", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({lat, lng})
+        });
+        const resJSON = await revGeoResponse.json();
+        const address = capitalise(resJSON.address);
+        const newPlace = {
+          id: `${lat},${lng}`,
+          name: address,
+          lat,
+          lng
+        }
+        if (selection === 0) {
+          setStart(newPlace);
+        } else if (selection === 1) {
+          setPlaces([...places, newPlace]);
+        }
       }
     } catch (error) {
       console.error(error);
@@ -64,7 +66,7 @@ const CreateRoute = () => {
         </div>
         {places.length > 0 && <GreenButton className="absolute bottom-0 right-0 z-10 m-[10px] flex sm:hidden">Generate Route</GreenButton>}
         <div className="h-full w-full">
-          <Map location={location} onClick={clickHandler} places={places} start={start} options={{disableDefaultUI: true}}/>
+          <Map location={location} onClick={clickHandler} places={places} start={start} options={{disableDefaultUI: true}} />
         </div>
       </div>
     </MainLayout>

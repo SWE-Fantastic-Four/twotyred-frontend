@@ -30,7 +30,7 @@ export default function RouteCard() {
   return (
     <div className="wholecard w-[337px] h-[328px] rounded-[5px] border-[2px] border-solid border-dark-gray shadow-lg hover:border-black hover:cursor-pointer">
       <div className="map h-[216px] overflow-x-hidden">
-        <Map options={{gestureHandling: 'none', disableDefaultUI: true}}/>
+        <Map options={{gestureHandling: 'none', disableDefaultUI: true}} />
       </div>
       <div className="stats w-[337px] h-[112px] flex flex-col">
         <div className="first pl-[15px] pr-[12px] flex justify-between">
