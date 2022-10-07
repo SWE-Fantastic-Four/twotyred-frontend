@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import location from "../../assets/location.svg";
-import green from "../../assets/green.svg";
-import search from "../../assets/search.svg";
+import React from 'react';
 import cross from "../../assets/cross.svg";
+import green from "../../assets/green.svg";
+import location from "../../assets/location.svg";
+import search from "../../assets/search.svg";
+import { truncate } from '../../utils/string';
 
 const SmallBox = ({ children, className, onClick }) => {
   return (
@@ -35,13 +36,13 @@ const SmallButton = ({ children, className}) => {
   );
 };
 
-const RouteSelection = ({ places, removeItem, setSelection }) => {
+const RouteSelection = ({ places, removeItem, setSelection, start }) => {
   const placesList = places.map(place =>
     <li key={place.id} value={place.name}>
       <div className="flex justify-between flex-row">
         <PlaceBox>  
           <div className="flex flex-grow-0"><img src={location} className="h-[40px] mt-[-9px] mb-[-9px]" /></div>
-          <div className="flex flex-grow"><p>{place.name} </p></div>
+          <div className="flex flex-grow"><p>{truncate(place.name,21)} </p></div>
           <div className="flex flex-grow-1"><img src={cross} onClick={() => removeItem(places.indexOf(place))} /></div>
         </PlaceBox>
       </div>
@@ -55,7 +56,7 @@ const RouteSelection = ({ places, removeItem, setSelection }) => {
           <div>
             <SmallBox onClick={() => setSelection(0)}>
               <img src={green} className="h-[40px] mt-[-9px] mb-[-9px]" />
-              Taman Jurong Food Centre
+              {truncate(start.name,21)}
             </SmallBox>
           </div>
           {placesList}

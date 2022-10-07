@@ -1,8 +1,7 @@
 import React from 'react';
+import smile from "../../assets/smile.svg";
 import star from "../../assets/star.svg";
 import sun from "../../assets/sun.svg";
-import smile from "../../assets/smile.svg";
-
 
 const SmallBox = ({ children, className }) => {
   return (
