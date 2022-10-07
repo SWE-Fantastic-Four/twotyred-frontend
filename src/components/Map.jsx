@@ -22,8 +22,8 @@ const Map = ({ options, onClick, places, start }) => {
         options={options}
         onClick={onClick}
       >
-        {start && <img src={StartMarker} lat={start.lat} lng={start.lng} />}
-        {places && places.map(place => <img key={place.id} src={Marker} lat={place.lat} lng={place.lng} />)}
+        {start && <img src={StartMarker} lat={start.lat} lng={start.lng} className="-translate-x-1/2 -translate-y-1/2" />}
+        {places && places.map(place => <img key={place.id} src={Marker} lat={place.lat} lng={place.lng} className="-translate-x-1/2 -translate-y-full" />)}
       </GoogleMapReact>
     </div>
   );

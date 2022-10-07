@@ -9,7 +9,8 @@ import { updateProfile, getAuth } from 'firebase/auth'
 import { getStorage, ref, uploadBytes, deleteObject } from "firebase/storage";
 import { useSelector, useDispatch } from 'react-redux'
 import useProfilePhoto from '../../hooks/useProfilePhoto'
-import { updateProfilePhoto } from '../../store/auth'
+import { updateDisplayName, updateProfilePhoto } from '../../store/auth'
+import { urls } from '../../constants/constants'
 
 const ProfileModal = ({ open, onClose }) => {
   const auth = getAuth();
@@ -27,9 +28,9 @@ const ProfileModal = ({ open, onClose }) => {
   const hiddenFileInput = useRef(null);
   const titleRef = useRef(null);
 
-  // useEffect(() => {
-  //   setUsername(storeUsername);
-  // },[storeUsername]);
+  useEffect(() => {
+    setUsername(storeUsername);
+  },[storeUsername]);
 
   useEffect(() => {
     setImageSrc(storeProfileSrc);
@@ -50,6 +51,24 @@ const ProfileModal = ({ open, onClose }) => {
     }
 
     try {
+
+      // update username on firestore side first
+      const response = await fetch(urls.backend + "/users/update/username", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          oldUsername: storeUsername,
+          newUsername: username
+        })
+      });
+
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(text);
+      }
+
       // upload new profile pic if it exists
       if (image) {
         const storageRef = ref(storage, "images/" + image.name);
@@ -68,6 +87,7 @@ const ProfileModal = ({ open, onClose }) => {
         });
         dispatch(updateProfilePhoto(""));
       }
+      dispatch(updateDisplayName(username));
       onClose();
     } catch (error) {
       // Redirect to 404 page
