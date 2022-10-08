@@ -31,7 +31,6 @@ const Map = ({ options, onClick, places, start }) => {
       onUnmount={onUnmount}
       onClick={onClick}
     >
-      
       {start && <Marker icon={StartMarker} position={{lat: start.lat, lng: start.lng}} className="-translate-x-1/2 -translate-y-1/2" />}
       {places && places.map(place => <Marker icon={IntermediateMarker} key={place.id} position={{lat: place.lat, lng: place.lng}} />)}
     </GoogleMap>
