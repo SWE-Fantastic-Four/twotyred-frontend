@@ -5,6 +5,8 @@ import RouteCard from '../../components/RouteCard';
 const ProfileBody = ({ className }) => {
   const username = useSelector(state => state.auth.displayName);
   const [showFavourites, setShowFavourites] = useState(false);
+  const [routes, showRoutes] = useState([]);
+  const [favouriteRoutes, setFavouriteRoutes] = useState([]);
   const [routeCount, updateRouteCount] = useState(0);
   const [favouriteCount, updateFavouriteCount] = useState(0);
 
@@ -12,9 +14,11 @@ const ProfileBody = ({ className }) => {
     const obtainRoutes = async () => {
       const response = await fetch(`https://swe-backend.chayhuixiang.repl.co/routes/user/${username}`);
       const data = await response.json();
-      updateRouteCount(data.routeGeometryArray.length)
+      updateRouteCount(data.routeInfoArray.length)
+      showRoutes(data.routeInfoArray);
+      return data.routeInfoArray;
     }
-    
+
     if (username) {
       obtainRoutes();
     }
@@ -24,9 +28,11 @@ const ProfileBody = ({ className }) => {
     const obtainFavouriteRoutes = async () => {
       const response = await fetch(`https://swe-backend.chayhuixiang.repl.co/routes/user/${username}?favourite=true`);
       const data = await response.json();
-      updateFavouriteCount(data.routeGeometryArray.length)
+      updateFavouriteCount(data.routeInfoArray.length)
+      setFavouriteRoutes(data.routeInfoArray);
+      return data.routeInfoArray;
     }
-    
+
     if (username) {
       obtainFavouriteRoutes();
     }
@@ -48,7 +54,12 @@ const ProfileBody = ({ className }) => {
           </div>
         </div>
       </div>
-      <RouteCard />
+      {showFavourites && favouriteRoutes.length && favouriteRoutes.map((route) => {
+        return (<RouteCard startPt={route.routeInfo.StartPt} endPt={route.routeInfo.EndPt} distance={route.routeInfo.Distance} date={route.routeInfo.Date} username={route.routeInfo.Username} />)
+      })}
+      {!showFavourites && routes.length && routes.map((route) => {
+        return (<RouteCard startPt={route.routeInfo.StartPt} endPt={route.routeInfo.EndPt} distance={route.routeInfo.Distance} date={route.routeInfo.Date} username={route.routeInfo.Username} />)
+      })}
     </div>
   )
 }

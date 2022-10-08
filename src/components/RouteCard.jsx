@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import ProfilePic from "../assets/ProfilePic.svg";
 import Map from "./Map";
 
-export default function RouteCard() {
+export default function RouteCard({ startPt, endPt, distance, date, username }) {
   const [starFilled, setStarFilled] = useState(false);
   const [heartFilled, setHeartFilled] = useState(false);
 
@@ -30,7 +30,7 @@ export default function RouteCard() {
   return (
     <div className="wholecard w-[337px] h-[328px] rounded-[5px] border-[2px] border-solid border-dark-gray shadow-lg hover:border-black hover:cursor-pointer">
       <div className="map h-[216px] overflow-x-hidden">
-        <Map options={{gestureHandling: 'none', disableDefaultUI: true}}/>
+        <Map options={{ gestureHandling: 'none', disableDefaultUI: true }} />
       </div>
       <div className="stats w-[337px] h-[112px] flex flex-col">
         <div className="first pl-[15px] pr-[12px] flex justify-between">
@@ -42,9 +42,9 @@ export default function RouteCard() {
             <button onClick={starClickHandler}>
               {starFilled ? (
                 <StarIconSolid
-                className={`star stroke-[3] mt-[7px] h-[18px] text-yellow-300`}
+                  className={`star stroke-[3] mt-[7px] h-[18px] text-yellow-300`}
                 />
-                ) : (
+              ) : (
                 <StarIcon
                   className={`star stroke-[3] mt-[7px] h-[18px] text-black`}
                 />
@@ -55,11 +55,11 @@ export default function RouteCard() {
               {
                 heartFilled ? (
                   <HeartIconSolid
-                  className={`heart stroke-[3] mt-[7px] h-[19px] pl-[4px] pr-[4px] text-red-600`}
+                    className={`heart stroke-[3] mt-[7px] h-[19px] pl-[4px] pr-[4px] text-red-600`}
                   />
-                ):(
+                ) : (
                   <HeartIcon
-                  className={`heart stroke-[3] mt-[7px] h-[19px] pl-[4px] pr-[4px] text-black`}
+                    className={`heart stroke-[3] mt-[7px] h-[19px] pl-[4px] pr-[4px] text-black`}
                   />
                 )
               }
@@ -71,11 +71,11 @@ export default function RouteCard() {
         </div>
         <div className="second flex pt-[5px] pl-[15px]">
           <p className="startlocation font-[Roboto] font-normal text-[10px] leading-[12px] text-[#6B6B6B]">
-            Boon Lay Place Market and Fo...
+            {startPt}
           </p>
           <ArrowRightIcon className="arrow w-[11.26px] h-[12] mx-[2px]" />
           <p className="endlocation font-[Roboto] font-normal text-[10px] leading-[12px] text-[#6B6B6B]">
-            Taman Jurong Food Centre | 5KM
+            {endPt} | {distance / 1000}KM
           </p>
         </div>
         <div className="third flex pl-[15px] pt-[8px]">
@@ -85,10 +85,10 @@ export default function RouteCard() {
           />
           <div className="userinfo pt-[3px] pl-[5px]">
             <h1 className="name font-[Roboto] font-bold text-[12px] leading-[14px] text-black">
-              @janedoe
+              @{username}
             </h1>
             <p className="date font-[Roboto] font-normal text-[10px] leading-[12px] text-[#6B6B6B]">
-              11/9/2022
+              {date}
             </p>
           </div>
         </div>
