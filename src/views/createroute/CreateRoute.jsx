@@ -3,6 +3,8 @@ import MainLayout from '../../layout/MainLayout'
 import Map from '../../components/Map';
 import RouteDescription from './RouteDescription';
 import RouteSelection from './RouteSelection';
+import polyUtil from "polyline-encoded"
+
 
 const CreateRoute = () => {
   const [selection, setSelection] = useState(0); // 0 is selecting start point, 1 is selecting intermediate points
@@ -28,6 +30,26 @@ const CreateRoute = () => {
   const removeItem = (index) => {
     setPlace(places.filter((o, i) => index !== i));
   };
+  
+
+  const [routeGeom, setRouteGeom] = useState(null)
+
+  const generateRoute = async() => {
+    var allPlaces = [start,...places]
+    const coordinates = allPlaces.map((place) => `${place.lat},${place.lng}`);
+    console.log(JSON.stringify(coordinates));
+    const options = {
+      headers:{
+        'Content-Type': 'application/json'
+      },
+      method: "POST",
+      body: JSON.stringify({'chosenLocations':coordinates})
+    };
+    const planRouteRes = await fetch("https://SWE-Backend.chayhuixiang.repl.co/planroute", options);
+    const route = await planRouteRes.json()
+    setRouteGeom(route); 
+    console.log(route);
+  }
 
   const location = {
     address: '1600=Amphitheatre Parkway, Mountain View, california.',
@@ -54,10 +76,10 @@ const CreateRoute = () => {
     <MainLayout>
       <div className="h-[calc(100vh-98px)] w-screen relative">
         <div className="text-red-300 font-bold text-[32px] z-10 absolute">
-          <RouteSelection places={places} removeItem={removeItem} setSelection={setSelection} />
+          <RouteSelection places={places} removeItem={removeItem} setSelection={setSelection} generateRoute={generateRoute}/>
         </div>
         <div className="h-full w-full">
-          <Map location={location} onClick={clickHandler} places={places} start={start} />
+          <Map location={location} onClick={clickHandler} places={places} start={start}/>
         </div>
       </div>
     </MainLayout>
