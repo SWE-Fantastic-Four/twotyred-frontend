@@ -8,7 +8,7 @@ import GreenButton from "./GreenButton";
 const SmallBox = ({ children, className, onClick }) => {
   return (
     <button
-      className={`flex flex-row gap-[20px] items-center rounded-[10px] w-full px-[20px] sm:py-[14px] py-[10px] sm:hover:px-[19px] sm:hover:py-[13px] hover:py-[10px] bg-white sm:text-[20px] text-[18px] text-[#0c0c0c] leading-[23px] box-border hover:border shadow-lg ${className}`}
+      className={`flex items-center rounded-[10px] sm:h-[51px] h-[42px] w-full sm:pl-[10px] pl-[8px] bg-white sm:text-[20px] hover:border hover:pl-[9px] shadow-lg ${className}`}
       onClick={onClick}
     >
       {children}
@@ -16,96 +16,64 @@ const SmallBox = ({ children, className, onClick }) => {
   );
 };
 
-const PlaceBox = ({ children, className }) => {
-  return (
-    <button
-      className={`flex gap-[23px] items-center rounded-[10px] mt-[-50px] w-full px-[20px] sm:py-[14px] py-[10px] hover:py-[10px] bg-white sm:text-[20px] text-[18px] text-[#0c0c0c] leading-[23px] box-border hover:border hover:px-[19px] sm:hover:py-[13px] shadow-lg ${className}`}
-    >
-      {children}
-    </button>
-  );
-};
-
-// const RouteSelection = ({ places, removeItem, setSelection, generateRoute, setPage }) => {
-const RouteSelection = ({ places, removeItem, setSelection, selection, start, generateRoute, setPage }) => {
+const RouteSelection = ({ places, removeItem, setSelection, selection, start, onGenerate }) => {
   const placesList = places.map((place) => (
-    <li key={place.id} value={place.name}>
-      <div className="flex justify-between flex-row">
-        <PlaceBox>
-          <div className="flex flex-grow-0">
-            <img
-              src={location}
-              className="sm:h-[40px] h-[34px] mt-[-9px] mb-[-9px]"
-            />
-          </div>
-          <div className="flex flex-grow w-[61%]">
-            <p className="overflow-ellipsis whitespace-nowrap w-full overflow-hidden text-left">
-              {place.name}
-            </p>
-          </div>
-          <div className="flex flex-grow-1">
-            <img
-              src={cross}
-              onClick={() => removeItem(places.indexOf(place))}
-            />
-          </div>
-        </PlaceBox>
+    <div key={place.id} className="flex flex-row bg-white rounded-[10px] sm:h-[51px] h-[42px] items-center sm:pl-[10px] pl-[8px] sm:pr-[25px] pr-[20px] hover:border sm:hover:pl-[9px] sm:hover:pr-[24px] hover:pl-[7px] hover:pr-[19px] cursor-default">
+      <div className="sm:w-[40px] sm:h-[40px] w-[33px] h-[33px] flex justify-center items-center">
+        <img
+          src={location}
+          className="sm:h-[40px] h-[34px]"
+        />
       </div>
-    </li>
+      <p className="sm:ml-[20px] ml-[16px] overflow-ellipsis whitespace-nowrap w-[75%] overflow-hidden text-left">
+        {place.name}
+      </p>
+      <img
+        className="ml-auto cursor-pointer"
+        src={cross}
+        onClick={() => removeItem(places.indexOf(place))}
+      />
+    </div>
   ));
-  
-  const handleClick = async () =>{
-    await generateRoute();
-    setPage(1);
-  }
 
   return (
     <>
       <div
-        className={`flex flex-col sm:w-[387px] w-full ${
+        className={`flex flex-col sm:w-[387px] w-full text-[20px] ${
           start !== null && "sm:bg-[#918d8db4] sm:h-full"
         } sm:px-[12px] sm:py-[14px] py-[8px] rounded-[10px] overflow-hidden`}
       >
         <div className="flex flex-col sm:gap-[25px] gap-[20px]">
-          <div>
-            <SmallBox
-              onClick={() => setSelection(0)}
-              className={
-                selection === 0
-                  ? "border-2 border-black hover:border-2 sm:py-[12px] sm:hover:py-[12px] py-[8px] hover:py-[8px] px-[19px] hover:px-[19px] text-[#696868]"
-                  : "text-[#696868]"
-              }
-            >
+          <button className={`flex bg-white sm:h-[51px] h-[42px] rounded-[10px] items-center sm:pl-[10px] pl-[8px] sm:pr-[25px] pr-[20px] hover:border hover:pl-[9px] ${selection === 0 ? "border-2 sm:pl-[7.5px] hover:border-2 sm:hover:pl-[7.5px] pl-[5.5px] hover:pl-[5.5px]" : ""}`} onClick={() => setSelection(0)}>
+            <div className="sm:h-[40px] sm:w-[40px] w-[33px] h-[33px] flex items-center justify-center">
               <img
                 src={start === null ? search : green}
-                className="sm:h-[40px] h-[32px] mt-[-9px] mb-[-9px]"
+                className="sm:h-[40px] h-[32px]"
               />
-              <p className="overflow-ellipsis whitespace-nowrap w-[61%] overflow-hidden text-left">
-                {start === null ? "Enter Start Point" : start.name}
-              </p>
-            </SmallBox>
-          </div>
+            </div>
+            <p className="sm:ml-[20px] ml-[16px] overflow-ellipsis whitespace-nowrap w-[75%] overflow-hidden text-left">
+              {start === null ? "Enter Start Point" : start.name}
+            </p>
+          </button>
           {placesList}
           {start !== null && (
             <SmallBox
               onClick={() => setSelection(1)}
-              className={
-                selection === 1
-                  ? "border-2 border-black hover:border-2 sm:py-[12px] sm:hover:py-[12px] py-[8px] hover:py-[8px] px-[19px] hover:px-[19px] text-[#696868]"
-                  : "text-[#696868]"
-              }
+              className={selection === 1 ? "border-2 sm:pl-[7.5px] hover:border-2 sm:hover:pl-[7.5px] pl-[5.5px] hover:pl-[5.5px]" : ""}
             >
-              <img
-                src={search}
-                className="sm:h-[40px] h-[28px] mt-[-9px] mb-[-9px]"
-              />
-              Add destination
+              <div className="sm:w-[40px] sm:h-[40px] w-[33px] h-[33px] flex items-center justify-center">
+                <img
+                  src={search}
+                  className="sm:h-[40px] h-[28px]"
+                />
+              </div>
+              <p className="sm:ml-[20px] ml-[16px] text-dark-gray">Add destination</p>
             </SmallBox>
           )}
         </div>
         {places.length > 0 && (
           <div className="sm:flex hidden justify-end mt-auto self-end">
-            <GreenButton onClick={() => handleClick()}>Generate Route</GreenButton>
+            <GreenButton onClick={onGenerate}>Generate Route</GreenButton>
           </div>
         )}
       </div>

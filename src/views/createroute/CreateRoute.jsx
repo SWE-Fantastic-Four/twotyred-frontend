@@ -10,8 +10,6 @@ import polyUtil from "polyline-encoded";
 
 const CreateRoute = () => {
   const [selection, setSelection] = useState(2); // 0 is selecting start point, 1 is selecting intermediate points
-  // const [start, setStart] = useState({ name: "asndjkasndjsakdlansdj" });
-  // const [places, setPlace] = useState([{ name: "dnsjakdnjsakdnsaddsjakndjsakdnasjkdnsajdkasdnjka"}]);
   const [start, setStart] = useState(null);
   const [places, setPlaces] = useState([]);
   const [page, setPage] = useState(0); // 0 is RouteSelection page, 1 is RouteDescription page
@@ -75,6 +73,7 @@ const CreateRoute = () => {
     const lng = e.latLng.lng();
     const centerLat = map.center.lat();
     const centerLng = map.center.lng();
+    console.log(lat, lng, selection);
     try {
       if (places.length >= 4) {
         throw new Error("Too many places selected.");
@@ -106,22 +105,34 @@ const CreateRoute = () => {
     }
   }
 
+  const generateHandler = async () =>{
+    await generateRoute();
+    setPage(1);
+  }
+
   const displayPage = () => {
     switch (page) {
       case 0:
-        return <RouteSelection places={places} removeItem={removeItem} setSelection={setSelection} setPage={setPage} generateRoute={generateRoute} selection={selection} start={start} />
+        return (
+          <div className={`font-medium p-[10px] z-10 absolute ${start === null ? "" : "sm:h-full"} w-full sm:w-auto`}>
+            <RouteSelection places={places} removeItem={removeItem} setSelection={setSelection} onGenerate={generateHandler} selection={selection} start={start} />
+          </div>
+        );
+
       case 1:
-        return <RouteDescription setPage={setPage} />
+        return (
+          <div className={`font-medium sm:p-[10px] text-[32px] z-10 absolute h-full w-full sm:w-auto overflow-hidden`}>
+            <RouteDescription setPage={setPage} />
+          </div>
+        )
     }
   }
 
   return (
     <MainLayout>
       <div className="sm:h-[calc(100vh-98px)] h-[calc(100vh-53px)] w-screen relative">
-        <div className={`font-medium p-[10px] text-[32px] z-10 absolute ${start === null ? "" : "sm:h-full"} w-full sm:w-auto`}>
-          {displayPage()}
-        </div>
-        {places.length > 0 && <GreenButton className="absolute bottom-0 right-0 z-10 m-[10px] flex sm:hidden">Generate Route</GreenButton>}
+        {displayPage()}
+        {places.length > 0 && page === 0 && <GreenButton className="absolute bottom-0 right-0 z-10 m-[10px] flex sm:hidden" onClick={generateHandler}>Generate Route</GreenButton>}
         <div className="h-full w-full">
           <Map location={location} onClick={clickHandler} places={places} start={start} options={{disableDefaultUI: true}} routePoints={page === 1 ? routePoints : []} center={mapCenter} />
         </div>
