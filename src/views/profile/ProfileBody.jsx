@@ -55,10 +55,10 @@ const ProfileBody = ({ className }) => {
         </div>
       </div>
       {showFavourites && favouriteRoutes.length && favouriteRoutes.map((route) => {
-        return (<RouteCard startPt={route.routeInfo.StartPt} endPt={route.routeInfo.EndPt} distance={route.routeInfo.Distance} date={route.routeInfo.Date} username={route.routeInfo.Username} />)
+        return (<RouteCard startPt={route.routeInfo.StartPt} endPt={route.routeInfo.EndPt} distance={route.routeInfo.Distance} timestamp={route.routeInfo.Timestamp._seconds} username={route.routeInfo.Username} />)
       })}
       {!showFavourites && routes.length && routes.map((route) => {
-        return (<RouteCard startPt={route.routeInfo.StartPt} endPt={route.routeInfo.EndPt} distance={route.routeInfo.Distance} date={route.routeInfo.Date} username={route.routeInfo.Username} />)
+        return (<RouteCard startPt={route.routeInfo.StartPt} endPt={route.routeInfo.EndPt} distance={route.routeInfo.Distance} timestamp={route.routeInfo.Timestamp._seconds} username={route.routeInfo.Username} />)
       })}
     </div>
   )
