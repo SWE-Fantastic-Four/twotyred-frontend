@@ -7,6 +7,7 @@ import polyUtil from "polyline-encoded"
 
 
 const CreateRoute = () => {
+  const [page, setPage] = useState(0); // 0 is RouteSelection page, 1 is RouteDescription page
   const [selection, setSelection] = useState(0); // 0 is selecting start point, 1 is selecting intermediate points
   const [start, setStart] = useState({
     id: "1.29306,103.856",
@@ -48,7 +49,6 @@ const CreateRoute = () => {
     const planRouteRes = await fetch("https://SWE-Backend.chayhuixiang.repl.co/planroute", options);
     const route = await planRouteRes.json()
     setRouteGeom(route); 
-    console.log(route);
   }
 
   const location = {
@@ -72,11 +72,21 @@ const CreateRoute = () => {
     }
   }
 
+  const displayPage = () => {
+    switch (page) {
+      case 0:
+        return <RouteSelection places={places} removeItem={removeItem} setSelection={setSelection} setPage={setPage} generateRoute={generateRoute}/>
+      
+      case 1:
+        return <RouteDescription setPage={setPage}/>
+    }
+  }
+
   return (
     <MainLayout>
       <div className="h-[calc(100vh-98px)] w-screen relative">
         <div className="text-red-300 font-bold text-[32px] z-10 absolute">
-          <RouteSelection places={places} removeItem={removeItem} setSelection={setSelection} generateRoute={generateRoute}/>
+          {displayPage()}
         </div>
         <div className="h-full w-full">
           <Map location={location} onClick={clickHandler} places={places} start={start}/>
