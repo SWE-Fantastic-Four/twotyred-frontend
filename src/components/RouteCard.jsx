@@ -6,14 +6,22 @@ import React, { useState } from "react";
 import ProfilePic from "../assets/ProfilePic.svg";
 import Map from "./Map";
 
-export default function RouteCard() {
+export default function RouteCard({ likeCount }) {
   const [starFilled, setStarFilled] = useState(false);
   const [heartFilled, setHeartFilled] = useState(false);
+  const [likeState, setLikeState] = useState(likeCount);
 
-  const starClickHandler = () => {
+  const starClickHandler = async () => {
     setStarFilled(!starFilled)
     if (starFilled) {
       // increment favourite here
+      try {
+        const response = await axios.post("dsadsad", { routeId });
+        const data = response.data;
+        setLikeState(data.likes);
+      } catch (error) {
+        console.error(error);
+      }
     } else {
       // decrement favourite here
     }
@@ -65,7 +73,7 @@ export default function RouteCard() {
               }
             </button>
             <h1 className="totalLikes flex justify-start mt-2 font-bold text-[20px]">
-              5000
+              {likeState}
             </h1>
           </div>
         </div>
