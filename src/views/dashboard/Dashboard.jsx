@@ -13,17 +13,17 @@ const Dashboard = () => {
           <MagnifyingGlassIcon className="md:w-[64px] sm:w-[52px] w-[32.45px] rotate-90 stroke-2" />
           <div>
             <Filter className='z-10'/>
-            <div className='Cards grid grid-cols-3 gap-4 z-0' class='grid-container'>
-              <div class='grid-item'>
-                <RouteCard/>
-              </div>
-              <div class='grid-item'>
+            <div className='Cards grid grid-cols-3 gap-4 z-0'>
+              <div className='grid-item'>
                 <RouteCard />
               </div>
-              <div class='grid-item'>
+              <div className='grid-item'>
                 <RouteCard />
               </div>
-              <div class='grid-item'>
+              <div className='grid-item'>
+                <RouteCard />
+              </div>
+              <div className='grid-item'>
                 <RouteCard />
               </div>
             </div>            
