@@ -5,6 +5,7 @@ import RouteDescription from './RouteDescription';
 import RouteSelection from './RouteSelection';
 
 const CreateRoute = () => {
+  const [page, setPage] = useState(0); // 0 is RouteSelection page, 1 is RouteDescription page
   const [selection, setSelection] = useState(0); // 0 is selecting start point, 1 is selecting intermediate points
   const [start, setStart] = useState({
     id: "1.29306,103.856",
@@ -50,11 +51,21 @@ const CreateRoute = () => {
     }
   }
 
+  const displayPage = () => {
+    switch (page) {
+      case 0:
+        return <RouteSelection places={places} removeItem={removeItem} setSelection={setSelection} setPage={setPage} />
+      
+      case 1:
+        return <RouteDescription setPage={setPage}/>
+    }
+  }
+
   return (
     <MainLayout>
       <div className="h-[calc(100vh-98px)] w-screen relative">
         <div className="text-red-300 font-bold text-[32px] z-10 absolute">
-          <RouteSelection places={places} removeItem={removeItem} setSelection={setSelection} />
+          {displayPage()}
         </div>
         <div className="h-full w-full">
           <Map location={location} onClick={clickHandler} places={places} start={start} />

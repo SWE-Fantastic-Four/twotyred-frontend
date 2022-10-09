@@ -25,17 +25,18 @@ const PlaceBox = ({ children, className }) => {
   );
 };
 
-const SmallButton = ({ children, className}) => {
+const SmallButton = ({ children, className, onClick}) => {
   return (
     <button
       className={`flex justify-center w-[203px] h-[55px] items-center px-[10px] py-[6px] rounded-[4px] bg-[#70C174] text-[20px]  text-[#ffffff] leading-[23px] box-border hover:border hover:py-[5px] hover:px-[9px] ${className}`}
+      onClick={onClick}
     >
       {children}
     </button>
   );
 };
 
-const RouteSelection = ({ places, removeItem, setSelection }) => {
+const RouteSelection = ({ places, removeItem, setSelection, setPage }) => {
   const placesList = places.map(place =>
     <li key={place.id} value={place.name}>
       <div className="flex justify-between flex-row">
@@ -65,7 +66,7 @@ const RouteSelection = ({ places, removeItem, setSelection }) => {
           </SmallBox>        
         </div>
         <div className="flex justify-end mt-auto self-end">
-          <SmallButton>Generate Route</SmallButton>
+          <SmallButton onClick={() => setPage(1)}>Generate Route</SmallButton>
         </div>
       </div>
     </>
