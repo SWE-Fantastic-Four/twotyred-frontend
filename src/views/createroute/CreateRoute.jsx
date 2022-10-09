@@ -6,7 +6,6 @@ import RouteSelection from './RouteSelection';
 import { urls } from '../../constants/constants';
 import { capitalise } from '../../utils/string';
 import GreenButton from './GreenButton';
-import { useSelector } from 'react-redux';
 
 const CreateRoute = () => {
   const [selection, setSelection] = useState(2); // 0 is selecting start point, 1 is selecting intermediate points
@@ -28,6 +27,7 @@ const CreateRoute = () => {
   const clickHandler = async(e) => {
     const lat = e.latLng.lat();
     const lng = e.latLng.lng();
+    console.log(lat, lng, selection, places);
     try {
       if (places.length >= 4) {
         throw new Error("Too many places selected.");
