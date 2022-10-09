@@ -67,8 +67,7 @@ const CreateRoute = () => {
         <div className="text-red-300 font-bold text-[32px] z-10 absolute">
           {displayPage()}
         </div>
-        <div className="absolute z-10 right-0 top-0 h-[30px] bg-black">
-        </div>
+        <div className="absolute z-10 right-0 top-0 h-[30px] w-[100px] bg-red-500" />
         <div className="h-full w-full">
           <Map location={location} onClick={clickHandler} places={places} start={start} />
         </div>
