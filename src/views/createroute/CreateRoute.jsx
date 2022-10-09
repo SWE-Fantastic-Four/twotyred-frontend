@@ -27,16 +27,16 @@ const CreateRoute = () => {
     lat: 1.3457,
     lng: 103.7131
   }])
+  const [routeGeom, setRouteGeom] = useState(null)
 
   const removeItem = (index) => {
     setPlace(places.filter((o, i) => index !== i));
   };
   
 
-  const [routeGeom, setRouteGeom] = useState(null)
 
   const generateRoute = async() => {
-    var allPlaces = [start,...places]
+    let allPlaces = [start,...places];
     const coordinates = allPlaces.map((place) => `${place.lat},${place.lng}`);
     const options = {
       headers:{
