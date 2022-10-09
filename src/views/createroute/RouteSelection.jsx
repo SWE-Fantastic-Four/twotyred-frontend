@@ -36,7 +36,8 @@ const SmallButton = ({ children, className, onClick}) => {
   );
 };
 
-const RouteSelection = ({ places, removeItem, setSelection, setPage }) => {
+
+const RouteSelection = ({ places, removeItem, setSelection, generateRoute, setPage }) => {
   const placesList = places.map(place =>
     <li key={place.id} value={place.name}>
       <div className="flex justify-between flex-row">
@@ -48,6 +49,11 @@ const RouteSelection = ({ places, removeItem, setSelection, setPage }) => {
       </div>
     </li>
   );
+  
+  const handleClick = async () =>{
+    await generateRoute();
+    setPage(1);
+  }
 
   return (
     <>
@@ -66,7 +72,7 @@ const RouteSelection = ({ places, removeItem, setSelection, setPage }) => {
           </SmallBox>        
         </div>
         <div className="flex justify-end mt-auto self-end">
-          <SmallButton onClick={() => setPage(1)}>Generate Route</SmallButton>
+          <SmallButton onClick={() => handleClick()}>Generate Route</SmallButton>
         </div>
       </div>
     </>
