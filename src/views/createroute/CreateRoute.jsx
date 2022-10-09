@@ -7,31 +7,17 @@ import { urls } from '../../constants/constants';
 import { capitalise } from '../../utils/string';
 import GreenButton from './GreenButton';
 import polyUtil from "polyline-encoded";
+import { useLocation } from 'react-router-dom';
 
 const CreateRoute = () => {
   const [selection, setSelection] = useState(2); // 0 is selecting start point, 1 is selecting intermediate points
   const [start, setStart] = useState(null);
   const [places, setPlaces] = useState([]);
+  const [distanceInput, setDistanceInput] = useState("");
   const [page, setPage] = useState(0); // 0 is RouteSelection page, 1 is RouteDescription page
   const [mapCenter, setMapCenter] = useState({lat: 1.363675, lng: 103.808922});
-  // const [start, setStart] = useState({
-  //   id: "1.29306,103.856",
-  //   name: "Taman Jurong Food Centre",
-  //   lat: 1.29306,
-  //   lng: 103.856
-  // });
-
-  // const [places, setPlace] = useState([{
-  //   id: "1.3359,103.7262",
-  //   name: 'Jurong Lake Gardens',
-  //   lat: 1.3359,
-  //   lng: 103.7262
-  // }, {
-  //   id: "1.3457,103.7131",
-  //   name: 'Boon Lay Place Market',
-  //   lat: 1.3457,
-  //   lng: 103.7131
-  // }])
+  const location = useLocation();
+  const mode = location.state === undefined || location.state.mode === "default" ? 'default' : 'lucky';
   const [routePoints, setRoutePoints] = useState([])
 
   const removeItem = (index) => {
@@ -60,12 +46,6 @@ const CreateRoute = () => {
       return { lat: latlng[0], lng: latlng[1] }
     })
     setRoutePoints(routePoints); 
-  }
-
-  const location = {
-    address: '1600=Amphitheatre Parkway, Mountain View, california.',
-    lat: 37.42216,
-    lng: -122.08427,
   }
 
   const clickHandler = async(e, map) => {
@@ -115,7 +95,7 @@ const CreateRoute = () => {
       case 0:
         return (
           <div className={`font-medium p-[10px] z-10 absolute ${start === null ? "" : "sm:h-full"} w-full sm:w-auto`}>
-            <RouteSelection places={places} removeItem={removeItem} setSelection={setSelection} onGenerate={generateHandler} selection={selection} start={start} />
+            <RouteSelection places={places} removeItem={removeItem} setSelection={setSelection} onGenerate={generateHandler} selection={selection} start={start} mode={mode} distanceInput={distanceInput} setDistanceInput={setDistanceInput} />
           </div>
         );
 
@@ -134,7 +114,7 @@ const CreateRoute = () => {
         {displayPage()}
         {places.length > 0 && page === 0 && <GreenButton className="absolute bottom-0 right-0 z-10 m-[10px] flex sm:hidden" onClick={generateHandler}>Generate Route</GreenButton>}
         <div className="h-full w-full">
-          <Map location={location} onClick={clickHandler} places={places} start={start} options={{disableDefaultUI: true}} routePoints={page === 1 ? routePoints : []} center={mapCenter} />
+          <Map onClick={clickHandler} places={places} start={start} options={{disableDefaultUI: true}} routePoints={page === 1 ? routePoints : []} center={mapCenter} />
         </div>
       </div>
     </MainLayout>

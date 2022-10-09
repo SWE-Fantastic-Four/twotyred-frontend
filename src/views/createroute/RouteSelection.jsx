@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import cross from "../../assets/cross.svg";
 import green from "../../assets/green.svg";
 import location from "../../assets/location.svg";
 import search from "../../assets/search.svg";
+import DistanceMarker from "../../assets/DistanceMarker.svg";
 import GreenButton from "./GreenButton";
 
 const SmallBox = ({ children, className, onClick }) => {
   return (
     <button
-      className={`flex items-center rounded-[10px] sm:h-[51px] h-[42px] w-full sm:pl-[10px] pl-[8px] bg-white sm:text-[20px] hover:border hover:pl-[9px] shadow-lg ${className}`}
+      className={`flex items-center rounded-[10px] sm:h-[51px] h-[42px] w-full sm:pl-[10px] pl-[8px] bg-white sm:text-[20px] hover:border hover:pl-[9px] shadow-lg pr-[23px] hover:pr-[22px] ${className}`}
       onClick={onClick}
     >
       {children}
@@ -16,7 +17,7 @@ const SmallBox = ({ children, className, onClick }) => {
   );
 };
 
-const RouteSelection = ({ places, removeItem, setSelection, selection, start, onGenerate }) => {
+const RouteSelection = ({ places, removeItem, setSelection, selection, start, onGenerate, mode, distanceInput, setDistanceInput }) => {
   const placesList = places.map((place) => (
     <div key={place.id} className="flex flex-row bg-white rounded-[10px] sm:h-[51px] h-[42px] items-center sm:pl-[10px] pl-[8px] sm:pr-[25px] pr-[20px] hover:border sm:hover:pl-[9px] sm:hover:pr-[24px] hover:pl-[7px] hover:pr-[19px] cursor-default">
       <div className="sm:w-[40px] sm:h-[40px] w-[33px] h-[33px] flex justify-center items-center">
@@ -44,7 +45,7 @@ const RouteSelection = ({ places, removeItem, setSelection, selection, start, on
         } sm:px-[12px] sm:py-[14px] py-[8px] rounded-[10px] overflow-hidden`}
       >
         <div className="flex flex-col sm:gap-[25px] gap-[20px]">
-          <button className={`flex bg-white sm:h-[51px] h-[42px] rounded-[10px] items-center sm:pl-[10px] pl-[8px] sm:pr-[25px] pr-[20px] hover:border hover:pl-[9px] ${selection === 0 ? "border-2 sm:pl-[7.5px] hover:border-2 sm:hover:pl-[7.5px] pl-[5.5px] hover:pl-[5.5px]" : ""}`} onClick={() => setSelection(0)}>
+          <button className={`flex bg-white sm:h-[51px] h-[42px] rounded-[10px] items-center sm:pl-[10px] pl-[8px] sm:pr-[25px] pr-[20px] hover:border hover:pl-[9px] ${selection === 0 ? "border-2 sm:pl-[8px] hover:border-2 sm:hover:pl-[8px] pl-[6px] hover:pl-[6px]" : ""}`} onClick={() => setSelection(0)}>
             <div className="sm:h-[40px] sm:w-[40px] w-[33px] h-[33px] flex items-center justify-center">
               <img
                 src={start === null ? search : green}
@@ -55,8 +56,8 @@ const RouteSelection = ({ places, removeItem, setSelection, selection, start, on
               {start === null ? "Enter Start Point" : start.name}
             </p>
           </button>
-          {placesList}
-          {start !== null && (
+          {mode === "default" && placesList}
+          {(start !== null) && (mode === "default" ? (
             <SmallBox
               onClick={() => setSelection(1)}
               className={selection === 1 ? "border-2 sm:pl-[7.5px] hover:border-2 sm:hover:pl-[7.5px] pl-[5.5px] hover:pl-[5.5px]" : ""}
@@ -69,9 +70,23 @@ const RouteSelection = ({ places, removeItem, setSelection, selection, start, on
               </div>
               <p className="sm:ml-[20px] ml-[16px] text-dark-gray">Add destination</p>
             </SmallBox>
-          )}
+          ) : (
+            <SmallBox
+              onClick={() => setSelection(1)}
+              className={selection === 1 ? "border-2 sm:pl-[8px] hover:border-2 sm:hover:pl-[8px] pl-[6px] hover:pl-[6px] pr-[21px] hover:pr-[21px]" : ""}
+            >
+              <div className="sm:w-[40px] sm:h-[40px] w-[33px] h-[33px] flex items-center justify-center">
+                <img
+                  src={DistanceMarker}
+                  className="sm:h-[33px] h-[33px]"
+                />
+              </div>
+              <input className="sm:ml-[20px] ml-[16px] outline-none text-black placeholder-dark-gray" placeholder="Choose Distance" value={distanceInput} onChange={(e) => setDistanceInput(e.target.value)}></input>
+              <p className="ml-auto">km</p>
+            </SmallBox>
+          ))}
         </div>
-        {places.length > 0 && (
+        {(mode === "default" && places.length > 0 || mode === "lucky" && distanceInput) && (
           <div className="sm:flex hidden justify-end mt-auto self-end">
             <GreenButton onClick={onGenerate}>Generate Route</GreenButton>
           </div>
