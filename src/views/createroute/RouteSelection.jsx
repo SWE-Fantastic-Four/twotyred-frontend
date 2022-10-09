@@ -50,9 +50,9 @@ const RouteSelection = ({ places, removeItem, setSelection,  generateRoute, setP
     </li>
   );
   
-  const handleClick = () =>{
+  const handleClick = async () =>{
     setPage(1);
-    generateRoute();
+    await generateRoute();
   }
 
   return (

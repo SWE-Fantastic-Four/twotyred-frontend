@@ -3,7 +3,7 @@ import MainLayout from '../../layout/MainLayout'
 import Map from '../../components/Map';
 import RouteDescription from './RouteDescription';
 import RouteSelection from './RouteSelection';
-import polyUtil from "polyline-encoded"
+
 
 
 const CreateRoute = () => {
@@ -38,7 +38,6 @@ const CreateRoute = () => {
   const generateRoute = async() => {
     var allPlaces = [start,...places]
     const coordinates = allPlaces.map((place) => `${place.lat},${place.lng}`);
-    console.log(JSON.stringify(coordinates));
     const options = {
       headers:{
         'Content-Type': 'application/json'
