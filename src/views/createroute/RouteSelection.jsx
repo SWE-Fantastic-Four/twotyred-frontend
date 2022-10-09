@@ -26,13 +26,8 @@ const PlaceBox = ({ children, className }) => {
   );
 };
 
-const RouteSelection = ({
-  places,
-  removeItem,
-  setSelection,
-  selection,
-  start,
-}) => {
+// const RouteSelection = ({ places, removeItem, setSelection, generateRoute, setPage }) => {
+const RouteSelection = ({ places, removeItem, setSelection, selection, start, generateRoute, setPage }) => {
   const placesList = places.map((place) => (
     <li key={place.id} value={place.name}>
       <div className="flex justify-between flex-row">
@@ -58,6 +53,11 @@ const RouteSelection = ({
       </div>
     </li>
   ));
+  
+  const handleClick = async () =>{
+    await generateRoute();
+    setPage(1);
+  }
 
   return (
     <>
@@ -105,7 +105,7 @@ const RouteSelection = ({
         </div>
         {places.length > 0 && (
           <div className="sm:flex hidden justify-end mt-auto self-end">
-            <GreenButton>Generate Route</GreenButton>
+            <GreenButton onClick={() => handleClick}>Generate Route</GreenButton>
           </div>
         )}
       </div>
