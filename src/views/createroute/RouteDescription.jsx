@@ -14,17 +14,18 @@ const SmallBox = ({ children, className }) => {
   );
 };
 
-const SmallButton = ({ children, className }) => {
+const SmallButton = ({ children, className, onClick }) => {
   return (
     <button
       className={`mt-[8px] w-max text-[15px] text-[#2E57A7] hover:underline rounded-[4px] ${className}`}
+      onClick={onClick}
     >
       {children}
     </button>
   );
 };
 
-const RouteDescription = () => {
+const RouteDescription = ({setPage}) => {
   return (
     <>
       <div className="flex flex-col m-[10px] w-[387px] h-[593px] px-[12px] py-[13px] bg-[#918d8db4] p-[20px] rounded-[10px] overflow-hidden">
@@ -57,7 +58,7 @@ const RouteDescription = () => {
              <p className="text-[#565150] mt-[10px] mb-[10px]">Route distance: 10.00 km</p>
           </SmallBox>
           <div className="flex justify-between mt-auto">
-            <SmallButton>Edit route</SmallButton>
+            <SmallButton onClick={() => setPage(0)}>Edit route</SmallButton>
             <SmallButton>Cycle route</SmallButton>
           </div>   
         </div>
