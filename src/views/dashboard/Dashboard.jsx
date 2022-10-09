@@ -12,7 +12,7 @@ const Dashboard = () => {
           <span className="font-bold md:text-[64px] sm:text-[52px] text-[32px] mr-[10px]">Explore Routes</span>
           <MagnifyingGlassIcon className="md:w-[64px] sm:w-[52px] w-[32.45px] rotate-90 stroke-2" />
           <div>
-            <Filter className='z-10'/>
+            <Filter/>
             <div className='Cards grid grid-cols-3 gap-4 z-0'>
               <div className='grid-item'>
                 <RouteCard />
