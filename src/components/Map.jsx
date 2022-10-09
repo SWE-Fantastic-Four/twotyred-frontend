@@ -10,16 +10,6 @@ const Map = ({ options, onClick, places, start, routePoints, center }) => {
   const zoom = 12;
   const apiKey = import.meta.env.VITE_MAPS_APIKEY === undefined ? "" : import.meta.env.VITE_MAPS_APIKEY;
 
-  // routePoints = [
-  //   { lat: 1.3007, lng: 103.8550 },
-  //   { lat: 1.2907, lng: 103.8517 },
-  //   { lat: 1.2878, lng: 103.8666 }
-  // ];
-
-  // const mapElement = useMemo(() => (
-    
-  // ),[places, start]);
-
   const [map, setMap] = useState(null);
 
   useEffect(() => {
