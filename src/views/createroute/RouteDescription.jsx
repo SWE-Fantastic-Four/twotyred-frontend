@@ -24,7 +24,7 @@ const SmallButton = ({ children, className, onClick }) => {
   );
 };
 
-const RouteDescription = ({setPage}) => {
+const RouteDescription = ({ setPage }) => {
   return (
     <>
       <div className="flex flex-col m-[10px] w-[387px] h-[calc(100%-20px)] px-[12px] py-[13px] bg-[#918d8db4] p-[20px] rounded-[10px] overflow-hidden">
@@ -38,7 +38,7 @@ const RouteDescription = ({setPage}) => {
             <div className="flex flex-row justify-between">
               <img src={sun} className="mt-[10px] mb-[10px]" />
               <div className="flex flex-col items-end">
-                <h className="mt-[25px] text-[43px] text-[#565150] self-end">29 Aug</h>
+                <h1 className="mt-[25px] text-[43px] text-[#565150] self-end">29 Aug</h1>
                 <p className="mt-[20px] text-[#565150] text-[24px] self-end">7:00 am</p>
                 <p className="mt-[10px] mb-[10px] text-[#565150] text-[24px] self-end">Sunny | 32°C</p>
               </div>

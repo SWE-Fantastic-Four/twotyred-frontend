@@ -6,8 +6,7 @@ import RouteSelection from './RouteSelection';
 import { urls } from '../../constants/constants';
 import { capitalise } from '../../utils/string';
 import GreenButton from './GreenButton';
-
-
+import polyUtil from "polyline-encoded";
 
 const CreateRoute = () => {
   const [selection, setSelection] = useState(2); // 0 is selecting start point, 1 is selecting intermediate points
@@ -16,6 +15,7 @@ const CreateRoute = () => {
   const [start, setStart] = useState(null);
   const [places, setPlaces] = useState([]);
   const [page, setPage] = useState(0); // 0 is RouteSelection page, 1 is RouteDescription page
+  const [mapCenter, setMapCenter] = useState({lat: 1.363675, lng: 103.808922});
   // const [start, setStart] = useState({
   //   id: "1.29306,103.856",
   //   name: "Taman Jurong Food Centre",
@@ -34,7 +34,7 @@ const CreateRoute = () => {
   //   lat: 1.3457,
   //   lng: 103.7131
   // }])
-  const [routeGeom, setRouteGeom] = useState(null)
+  const [routePoints, setRoutePoints] = useState([])
 
   const removeItem = (index) => {
     setPlaces(places.filter((o, i) => index !== i));
@@ -52,9 +52,16 @@ const CreateRoute = () => {
       method: "POST",
       body: JSON.stringify({'chosenLocations':coordinates})
     };
-    const planRouteRes = await fetch("https://SWE-Backend.chayhuixiang.repl.co/planroute", options);
+    const planRouteRes = await fetch( urls.backend + "/planroute", options);
     const route = await planRouteRes.json()
-    setRouteGeom(route); 
+    const decoded = route.route_geometry;
+    const latlngs = polyUtil.decode(decoded, {
+      precision: 5
+    });
+    const routePoints = latlngs.map((latlng) => {
+      return { lat: latlng[0], lng: latlng[1] }
+    })
+    setRoutePoints(routePoints); 
   }
 
   const location = {
@@ -63,10 +70,11 @@ const CreateRoute = () => {
     lng: -122.08427,
   }
 
-  const clickHandler = async(e) => {
+  const clickHandler = async(e, map) => {
     const lat = e.latLng.lat();
     const lng = e.latLng.lng();
-    console.log(lat, lng, selection, places);
+    const centerLat = map.center.lat();
+    const centerLng = map.center.lng();
     try {
       if (places.length >= 4) {
         throw new Error("Too many places selected.");
@@ -91,6 +99,7 @@ const CreateRoute = () => {
         } else if (selection === 1) {
           setPlaces([...places, newPlace]);
         }
+        setMapCenter({ lat: centerLat, lng: centerLng });
       }
     } catch (error) {
       console.error(error);
@@ -101,9 +110,8 @@ const CreateRoute = () => {
     switch (page) {
       case 0:
         return <RouteSelection places={places} removeItem={removeItem} setSelection={setSelection} setPage={setPage} generateRoute={generateRoute} selection={selection} start={start} />
-      
       case 1:
-        return <RouteDescription setPage={setPage}/>
+        return <RouteDescription setPage={setPage} />
     }
   }
 
@@ -115,7 +123,7 @@ const CreateRoute = () => {
         </div>
         {places.length > 0 && <GreenButton className="absolute bottom-0 right-0 z-10 m-[10px] flex sm:hidden">Generate Route</GreenButton>}
         <div className="h-full w-full">
-          <Map location={location} onClick={clickHandler} places={places} start={start} options={{disableDefaultUI: true}} />
+          <Map location={location} onClick={clickHandler} places={places} start={start} options={{disableDefaultUI: true}} routePoints={page === 1 ? routePoints : []} center={mapCenter} />
         </div>
       </div>
     </MainLayout>

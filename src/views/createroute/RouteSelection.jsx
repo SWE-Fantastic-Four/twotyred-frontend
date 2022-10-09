@@ -105,7 +105,7 @@ const RouteSelection = ({ places, removeItem, setSelection, selection, start, ge
         </div>
         {places.length > 0 && (
           <div className="sm:flex hidden justify-end mt-auto self-end">
-            <GreenButton onClick={() => handleClick}>Generate Route</GreenButton>
+            <GreenButton onClick={() => handleClick()}>Generate Route</GreenButton>
           </div>
         )}
       </div>
