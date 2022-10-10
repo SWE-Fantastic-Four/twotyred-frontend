@@ -42,13 +42,13 @@ export default function Filter() {
             <div className="option1 flex justify-between bg-white  hover:bg-[#EFEFEF] hover:cursor-pointer" onClick={()=>setCurrentView("Most Liked")}>
                 <p className="font-[Roboto] text-[19px] font-medium leading-[22px] pl-[20px] pt-[5px] pb-[8px]">Most Liked</p>
                 {currentView === "Most Liked" && <div className="Icon">
-                    <CheckIcon className="w-[23px] stroke-current mr-[19px] pb-[7px] pt-[3px] " /> 
+                    <CheckIcon className="w-[23px] stroke-current mr-[19px] pb-[7px] pt-[3px]" /> 
                 </div>}
             </div>
             <div className="option2 h-[35px] bg-white  hover:bg-[#EFEFEF] flex cursor-pointer items-center justify-between" onClick={()=>setCurrentView("Most Recent")}>
                 <p className="option2 font-[Roboto] text-[19px] font-medium leading-[22px] pl-[20px] ">Most Recent</p>
                 {currentView == "Most Recent" && 
-                    <CheckIcon className="w-[23px] stroke-current mr-[19px] pb-[7px] pt-[3px] " /> 
+                    <CheckIcon className="w-[23px] stroke-current mr-[19px] pb-[7px] pt-[3px]" /> 
                 }
             </div>
         </div>)
