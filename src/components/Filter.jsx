@@ -53,7 +53,7 @@ export default function Filter() {
             </div>
             <div className="entiredropdown absolute z-10 mt-[10px] shadow-md">
             {
-                isClicked?( 
+                isClicked ? ( 
                 <div className="dropdown h-[72px] w-[195px] border-black stroke-solid border-[3px] rounded-xl overflow-hidden bg-white">
                 <div className="option1 flex justify-between bg-white  hover:bg-[#EFEFEF] hover:cursor-pointer" onClick={()=>setCurrentView("Most Liked")}>
                     <p className="font-[Roboto] text-[19px] font-medium leading-[22px] pl-[20px] pt-[5px] pb-[8px]">Most Liked</p>
@@ -71,7 +71,8 @@ export default function Filter() {
             </div>):<h1></h1>
             }
             </div>        
-        </div>
-
-    )
+        </div>) : <></>}
+      </div>
+    </>
+  )
 }
