@@ -35,43 +35,27 @@ export default function Filter() {
           className={`pr-[20px] mt-[6px] mb-[6px] stroke-current self-auto`}
         />
       </div>
-      <div className="entiredropdown absolute z-10">
-        {isClicked ? (
-          <div className="dropdown h-[72px] w-[195px] border-black stroke-solid border-[3px] rounded-xl overflow-hidden ">
-            <div
-              className="option1 flex justify-between hover:bg-[#EFEFEF] hover:cursor-pointer"
-              onClick={() => setCurrentView("Most Liked")}
-            >
-              <p className="font-[Roboto] text-[19px] font-medium leading-[22px] pl-[20px] pt-[5px] pb-[8px]">
-                Most Liked
-              </p>
-              {currentView === "Most Liked" && (
-                <div className="Icon">
-                  <CheckIcon className="w-[23px] stroke-current mr-[19px] pb-[7px] pt-[3px] " />
-                </div>
-              )}
+      <div className="entiredropdown absolute z-10 mt-[10px] shadow-md">
+        {
+            isClicked && ( 
+            <div className="dropdown h-[72px] w-[195px] border-black stroke-solid border-[3px] rounded-xl overflow-hidden bg-white">
+            <div className="option1 flex justify-between bg-white  hover:bg-[#EFEFEF] hover:cursor-pointer" onClick={()=>setCurrentView("Most Liked")}>
+                <p className="font-[Roboto] text-[19px] font-medium leading-[22px] pl-[20px] pt-[5px] pb-[8px] align-center">Most Liked</p>
+                {currentView === "Most Liked" && <div className="Icon">
+                    <CheckIcon className="w-[23px] stroke-current mr-[19px] pb-[7px] pt-[3px]" /> 
+                </div>}
             </div>
-            <div className="entiredropdown absolute z-10 mt-[10px] shadow-md">
-            {
-                isClicked?( 
-                <div className="dropdown h-[72px] w-[195px] border-black stroke-solid border-[3px] rounded-xl overflow-hidden bg-white">
-                <div className="option1 flex justify-between bg-white  hover:bg-[#EFEFEF] hover:cursor-pointer" onClick={()=>setCurrentView("Most Liked")}>
-                    <p className="font-[Roboto] text-[19px] font-medium leading-[22px] pl-[20px] pt-[5px] pb-[8px]">Most Liked</p>
-                    {currentView === "Most Liked" && <div className="Icon">
-                        <CheckIcon className="w-[23px] stroke-current mr-[19px] pb-[7px] pt-[3px] " /> 
-                    </div>}
-                </div>
-                <div className="option2 h-[35px] bg-white  hover:bg-[#EFEFEF] flex cursor-pointer items-center justify-between" onClick={()=>setCurrentView("Most Recent")}>
-                    <p className="option2 font-[Roboto] text-[19px] font-medium leading-[22px] pl-[20px] ">Most Recent</p>
-                    {currentView == "Most Recent" && 
-                        <CheckIcon className="w-[23px] stroke-current mr-[19px] pb-[7px] pt-[3px] " /> 
-                    }
-                </div>
-
-            </div>):<h1></h1>
-            }
-            </div>        
-        </div>
-
-    )
+            <div className="option2 h-[35px] bg-white  hover:bg-[#EFEFEF] flex cursor-pointer items-center justify-between" onClick={()=>setCurrentView("Most Recent")}>
+                <p className="option2 font-[Roboto] text-[19px] font-medium leading-[22px] pl-[20px] align-center ">Most Recent</p>
+                {currentView == "Most Recent" && 
+                    <CheckIcon className="w-[23px] stroke-current mr-[19px] pb-[7px] pt-[3px]" /> 
+                }
+            </div>
+        </div>)
+        }
+      </div>
+    </>
+  )
 }
+
+
