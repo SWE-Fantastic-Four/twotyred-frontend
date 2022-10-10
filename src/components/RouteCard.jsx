@@ -11,17 +11,19 @@ import React, { useState } from "react";
 import ProfilePic from "../assets/ProfilePic.svg";
 import Map from "./Map";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
-export default function RouteCard() {
+export default function RouteCard({ likeCount, routeId }) {
   const [starFilled, setStarFilled] = useState(false);
   const [heartFilled, setHeartFilled] = useState(false);
   const [likeState, setLikeState] = useState(likeCount);
+  const username = useSelector(state => state.auth.displayName);
 
   const starClickHandler = async () => {
     setStarFilled(!starFilled);
     if (starFilled) {
       try {
-        const response = await axios.post("http://localhost:3000/handlefavourite/add" , { userId, routeId});
+        const response = await axios.post("https://SWE-Backend.chayhuixiang.repl.co/routes/favourite" , { user: username, route: routeId });
         console.log(response.data);
       }
       catch (error) {
@@ -29,7 +31,7 @@ export default function RouteCard() {
       }
     } else {
       try {
-        const response = await axios.post("http://localhost:3000/handlefavourite/remove" , { userId, routeId });
+        const response = await axios.post("https://SWE-Backend.chayhuixiang.repl.co/routes/unfavourite" , { user: username, route: routeId });
         console.log(response.data);
       }
       catch (error) {
@@ -41,18 +43,18 @@ export default function RouteCard() {
     setHeartFilled(!heartFilled);
     if (heartFilled) {
       try {
-        const response = await axios.post("http://localhost:3000/routes/like", { routeId});
+        const response = await axios.post("https://SWE-Backend.chayhuixiang.repl.co/routes/like", { routeId });
         const data = response.data;
-        setLikeState(data.Likes);
+        setLikeState(data.newLikeCount);
       }
       catch (error) {
         console.error(error);
       }
     } else {
       try {
-        const response = await axios.post("http://localhost:3000/routes/unlike", { routeId});
+        const response = await axios.post("https://SWE-Backend.chayhuixiang.repl.co/routes/unlike", { routeId });
         const data = response.data;
-        setLikeState(data.Likes);
+        setLikeState(data.newLikeCount);
       }
       catch (error) {
         console.error(error);
@@ -96,7 +98,7 @@ export default function RouteCard() {
               )}
             </button>
             <h1 className="totalLikes flex justify-start mt-2 font-bold text-[20px]">
-              5000
+              {likeState}
             </h1>
           </div>
         </div>
