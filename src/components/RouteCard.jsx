@@ -36,7 +36,6 @@ export default function RouteCard({ likeCount }) {
   }
 
   return (
-    <div className={props.className}>
     <div className="wholecard w-[337px] h-[328px] rounded-[5px] border-[2px] border-solid border-dark-gray shadow-lg hover:border-black hover:cursor-pointer min-w-[337px]">
       <div className="map h-[216px] overflow-x-hidden">
         <Map options={{gestureHandling: 'none', disableDefaultUI: true}} />
@@ -102,7 +101,6 @@ export default function RouteCard({ likeCount }) {
           </div>
         </div>
       </div>
-    </div>
     </div>
   );
 }
