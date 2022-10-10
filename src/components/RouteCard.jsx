@@ -1,31 +1,64 @@
 import {
-  ArrowRightIcon, HeartIcon, StarIcon
+  ArrowRightIcon,
+  HeartIcon,
+  StarIcon,
 } from "@heroicons/react/24/outline";
-import { HeartIcon as HeartIconSolid, StarIcon as StarIconSolid } from "@heroicons/react/24/solid";
+import {
+  HeartIcon as HeartIconSolid,
+  StarIcon as StarIconSolid,
+} from "@heroicons/react/24/solid";
 import React, { useState } from "react";
 import ProfilePic from "../assets/ProfilePic.svg";
 import Map from "./Map";
+import axios from "axios";
 
 export default function RouteCard() {
   const [starFilled, setStarFilled] = useState(false);
   const [heartFilled, setHeartFilled] = useState(false);
+  const [likeState, setLikeState] = useState(likeCount);
 
-  const starClickHandler = () => {
-    setStarFilled(!starFilled)
+  const starClickHandler = async () => {
+    setStarFilled(!starFilled);
     if (starFilled) {
-      // increment favourite here
+      try {
+        const response = await axios.post("http://localhost:3000/handlefavourite/add" , { userId, routeId});
+        console.log(response.data);
+      }
+      catch (error) {
+        console.error(error);
+      }
     } else {
-      // decrement favourite here
+      try {
+        const response = await axios.post("http://localhost:3000/handlefavourite/remove" , { userId, routeId });
+        console.log(response.data);
+      }
+      catch (error) {
+        console.error(error);
+      }
     }
-  }
-  const heartClickHandler = () => {
-    setHeartFilled(!heartFilled)
+  };
+  const heartClickHandler = async () => {
+    setHeartFilled(!heartFilled);
     if (heartFilled) {
-      // increment likes here
+      try {
+        const response = await axios.post("http://localhost:3000/routes/like", { routeId});
+        const data = response.data;
+        setLikeState(data.Likes);
+      }
+      catch (error) {
+        console.error(error);
+      }
     } else {
-      // decrement likes here
+      try {
+        const response = await axios.post("http://localhost:3000/routes/unlike", { routeId});
+        const data = response.data;
+        setLikeState(data.Likes);
+      }
+      catch (error) {
+        console.error(error);
+      }
     }
-  }
+  };
 
   return (
     <div className="wholecard w-[337px] h-[328px] rounded-[5px] border-[2px] border-solid border-dark-gray shadow-lg hover:border-black hover:cursor-pointer">
@@ -42,9 +75,9 @@ export default function RouteCard() {
             <button onClick={starClickHandler}>
               {starFilled ? (
                 <StarIconSolid
-                className={`star stroke-[3] mt-[7px] h-[18px] text-yellow-300`}
+                  className={`star stroke-[3] mt-[7px] h-[18px] text-yellow-300`}
                 />
-                ) : (
+              ) : (
                 <StarIcon
                   className={`star stroke-[3] mt-[7px] h-[18px] text-black`}
                 />
@@ -52,17 +85,15 @@ export default function RouteCard() {
             </button>
             {/* heart button */}
             <button onClick={heartClickHandler}>
-              {
-                heartFilled ? (
-                  <HeartIconSolid
+              {heartFilled ? (
+                <HeartIconSolid
                   className={`heart stroke-[3] mt-[7px] h-[19px] pl-[4px] pr-[4px] text-red-600`}
-                  />
-                ):(
-                  <HeartIcon
+                />
+              ) : (
+                <HeartIcon
                   className={`heart stroke-[3] mt-[7px] h-[19px] pl-[4px] pr-[4px] text-black`}
-                  />
-                )
-              }
+                />
+              )}
             </button>
             <h1 className="totalLikes flex justify-start mt-2 font-bold text-[20px]">
               5000
