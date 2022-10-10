@@ -35,23 +35,7 @@ export default function Filter() {
           className={`pr-[20px] mt-[6px] mb-[6px] stroke-current self-auto`}
         />
       </div>
-      <div className="entiredropdown absolute z-10">
-        {isClicked ? (
-          <div className="dropdown h-[72px] w-[195px] border-black stroke-solid border-[3px] rounded-xl overflow-hidden ">
-            <div
-              className="option1 flex justify-between hover:bg-[#EFEFEF] hover:cursor-pointer"
-              onClick={() => setCurrentView("Most Liked")}
-            >
-              <p className="font-[Roboto] text-[19px] font-medium leading-[22px] pl-[20px] pt-[5px] pb-[8px]">
-                Most Liked
-              </p>
-              {currentView === "Most Liked" && (
-                <div className="Icon">
-                  <CheckIcon className="w-[23px] stroke-current mr-[19px] pb-[7px] pt-[3px] " />
-                </div>
-              )}
-            </div>
-            <div className="entiredropdown absolute z-10 mt-[10px] shadow-md">
+      <div className="entiredropdown absolute z-10 mt-[10px] shadow-md">
             {
                 isClicked ? ( 
                 <div className="dropdown h-[72px] w-[195px] border-black stroke-solid border-[3px] rounded-xl overflow-hidden bg-white">
@@ -70,8 +54,6 @@ export default function Filter() {
 
             </div>):<h1></h1>
             }
-            </div>        
-        </div>) : <></>}
       </div>
     </>
   )
