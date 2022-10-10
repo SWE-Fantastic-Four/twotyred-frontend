@@ -5,11 +5,17 @@ import StartMarker from "../assets/StartMarker.svg";
 import { GoogleMap, LoadScript, Marker, Polyline } from '@react-google-maps/api';
 // import { useMemo } from 'react';
 import { useEffect } from 'react';
+import polyUtil from 'polyline-encoded';
 
-const Map = ({ options, onClick, places, start, routePoints, center }) => {
+const Map = ({ options, onClick, places, start, routeGeom="", center={lat: 1.363675, lng: 103.808922} }) => {
   const zoom = 12;
   const apiKey = import.meta.env.VITE_MAPS_APIKEY === undefined ? "" : import.meta.env.VITE_MAPS_APIKEY;
-
+  const latlngs = polyUtil.decode(routeGeom, {
+    precision: 5
+  });
+  const routePoints = latlngs.map((latlng) => {
+    return { lat: latlng[0], lng: latlng[1] }
+  })
   const [map, setMap] = useState(null);
 
   useEffect(() => {

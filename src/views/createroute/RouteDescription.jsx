@@ -3,6 +3,8 @@ import smile from "../../assets/smile.svg";
 import star from "../../assets/star.svg";
 import sun from "../../assets/sun.svg";
 import BottomDrawerButton from "../../assets/BottomDrawerButton.svg";
+import { useSearchParams } from "react-router-dom";
+import { Transition } from "@headlessui/react";
 
 const SmallBox = ({ children, className }) => {
   return (
@@ -25,8 +27,10 @@ const SmallButton = ({ children, className, onClick }) => {
   );
 };
 
-const RouteDescription = ({ setPage }) => {
+const RouteDescription = ({ routeDistance, onSave, shrinkMobileDrawer, expandMobileDrawer }) => {
   const [showDrawer, setShowDrawer] = useState(false);
+  const [searchParams,setSearchParams] = useSearchParams();
+  const mode = searchParams.get("mode");
   return (
     <>
       {/* Desktop Route Description */}
@@ -68,21 +72,32 @@ const RouteDescription = ({ setPage }) => {
           </SmallBox>
           <SmallBox className="bg-[#ddd48576]">
             <p className="text-[#565150] mt-[10px] mb-[10px]">
-              Route distance: 10.00 km
+              Route distance: {(routeDistance / 1000).toFixed(2)} km
             </p>
           </SmallBox>
           <div className="flex justify-between mt-auto">
-            <SmallButton onClick={() => setPage(0)}>Edit route</SmallButton>
-            <SmallButton>Cycle route</SmallButton>
+            <SmallButton onClick={() => setSearchParams({page: "0", mode})}>Edit route</SmallButton>
+            <SmallButton onClick={onSave}>Cycle route</SmallButton>
           </div>
         </div>
       </div>
-      {/* Mobile Route Description */}
-      <div className={`w-full bg-white text-[#565150] h-[414px] absolute bottom-0 rounded-t-[10px] flex sm:hidden flex-col px-[15px] pt-[22px] pb-[10px] font-medium gap-[11px] transition-all duration-500 ease-in-out ${showDrawer ? "translate-y-0" : "translate-y-[355px]"}`} onTouchStart={() => setShowDrawer(!showDrawer)}>
+      {/* Mobile & Tablet Route Description */}
+      <Transition
+       className={`w-full bg-white text-[#565150] h-full absolute bottom-0 rounded-t-[10px] flex sm:hidden flex-col px-[15px] pt-[22px] pb-[10px] font-medium gap-[11px] z-10`} 
+       show={showDrawer}
+       enter="transition-all duration-500 ease-in-out"
+       enterFrom="translate-y-[355px]"
+       enterTo="translate-y-0"
+       leave="transition-all duration-500 ease-in-out"
+       leaveFrom="translate-y-0"
+       leaveTo="translate-y-[355px]"
+       onTouchStart={() => setShowDrawer(!showDrawer)}
+       beforeEnter={expandMobileDrawer}
+       afterLeave={shrinkMobileDrawer}
+      >
         <img
           src={BottomDrawerButton}
           className="w-[26px] absolute left-1/2 -translate-x-1/2 -translate-y-[6px]"
-          // onClick={() => setShowDrawer(!showDrawer)}
         />
         <h1 className="text-[22px] text-black leading-[26px]">Route Details</h1>
         <div className="bg-[#98BDFC81] pt-[14px] w-full pb-[20px] rounded-[10px] pl-[9px] pr-[33px] flex justify-between">
@@ -108,12 +123,19 @@ const RouteDescription = ({ setPage }) => {
           </div>
         </div>
         <div className="bg-[#DDD48581] rounded-[10px] w-full h-[56px] flex items-center pl-[17px] text-[18px]">
-          <p>Route distance: 10.00km</p>
+          <p>Route distance: {(routeDistance / 1000).toFixed(2)} km</p>
         </div>
         <div className="mt-auto text-[#2E57A7] text-[22px] w-full flex justify-between">
-          <p className="hover:underline decoration-[#2E57A7]" onClick={() => setPage(0)}>Edit route</p>
-          <p className="hover:underline decoration-[#2E57A7]">Cycle route</p>
+          <p className="hover:underline decoration-[#2E57A7]" onClick={() => setSearchParams({page: "0", mode})}>Edit route</p>
+          <p className="hover:underline decoration-[#2E57A7]" onClick={onSave}>Cycle route</p>
         </div>
+      </Transition>
+      <div className="w-full h-[59px] bg-white absolute bottom-0 rounded-t-[10px] flex sm:hidden flex-col px-[15px] pt-[22px] pb-[10px] font-medium z-0" onTouchStart={() => setShowDrawer(!showDrawer)}>
+        <img
+          src={BottomDrawerButton}
+          className="w-[26px] absolute left-1/2 -translate-x-1/2 -translate-y-[6px]"
+        />
+        <h1 className="text-[22px] text-black leading-[26px]">Route Details</h1>
       </div>
     </>
   );

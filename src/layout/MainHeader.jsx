@@ -2,9 +2,9 @@
 import { ChevronDownIcon, ChevronLeftIcon } from "@heroicons/react/24/outline";
 import { Transition, Disclosure } from "@headlessui/react";
 import { getAuth, signOut } from "firebase/auth";
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink, useLocation, useSearchParams } from 'react-router-dom';
 import CreateSpeechBtmDark from "../assets/CreateSpeechBtmDark.svg";
 import CreateSpeechTopDark from "../assets/CreateSpeechTopDark.svg";
 import Menu from "../assets/Menu.svg";
@@ -19,6 +19,7 @@ const MainHeader = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const auth = getAuth();
+  const [searchParams] = useSearchParams();
 
   const username = useSelector(state => state.auth.displayName);
   
@@ -26,10 +27,7 @@ const MainHeader = () => {
   const profilePhoto = useProfilePhoto();
 
   const pathname = location.pathname;
-  let state = null;
-  if (pathname === P.CREATEROUTE) {
-    state = location.state.mode;
-  }
+  const state = searchParams.get("mode");
 
   let mobileNavbarText;
   switch (pathname) {
@@ -81,11 +79,11 @@ const MainHeader = () => {
             <p>Create New Route</p>
             <div className="absolute top-[81px] transition-all opacity-0 scale-90 group-hover:scale-100 group-hover:opacity-100 w-[242px] h-[171px] left-1/2 -translate-x-1/2 flex flex-col bg-[url('assets/CreateSpeech.svg')] ">
               <div className="h-[64px] w-[226px] mt-[32px] mx-auto" >
-                <NavLink to={P.CREATEROUTE} state={{mode: "default"}} className="h-full w-full hover:text-black cursor-pointer flex items-center justify-center peer">Customise Route</NavLink>
+                <NavLink to={P.CREATEROUTE + "?page=0&mode=default"} className="h-full w-full hover:text-black cursor-pointer flex items-center justify-center peer">Customise Route</NavLink>
                 <img src={CreateSpeechTopDark} className="absolute left-1/2 -translate-x-1/2 invisible peer-hover:visible top-[6px] -z-10" />
               </div>
               <div className="h-[64px] w-[226px] mx-auto">
-                <NavLink to={P.CREATEROUTE} state={{mode: "lucky"}} className="h-full w-full flex items-center justify-center peer hover:text-black cursor-pointer">I'm Feeling Lucky</NavLink>
+                <NavLink to={P.CREATEROUTE + "?page=0&mode=lucky"} className="h-full w-full flex items-center justify-center peer hover:text-black cursor-pointer">I'm Feeling Lucky</NavLink>
                 <img src={CreateSpeechBtmDark} className="absolute left-1/2 -translate-x-1/2 invisible peer-hover:visible top-[98px] -z-10" />
               </div>
             </div>
@@ -140,8 +138,8 @@ const MainHeader = () => {
                       leaveTo="-translate-y-4 opacity-50"
                     >
                       <Disclosure.Panel>
-                        <Link to={P.CREATEROUTE} state={{mode: "default"}} className={`block text-[20px] mt-[20px] w-[215px] pl-[8px] py-[5px] ${state === "default" ? "bg-light-gray" : "bg-white"} rounded-[10px]`}>Customise Route</Link>
-                        <Link to={P.CREATEROUTE} state={{mode: "lucky"}} className={`block text-[20px] mt-[8px] w-[215px] pl-[8px] py-[5px] ${state === "lucky" ? "bg-light-gray" : "bg-white"} rounded-[10px]`}>I'm Feeling Lucky</Link>
+                        <Link to={P.CREATEROUTE + "?page=0&mode=default"} className={`block text-[20px] mt-[20px] w-[215px] pl-[8px] py-[5px] ${state === "default" ? "bg-light-gray" : "bg-white"} rounded-[10px]`}>Customise Route</Link>
+                        <Link to={P.CREATEROUTE + "?page=0&mode=lucky"} className={`block text-[20px] mt-[8px] w-[215px] pl-[8px] py-[5px] ${state === "lucky" ? "bg-light-gray" : "bg-white"} rounded-[10px]`}>I'm Feeling Lucky</Link>
                       </Disclosure.Panel>
                     </Transition>
                   </>

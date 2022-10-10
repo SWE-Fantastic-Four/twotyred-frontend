@@ -16,9 +16,9 @@ export default function RouteCard({ likeCount }) {
     if (starFilled) {
       // increment favourite here
       try {
-        const response = await axios.post("dsadsad", { routeId });
-        const data = response.data;
-        setLikeState(data.likes);
+        // const response = await axios.post("dsadsad", { routeId });
+        // const data = response.data;
+        // setLikeState(data.likes);
       } catch (error) {
         console.error(error);
       }

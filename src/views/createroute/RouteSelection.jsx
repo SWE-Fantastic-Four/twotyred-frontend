@@ -81,7 +81,7 @@ const RouteSelection = ({ places, removeItem, setSelection, selection, start, on
                   className="sm:h-[33px] h-[33px]"
                 />
               </div>
-              <input className="sm:ml-[20px] ml-[16px] outline-none text-black placeholder-dark-gray" placeholder="Choose Distance" value={distanceInput} onChange={(e) => setDistanceInput(e.target.value)}></input>
+              <input className="sm:ml-[20px] ml-[16px] outline-none text-black placeholder-dark-gray w-[190px]" placeholder="Choose Distance" value={distanceInput} onChange={(e) => setDistanceInput(e.target.value)}></input>
               <p className="ml-auto">km</p>
             </SmallBox>
           ))}
