@@ -6,11 +6,12 @@ import React, { useState } from "react";
 import ProfilePic from "../assets/ProfilePic.svg";
 import Map from "./Map";
 
-export default function RouteCard() {
+export default function RouteCard(props) {
   const [starFilled, setStarFilled] = useState(false);
   const [heartFilled, setHeartFilled] = useState(false);
 
   return (
+    <div className={props.className}>
     <div className="wholecard w-[337px] h-[328px] rounded-[5px] border-[2px] border-solid border-dark-gray shadow-lg hover:border-black hover:cursor-pointer">
       <div className="map h-[216px] overflow-x-hidden">
         <Map />
@@ -74,6 +75,7 @@ export default function RouteCard() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }
