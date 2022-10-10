@@ -43,7 +43,7 @@ export default function RouteCard({ likeCount, routeId }) {
     setHeartFilled(!heartFilled);
     if (heartFilled) {
       try {
-        const response = await axios.post("https://SWE-Backend.chayhuixiang.repl.co/routes/like", { routeId });
+        const response = await axios.post("https://SWE-Backend.chayhuixiang.repl.co/routes/like", { username, routeId });
         const data = response.data;
         setLikeState(data.newLikeCount);
       }
@@ -52,7 +52,7 @@ export default function RouteCard({ likeCount, routeId }) {
       }
     } else {
       try {
-        const response = await axios.post("https://SWE-Backend.chayhuixiang.repl.co/routes/unlike", { routeId });
+        const response = await axios.post("https://SWE-Backend.chayhuixiang.repl.co/routes/unlike", { username, routeId });
         const data = response.data;
         setLikeState(data.newLikeCount);
       }
