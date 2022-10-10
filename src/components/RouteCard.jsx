@@ -6,15 +6,40 @@ import React, { useState } from "react";
 import ProfilePic from "../assets/ProfilePic.svg";
 import Map from "./Map";
 
-export default function RouteCard(props) {
+export default function RouteCard({ likeCount }) {
   const [starFilled, setStarFilled] = useState(false);
   const [heartFilled, setHeartFilled] = useState(false);
+  const [likeState, setLikeState] = useState(likeCount);
+
+  const starClickHandler = async () => {
+    setStarFilled(!starFilled)
+    if (starFilled) {
+      // increment favourite here
+      try {
+        // const response = await axios.post("dsadsad", { routeId });
+        // const data = response.data;
+        // setLikeState(data.likes);
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      // decrement favourite here
+    }
+  }
+  const heartClickHandler = () => {
+    setHeartFilled(!heartFilled)
+    if (heartFilled) {
+      // increment likes here
+    } else {
+      // decrement likes here
+    }
+  }
 
   return (
     <div className={props.className}>
     <div className="wholecard w-[337px] h-[328px] rounded-[5px] border-[2px] border-solid border-dark-gray shadow-lg hover:border-black hover:cursor-pointer min-w-[337px]">
       <div className="map h-[216px] overflow-x-hidden">
-        <Map />
+        <Map options={{gestureHandling: 'none', disableDefaultUI: true}} />
       </div>
       <div className="stats w-[337px] h-[112px] flex flex-col">
         <div className="first pl-[15px] pr-[12px] flex justify-between">
@@ -22,7 +47,8 @@ export default function RouteCard(props) {
             My first cycle
           </h1>
           <div className="icons flex justify-[right]">
-            <button onClick={() => setStarFilled(!starFilled)}>
+            {/* star button */}
+            <button onClick={starClickHandler}>
               {starFilled ? (
                 <StarIconSolid
                 className={`star stroke-[3] mt-[7px] h-[18px] text-yellow-300`}
@@ -33,7 +59,8 @@ export default function RouteCard(props) {
                 />
               )}
             </button>
-            <button onClick={() => setHeartFilled(!heartFilled)}>
+            {/* heart button */}
+            <button onClick={heartClickHandler}>
               {
                 heartFilled ? (
                   <HeartIconSolid
@@ -47,7 +74,7 @@ export default function RouteCard(props) {
               }
             </button>
             <h1 className="totalLikes flex justify-start mt-2 font-bold text-[20px]">
-              5000
+              {likeState}
             </h1>
           </div>
         </div>

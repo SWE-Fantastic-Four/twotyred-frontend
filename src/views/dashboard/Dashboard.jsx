@@ -18,16 +18,16 @@ const Dashboard = () => {
             <Filter/>
             <div className='Cards grid md:grid-cols-3 gap-4 z-0 mt-[10px] sm:grid-cols-1'>
               <div>
-                <RouteCard className='z-0'/>
+                <RouteCard className='z-0'likeCount={123901} />
               </div>
               <div>
-                <RouteCard />
+                <RouteCard likeCount={123901} />
               </div>
               <div>
-                <RouteCard />
+                <RouteCard likeCount={123901} />
               </div>
               <div>
-                <RouteCard />
+                <RouteCard likeCount={123901} />
               </div>
             </div>            
           </div>
