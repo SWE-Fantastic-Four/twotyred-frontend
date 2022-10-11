@@ -1,22 +1,30 @@
 import {
   ArrowRightIcon,
   HeartIcon,
-  StarIcon,
+  StarIcon
 } from "@heroicons/react/24/outline";
 import {
   HeartIcon as HeartIconSolid,
-  StarIcon as StarIconSolid,
+  StarIcon as StarIconSolid
 } from "@heroicons/react/24/solid";
+import axios from "axios";
 import React, { useState } from "react";
 import ProfilePic from "../assets/ProfilePic.svg";
-import Map from "./Map";
-import axios from "axios";
-import { useSelector } from "react-redux";
 import { urls } from "../constants/constants";
+import Map from "./Map";
 
-export default function RouteCard({ startPt, endPt, distance, timestamp, username, likes, id }) {
-  const [starFilled, setStarFilled] = useState(false);
-  const [heartFilled, setHeartFilled] = useState(false);
+export default function RouteCard({ startPt, endPt, distance, timestamp, username, likes, id, likedUsers, favouritedUsers }) {
+  function fsArrayInclude(fsArray, searchItem) {
+    for (let i = 0; i < fsArray.length; i++) {
+      if (fsArray[i] === searchItem) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  const [starFilled, setStarFilled] = useState(fsArrayInclude(favouritedUsers, username));
+  const [heartFilled, setHeartFilled] = useState(fsArrayInclude(likedUsers, username));
   const [likeCount, setLikeCount] = useState(likes);
 
   const getDate = () => {
