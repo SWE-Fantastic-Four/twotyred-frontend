@@ -1,32 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import Cog from "../../assets/cog.svg";
 import ProfileHeaderImg from "../../assets/ProfileHeader.png";
 import AvatarIcon from "../../components/AvatarIcon";
+import useProfileDetails from "../../hooks/useProfileDetails";
 import useProfilePhoto from "../../hooks/useProfilePhoto";
 
 const ProfileHeader = ({ openSettings }) => {
   const username = useSelector(state => state.auth.displayName);
   const profilePhoto = useProfilePhoto();
-  const [distance, updateDistance] = useState(0);
-  const [time, updateTime] = useState(0);
-
-  useEffect(() => {
-    const queryUser = async () => {
-      const response = await fetch(`https://swe-backend.chayhuixiang.repl.co/users/query/${username}`);
-      const data = await response.json();
-      updateDistance(data.TotalDistance);
-      updateTime(data.TotalTime);
-    }
-    if (username) {
-      queryUser();
-    }
-  }, [username]);
+  const profileDetails = useProfileDetails();
 
   return (
     <div className="header justify-center">
       <div className="HeaderImage">
-        <img className="w-screen sm:h-[221px] h-[103px] object-cover" src={ProfileHeaderImg} />
+        {/* w-screen */}
+        <img className="w-full sm:h-[221px] h-[103px] object-cover" src={ProfileHeaderImg} />
       </div>
       <div className="userInfo">
         <div className="userImage flex justify-center sm:-mt-20 -mt-[70px]">
@@ -45,7 +34,7 @@ const ProfileHeader = ({ openSettings }) => {
           <div className="flex border-dark-gray border rounded-full py-[10px] sm:w-[340px] w-[257px]">
             <div className="distCycled flex flex-col justify-center font-medium items-center w-1/2 border-dark-gray border-r-[1px]">
               <div className="stats sm:text-[25px] text-[18.9px] flex justify-center sm:leading-[29px] leading-[22px] min-w-max">
-                {distance} KM
+                {profileDetails === null ? 0 : profileDetails.TotalDistance} KM
               </div>
               <div className="type flex justify-center sm:text-[12px] text-[9px] text-dark-gray sm:leading-[14px] leading-[11px]">
                 distance travelled
@@ -53,7 +42,7 @@ const ProfileHeader = ({ openSettings }) => {
             </div>
             <div className="durationCycled flex flex-col justify-center font-medium items-center w-1/2 border-dark-gray">
               <div className="stats sm:text-[25px] text-[18.9px] flex justify-center sm:leading-[29px] leading-[22px] min-w-max">
-                {time} MINS
+                {profileDetails === null ? 0 : profileDetails.TotalTime} MINS
               </div>
               <div className="type flex justify-center sm:text-[12px] text-[9px] text-dark-gray sm:leading-[14px] leading-[11px]">
                 duration cycled

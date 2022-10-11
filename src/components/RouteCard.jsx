@@ -9,6 +9,7 @@ import Map from "./Map";
 export default function RouteCard({ startPt, endPt, distance, timestamp, username, likes, id }) {
   const [starFilled, setStarFilled] = useState(false);
   const [heartFilled, setHeartFilled] = useState(false);
+  const [likeCount, setLikeCount] = useState(likes);
 
   const get_date = () => {
     const time = new Date(timestamp * 1000).toISOString();
@@ -31,6 +32,13 @@ export default function RouteCard({ startPt, endPt, distance, timestamp, usernam
     setStarFilled(!starFilled)
     if (starFilled) {
       // increment favourite here
+      try {
+        // const response = await axios.post("dsadsad", { routeId });
+        // const data = response.data;
+        // setLikeCount(data.likes);
+      } catch (error) {
+        console.error(error);
+      }
     } else {
       // decrement favourite here
     }
