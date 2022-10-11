@@ -34,7 +34,7 @@ const ProfileHeader = ({ openSettings }) => {
           <div className="flex border-dark-gray border rounded-full py-[10px] sm:w-[340px] w-[257px]">
             <div className="distCycled flex flex-col justify-center font-medium items-center w-1/2 border-dark-gray border-r-[1px]">
               <div className="stats sm:text-[25px] text-[18.9px] flex justify-center sm:leading-[29px] leading-[22px] min-w-max">
-                {profileDetails === null ? 0 : profileDetails.TotalDistance} KM
+                {profileDetails === null ? 0 : Math.round(profileDetails.TotalDistance/1000)} KM
               </div>
               <div className="type flex justify-center sm:text-[12px] text-[9px] text-dark-gray sm:leading-[14px] leading-[11px]">
                 distance travelled
@@ -42,7 +42,7 @@ const ProfileHeader = ({ openSettings }) => {
             </div>
             <div className="durationCycled flex flex-col justify-center font-medium items-center w-1/2 border-dark-gray">
               <div className="stats sm:text-[25px] text-[18.9px] flex justify-center sm:leading-[29px] leading-[22px] min-w-max">
-                {profileDetails === null ? 0 : profileDetails.TotalTime} MINS
+                {profileDetails === null ? 0 : Math.round(profileDetails.TotalTime/60)} MINS
               </div>
               <div className="type flex justify-center sm:text-[12px] text-[9px] text-dark-gray sm:leading-[14px] leading-[11px]">
                 duration cycled

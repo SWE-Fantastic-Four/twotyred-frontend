@@ -14,7 +14,7 @@ import ProfilePic from "../assets/ProfilePic.svg";
 import { urls } from "../constants/constants";
 import Map from "./Map";
 
-export default function RouteCard({ startPt, endPt, distance, timestamp, routeUsername, likes, id, isLiked, isFavourited }) {
+export default function RouteCard({ startPt, endPt, distance, timestamp, routeUsername, likes, id, isLiked, isFavourited, setFavouriteCount, refreshRoutes }) {
   const username = useSelector(state => state.auth.displayName);
   const [starFilled, setStarFilled] = useState(isFavourited);
   const [heartFilled, setHeartFilled] = useState(isLiked);
@@ -40,22 +40,32 @@ export default function RouteCard({ startPt, endPt, distance, timestamp, routeUs
 
   const starClickHandler = async () => {
     setStarFilled(!starFilled);
+    if (setFavouriteCount) {
+      setFavouriteCount((prevValue) => starFilled ? --prevValue : ++prevValue);
+    }
     const url = starFilled ? urls.backend + "/routes/unfavourite" : urls.backend + "/routes/favourite";
     try {
       const response = await axios.post(url, { user: username, route: id });
       console.log(response.data);
+      refreshRoutes();
     } catch (error) {
+      if (setFavouriteCount) {
+        setFavouriteCount((prevValue) => --prevValue);
+      }
       console.error(error);
     }
   };
   const heartClickHandler = async () => {
     setHeartFilled(!heartFilled);
+    setLikeCount((prevValue) => heartFilled ? --prevValue : ++prevValue);
     const url = heartFilled ? urls.backend + "/routes/unlike" : urls.backend + "/routes/like";
     try {
       const response = await axios.post(url, { username, routeId: id });
       const data = response.data;
       setLikeCount(data.newLikeCount);
+      refreshRoutes();
     } catch (error) {
+      setLikeCount((prevValue) => heartFilled ? ++prevValue : --prevValue);
       console.error(error);
     }
   };
