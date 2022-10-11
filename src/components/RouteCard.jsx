@@ -15,13 +15,13 @@ import { urls } from "../constants/constants";
 import Map from "./Map";
 import { useNavigate } from "react-router-dom";
 import P from "../constants/paths";
+import polyUtil from "polyline-encoded";
 
 export default function RouteCard({ startPt, endPt, distance, timestamp, routeUsername, likes, id, isLiked, isFavourited, setFavouriteCount, refreshRoutes, routeGeom, duration, intermediatePts }) {
   const username = useSelector(state => state.auth.displayName);
   const [starFilled, setStarFilled] = useState(isFavourited);
   const [heartFilled, setHeartFilled] = useState(isLiked);
   const [likeCount, setLikeCount] = useState(likes);
-
   const navigate = useNavigate();
 
   const clickHandler = () => {
@@ -146,7 +146,7 @@ export default function RouteCard({ startPt, endPt, distance, timestamp, routeUs
           <p className="endlocation mr-[3px]">
             {endPt.name} 
           </p>
-          <p className="ml-auto">| 5KM</p>
+          <p className="ml-auto">| {Math.round(distance/1000)}KM</p>
         </div>
         <div className="third flex mt-[11px]">
           <img
