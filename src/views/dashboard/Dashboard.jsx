@@ -16,7 +16,7 @@ const Dashboard = () => {
 
           <div className='everything else'>
             <Filter/>
-            <div className='Cards grid md:grid-cols-3 gap-4 z-0 mt-[10px] sm:grid-cols-1'>
+            <div className='Cards grid computer:grid-cols-3 gap-4 z-0 mt-[10px] phone:grid-cols-1 tablet:grid-cols-2'>
               <div>
                 <RouteCard className='z-0'likeCount={123901} />
               </div>
