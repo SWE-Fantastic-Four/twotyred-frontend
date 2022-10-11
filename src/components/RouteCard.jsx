@@ -12,6 +12,7 @@ import ProfilePic from "../assets/ProfilePic.svg";
 import Map from "./Map";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { urls } from "../constants/constants";
 
 export default function RouteCard({ likeCount, routeId }) {
   const [starFilled, setStarFilled] = useState(false);
@@ -21,44 +22,23 @@ export default function RouteCard({ likeCount, routeId }) {
 
   const starClickHandler = async () => {
     setStarFilled(!starFilled);
-    if (starFilled) {
-      try {
-        const response = await axios.post("https://SWE-Backend.chayhuixiang.repl.co/routes/favourite" , { user: username, route: routeId });
-        console.log(response.data);
-      }
-      catch (error) {
-        console.error(error);
-      }
-    } else {
-      try {
-        const response = await axios.post("https://SWE-Backend.chayhuixiang.repl.co/routes/unfavourite" , { user: username, route: routeId });
-        console.log(response.data);
-      }
-      catch (error) {
-        console.error(error);
-      }
+    const url = starFilled ? urls.backend + "/routes/favourite" : urls.backend + "/routes/unfavourite";
+    try {
+      const response = await axios.post(url, { user: username, route: routeId });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
     }
   };
   const heartClickHandler = async () => {
     setHeartFilled(!heartFilled);
-    if (heartFilled) {
-      try {
-        const response = await axios.post("https://SWE-Backend.chayhuixiang.repl.co/routes/like", { username, routeId });
-        const data = response.data;
-        setLikeState(data.newLikeCount);
-      }
-      catch (error) {
-        console.error(error);
-      }
-    } else {
-      try {
-        const response = await axios.post("https://SWE-Backend.chayhuixiang.repl.co/routes/unlike", { username, routeId });
-        const data = response.data;
-        setLikeState(data.newLikeCount);
-      }
-      catch (error) {
-        console.error(error);
-      }
+    const url = heartFilled ? urls.backend + "/routes/like" : urls.backend + "/routes/unlike";
+    try {
+      const response = await axios.post(url, { username, routeId });
+      const data = response.data;
+      setLikeState(data.newLikeCount);
+    } catch (error) {
+      console.error(error);
     }
   };
 
