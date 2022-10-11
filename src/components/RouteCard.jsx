@@ -9,22 +9,15 @@ import {
 } from "@heroicons/react/24/solid";
 import axios from "axios";
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import ProfilePic from "../assets/ProfilePic.svg";
 import { urls } from "../constants/constants";
 import Map from "./Map";
 
-export default function RouteCard({ startPt, endPt, distance, timestamp, username, likes, id, likedUsers, favouritedUsers }) {
-  function fsArrayInclude(fsArray, searchItem) {
-    for (let i = 0; i < fsArray.length; i++) {
-      if (fsArray[i] === searchItem) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  const [starFilled, setStarFilled] = useState(fsArrayInclude(favouritedUsers, username));
-  const [heartFilled, setHeartFilled] = useState(fsArrayInclude(likedUsers, username));
+export default function RouteCard({ startPt, endPt, distance, timestamp, routeUsername, likes, id, isLiked, isFavourited }) {
+  const username = useSelector(state => state.auth.displayName);
+  const [starFilled, setStarFilled] = useState(isFavourited);
+  const [heartFilled, setHeartFilled] = useState(isLiked);
   const [likeCount, setLikeCount] = useState(likes);
 
   const getDate = () => {
@@ -123,7 +116,7 @@ export default function RouteCard({ startPt, endPt, distance, timestamp, usernam
           />
           <div className="userinfo pt-[3px] pl-[5px]">
             <h1 className="name font-[Roboto] font-bold text-[12px] leading-[14px] text-black">
-              @{username}
+              @{routeUsername}
             </h1>
             <p className="date font-[Roboto] font-normal text-[10px] leading-[12px] text-[#6B6B6B]">
               {getDate()}

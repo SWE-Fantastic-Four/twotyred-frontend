@@ -3,10 +3,12 @@ import MainLayout from '../../layout/MainLayout';
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import RouteCard from '../../components/RouteCard';
 import { urls } from '../../constants/constants';
+import { useSelector } from 'react-redux';
 
 const Dashboard = () => {
   const [routes, showRoutes] = useState([]);
   const [routeOption] = useState(0); // 0 is for showing recent, 1 is for showing likes
+  const username = useSelector(state => state.auth.displayName);
 
   useEffect(() => {
     const obtainRoutes = async () => {
@@ -34,8 +36,8 @@ const Dashboard = () => {
         <div className="mt-[47px] flex">
           <span className="font-bold md:text-[64px] sm:text-[52px] text-[32px] mr-[10px]">Explore Routes</span>
           <MagnifyingGlassIcon className="md:w-[64px] sm:w-[52px] w-[32.45px] rotate-90 stroke-2" />
-          {routes.length && routes.map((route) => {
-            return (<RouteCard key={route.id} startPt={route.routeInfo.StartPt[0].name} endPt={route.routeInfo.EndPt[0].name} distance={route.routeInfo.Distance} timestamp={route.routeInfo.Timestamp._seconds} username={route.routeInfo.Username} likes={route.routeInfo.Likes} id={route.id} likedUsers={route.routeInfo.LikedUsers} favouritedUsers={route.routeInfo.FavouritedUsers}/>)
+          {routes.length > 0 && routes.map((route) => {
+            return (<RouteCard key={route.id} startPt={route.routeInfo.StartPt.name} endPt={route.routeInfo.EndPt.name} distance={route.routeInfo.Distance} timestamp={route.routeInfo.Timestamp._seconds} routeUsername={route.routeInfo.Username} likes={route.routeInfo.Likes} id={route.id} isLiked={route.routeInfo.LikedUsers.includes(username)} isFavourited={route.routeInfo.FavouritedUsers.includes(username)}/>)
           })}
         </div>
       </div>
