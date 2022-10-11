@@ -98,7 +98,7 @@ export default function RouteCard({ startPt, endPt, distance, timestamp, routeUs
   return (
     <div className="wholecard w-[337px] h-[328px] rounded-[5px] border-[2px] border-solid border-dark-gray shadow-lg hover:border-black hover:cursor-pointer min-w-[337px]" onClick={clickHandler}>
       <div className="map h-[216px] overflow-x-hidden">
-        <Map options={{ gestureHandling: 'none', disableDefaultUI: true }} />
+        <Map options={{ gestureHandling: 'none', disableDefaultUI: true }} routeGeom={routeGeom} />
       </div>
       <div className="stats w-[337px] h-[112px] pl-[15px] pr-[12px] pt-[12px] pb-[14px] flex flex-col">
         <div className="first flex justify-between items-center">

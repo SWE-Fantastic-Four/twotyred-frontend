@@ -229,12 +229,12 @@ const CreateRoute = () => {
   }
 
   const displayAlert = () => {
-    return alerts.map((alert) => {
+    return alerts.map((alert, i) => {
       switch (alert) {
         case 0:
           if (page === "1") {
             return (
-              <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} transition={{ type: "spring", stiffness: 260, damping: 20 }} className="sm:h-[43px] h-[34px] sm:w-[250px] w-[213px] bg-white rounded-[10px] text-black text-center flex items-center justify-center shadow-lg">
+              <motion.div key={i} initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} transition={{ type: "spring", stiffness: 260, damping: 20 }} className="sm:h-[43px] h-[34px] sm:w-[250px] w-[213px] bg-white rounded-[10px] text-black text-center flex items-center justify-center shadow-lg">
                 Route successfully saved!
               </motion.div>          
             )
@@ -243,7 +243,7 @@ const CreateRoute = () => {
         case 1:
           if (page === "1") {
             return (
-              <motion.div initial={{ scale: 0 }} animate={{ scale: 1}} exit={{ scale: 0 }} transition={{ type: "spring", stiffness: 260, damping: 20 }} className="sm:h-[43px] h-[34px] sm:w-[250px] w-[213px] bg-white rounded-[10px] text-black py-[6px] flex items-center sm:pl-[11px] pl-[14px] shadow-lg">
+              <motion.div key={i} initial={{ scale: 0 }} animate={{ scale: 1}} exit={{ scale: 0 }} transition={{ type: "spring", stiffness: 260, damping: 20 }} className="sm:h-[43px] h-[34px] sm:w-[250px] w-[213px] bg-white rounded-[10px] text-black py-[6px] flex items-center sm:pl-[11px] pl-[14px] shadow-lg">
                 <img src={Star} className="sm:w-[31px] w-[26px]" />
                 <p className="sm:ml-[19px] ml-[24px]">New route created!</p>
               </motion.div>
@@ -253,7 +253,7 @@ const CreateRoute = () => {
         case 2:
           if (page === "0") {
             return (
-              <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} className="sm:flex h-[43px] hidden items-center px-[28px] rounded-[10px] bg-[#EACDCD] text-[#AE3213] shadow-lg">
+              <motion.div key={i} initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} className="sm:flex h-[43px] hidden items-center px-[28px] rounded-[10px] bg-[#EACDCD] text-[#AE3213] shadow-lg">
                 Error: Failed to generate route
               </motion.div>
             )

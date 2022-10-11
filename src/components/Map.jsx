@@ -7,7 +7,7 @@ import { GoogleMap, LoadScript, Marker, Polyline } from '@react-google-maps/api'
 import { useEffect } from 'react';
 import polyUtil from 'polyline-encoded';
 
-const Map = ({ options, onClick, places, start, routeGeom="", center={lat: 1.363675, lng: 103.808922} }) => {
+const Map = ({ options, onClick, places, start, routeGeom="", center }) => {
   const zoom = 12;
   const apiKey = import.meta.env.VITE_MAPS_APIKEY === undefined ? "" : import.meta.env.VITE_MAPS_APIKEY;
   const latlngs = polyUtil.decode(routeGeom, {
@@ -19,16 +19,18 @@ const Map = ({ options, onClick, places, start, routeGeom="", center={lat: 1.363
   const [map, setMap] = useState(null);
 
   useEffect(() => {
-    if (map && window.google && start && !center) {
+    if (map && window.google && !center) {
       const bounds = new window.google.maps.LatLngBounds();
-      bounds.extend(new window.google.maps.LatLng(start.lat, start.lng));
-      places.forEach(place => {
-        bounds.extend(new window.google.maps.LatLng(place.lat, place.lng));
-      });
+      // bounds.extend(new window.google.maps.LatLng(start.lat, start.lng));
+      // places.forEach(place => {
+      //   bounds.extend(new window.google.maps.LatLng(place.lat, place.lng));
+      // });
+      routePoints.forEach((routePoint) => {
+        bounds.extend(new window.google.maps.LatLng(routePoint.lat, routePoint.lng));
+      })
       map.fitBounds(bounds);
-      // map.setZoom(zoom);
     }
-  },[]);
+  },[map]);
 
   return (
     <div className='h-full w-full'>
