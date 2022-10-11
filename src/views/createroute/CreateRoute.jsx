@@ -9,6 +9,8 @@ import GreenButton from './GreenButton';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import P from '../../constants/paths';
 import { useSelector } from 'react-redux';
+import Star from "../../assets/star.svg";
+import { AnimatePresence, motion } from 'framer-motion';
 
 const CreateRoute = () => {
   const location = useLocation();
@@ -20,6 +22,7 @@ const CreateRoute = () => {
   const [routeGeom, setRouteGeom] = useState("");
   const [routeDistance, setRouteDistance] = useState(0);
   const [routeDuration, setRouteDuration] = useState(0);
+  const [alerts, setAlerts] = useState([]); // [0,1,2] 0 = "Route successfully saved!", 1 = "New route created!", 2 = "Error: failed to generate route"
 
   const [distanceInput, setDistanceInput] = useState("");
   const [mobileDrawerShrunk, setMobileDrawerShrunk] = useState(true);
@@ -104,31 +107,75 @@ const CreateRoute = () => {
   }
 
   const generateHandler = async () =>{
-    let allPlaces = [start,...places];
-    const coordinates = allPlaces.map((place) => `${place.lat},${place.lng}`);
-    const options = {
-      headers:{
-        'Content-Type': 'application/json'
-      },
-      method: "POST",
-      body: JSON.stringify({'chosenLocations':coordinates})
-    };
-    const planRouteRes = await fetch(urls.backend + "/planroute", options);
-    const route = await planRouteRes.json()
-    const routeGeom = route.route_geometry;
-    const routeDistance = route.distance;
-    const routeDuration = route.duration;
-    navigate(P.CREATEROUTE + `?page=1&mode=${mode}`, {
-      state: {
-        routeInfo: {
-          routeGeom,
-          routeDistance,
-          routeDuration,
-          start,
-          places
+    try {
+      let routeGeom;
+      let routeDistance;
+      let routeDuration;
+      if (mode === "default") {
+        let allPlaces = [start,...places];
+        const coordinates = allPlaces.map((place) => `${place.lat},${place.lng}`);
+        const options = {
+          headers:{
+            'Content-Type': 'application/json'
+          },
+          method: "POST",
+          body: JSON.stringify({'chosenLocations':coordinates})
+        };
+        const planRouteRes = await fetch(urls.backend + "/planroute", options);
+        const route = await planRouteRes.json()
+        routeGeom = route.route_geometry;
+        routeDistance = route.distance;
+        routeDuration = route.duration;
+      } else {
+        if (isNaN(distanceInput)) {
+          throw new Error("Input not numeric");
         }
+        const options = {
+          headers: {
+            "Content-Type": "application/json"
+          },
+          method: "POST",
+          body: JSON.stringify({
+            starting_lat: start.lat,
+            starting_lng: start.lng,
+            target_dist: distanceInput
+          })
+        }
+        const planRouteRes = await fetch(urls.lucky, options);
+        const route = await planRouteRes.json();
+        console.log(route);
+        routeGeom = route.route_geom;
+        routeDistance = route.distance;
+        routeDuration = 0; // TODO: CHANGE THIS ACC TO API
+        const endPt = route.end_pt;
+        endPt.id = `${endPt.lat},${endPt.lng}`;
+        endPt.name = endPt.pt_address;
+        delete endPt.pt_address;
+        setPlaces([endPt]);
       }
-    })
+      navigate(P.CREATEROUTE + `?page=1&mode=${mode}`, {
+        state: {
+          routeInfo: {
+            routeGeom,
+            routeDistance,
+            routeDuration,
+            start,
+            places
+          }
+        }
+      })
+      setAlerts([...alerts,1]);
+      setTimeout(() => {
+        setAlerts((prevAlerts) => prevAlerts.slice(1));
+      }, 5000);
+    } catch (error) {
+      // TODO: error handling
+      console.error(error.message);
+      setAlerts([...alerts,2]);
+      setTimeout(() => {
+        setAlerts((prevAlerts) => prevAlerts.slice(1));
+      }, 5000);
+    }
   }
 
   const saveRouteHandler = async() => {
@@ -144,7 +191,7 @@ const CreateRoute = () => {
           distance: routeDistance,
           duration: routeDuration,
           likes: 0,
-          intermediatePts: places,
+          intermediatePts: mode === "default" ? places : [],
           startPt: start,
           endPt: places[places.length - 1]
         })
@@ -153,9 +200,13 @@ const CreateRoute = () => {
       if (!response.ok) {
         throw new Error(await response.text());
       }
+      setAlerts([...alerts,0]);
+      setTimeout(() => {
+        setAlerts((prevAlerts) => prevAlerts.slice(1));
+      }, 5000);
     } catch (error) {
       // TODO: go to error page
-      console.error(error);
+      console.error(error.message);
     }
   }
 
@@ -177,12 +228,62 @@ const CreateRoute = () => {
     }
   }
 
+  const displayAlert = () => {
+    return alerts.map((alert) => {
+      switch (alert) {
+        case 0:
+          if (page === "1") {
+            return (
+              <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} transition={{ type: "spring", stiffness: 260, damping: 20 }} className="sm:h-[43px] h-[34px] sm:w-[250px] w-[213px] bg-white rounded-[10px] text-black text-center flex items-center justify-center shadow-lg">
+                Route successfully saved!
+              </motion.div>          
+            )
+          } else return;
+
+        case 1:
+          if (page === "1") {
+            return (
+              <motion.div initial={{ scale: 0 }} animate={{ scale: 1}} exit={{ scale: 0 }} transition={{ type: "spring", stiffness: 260, damping: 20 }} className="sm:h-[43px] h-[34px] sm:w-[250px] w-[213px] bg-white rounded-[10px] text-black py-[6px] flex items-center sm:pl-[11px] pl-[14px] shadow-lg">
+                <img src={Star} className="sm:w-[31px] w-[26px]" />
+                <p className="sm:ml-[19px] ml-[24px]">New route created!</p>
+              </motion.div>
+            )
+          } else return;
+
+        case 2:
+          if (page === "0") {
+            return (
+              <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} className="sm:flex h-[43px] hidden items-center px-[28px] rounded-[10px] bg-[#EACDCD] text-[#AE3213] shadow-lg">
+                Error: Failed to generate route
+              </motion.div>
+            )
+          } else return;
+      }
+    });
+  }
+
   return (
     <MainLayout>
       {/* w-screen */}
       <div className="sm:h-[calc(100vh-98px)] h-[calc(100vh-53px)] w-full relative">
         {displayPage()}
-        {places.length > 0 && page === "0" && <GreenButton className="absolute bottom-0 right-0 z-10 m-[10px] flex sm:hidden" onClick={generateHandler}>Generate Route</GreenButton>}
+        <div className="absolute z-10 sm:right-0 sm:left-auto left-0 top-0 sm:mt-[11px] mt-[8px] sm:mr-[20px] ml-[10px] flex flex-col gap-[10px] font-medium sm:text-[20px] text-[16px] sm:items-end items-start">
+          <AnimatePresence>
+            {displayAlert()}
+          </AnimatePresence>
+        </div>
+        {/* <div>
+          {page === "0" && places.length > 0 && alerts.filter(alert => alert === 2).length > 0 && <div>Fuck</div>}
+        </div> */}
+        {places.length > 0 && page === "0" && 
+          <div className="absolute bottom-0 right-0 z-10 m-[10px] flex flex-col sm:hidden gap-[12px] items-end">
+            {alerts.filter(alert => alert === 2).length > 0 && alerts.filter(alert => alert === 2).map((_,i) => <motion.div key={i} initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} className="flex h-[39px] items-center px-[28px] rounded-[10px] bg-[#EACDCD] text-[#AE3213] text-[18px] shadow-lg font-medium">
+              Error: Failed to generate route
+            </motion.div>)
+            }
+            <GreenButton className="w-[175px]" onClick={generateHandler}>Generate Route</GreenButton>
+          </div>
+        }
         <div className="h-full w-full">
           <Map onClick={clickHandler} places={places} start={start} options={{disableDefaultUI: true}} routeGeom={page === "1" ? routeGeom : ""} center={mapCenter} />
         </div>

@@ -85,6 +85,7 @@ const ProfileBody = ({ className }) => {
               key={route.id}
               startPt={route.routeInfo.StartPt.name}
               endPt={route.routeInfo.EndPt.name}
+              intermediatePts={route.routeInfo.IntermediatePts}
               distance={route.routeInfo.Distance}
               timestamp={route.routeInfo.Timestamp._seconds}
               username={route.routeInfo.Username}
@@ -96,6 +97,8 @@ const ProfileBody = ({ className }) => {
               isFavourited={route.routeInfo.FavouritedUsers.includes(username)}
               setFavouriteCount={updateFavouriteCount}
               refreshRoutes={obtainRoutes}
+              routeGeom={route.routeInfo.Geometry}
+              duration={route.routeInfo.Duration}
             />
           );
         })}
@@ -107,6 +110,7 @@ const ProfileBody = ({ className }) => {
               key={route.id}
               startPt={route.routeInfo.StartPt.name}
               endPt={route.routeInfo.EndPt.name}
+              intermediatePts={route.routeInfo.IntermediatePts}
               distance={route.routeInfo.Distance}
               timestamp={route.routeInfo.Timestamp._seconds}
               username={route.routeInfo.Username}
@@ -118,6 +122,8 @@ const ProfileBody = ({ className }) => {
               isFavourited={route.routeInfo.FavouritedUsers.includes(username)}
               setFavouriteCount={updateFavouriteCount}
               refreshRoutes={obtainRoutes}
+              routeGeom={route.routeInfo.Geometry}
+              duration={route.routeInfo.Duration}
             />
           );
         })}

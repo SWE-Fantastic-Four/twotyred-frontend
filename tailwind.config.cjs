@@ -22,8 +22,8 @@ module.exports = {
     screens: {
       xs: "480px",
       phone: { min: "640px", max: "882px" },
-      computer: { min: "1212px", max: "1279px" },
       tablet: { min: "882px", max: "1212px" },
+      computer: { min: "1212px" },
       ...defaultTheme.screens,
     },
   },
