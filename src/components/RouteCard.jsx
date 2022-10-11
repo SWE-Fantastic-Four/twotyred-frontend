@@ -39,9 +39,9 @@ export default function RouteCard({ startPt, endPt, distance, timestamp, usernam
 
   const starClickHandler = async () => {
     setStarFilled(!starFilled);
-    const url = starFilled ? urls.backend + "/routes/favourite" : urls.backend + "/routes/unfavourite";
+    const url = starFilled ? urls.backend + "/routes/unfavourite" : urls.backend + "/routes/favourite";
     try {
-      const response = await axios.post(url, { user: username, route: routeId });
+      const response = await axios.post(url, { user: username, route: id });
       console.log(response.data);
     } catch (error) {
       console.error(error);
@@ -49,11 +49,11 @@ export default function RouteCard({ startPt, endPt, distance, timestamp, usernam
   };
   const heartClickHandler = async () => {
     setHeartFilled(!heartFilled);
-    const url = heartFilled ? urls.backend + "/routes/like" : urls.backend + "/routes/unlike";
+    const url = heartFilled ? urls.backend + "/routes/unlike" : urls.backend + "/routes/like";
     try {
-      const response = await axios.post(url, { username, routeId });
+      const response = await axios.post(url, { username, routeId: id });
       const data = response.data;
-      setLikeState(data.newLikeCount);
+      setLikeCount(data.newLikeCount);
     } catch (error) {
       console.error(error);
     }
@@ -95,7 +95,7 @@ export default function RouteCard({ startPt, endPt, distance, timestamp, usernam
               )}
             </button>
             <h1 className="totalLikes flex justify-start mt-2 font-bold text-[20px]">
-              {likes}
+              {likeCount}
             </h1>
           </div>
         </div>
