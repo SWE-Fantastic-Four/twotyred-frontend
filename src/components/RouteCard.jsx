@@ -13,12 +13,31 @@ import { useSelector } from "react-redux";
 import ProfilePic from "../assets/ProfilePic.svg";
 import { urls } from "../constants/constants";
 import Map from "./Map";
+import { useNavigate } from "react-router-dom";
+import P from "../constants/paths";
 
-export default function RouteCard({ startPt, endPt, distance, timestamp, routeUsername, likes, id, isLiked, isFavourited, setFavouriteCount, refreshRoutes }) {
+export default function RouteCard({ startPt, endPt, distance, timestamp, routeUsername, likes, id, isLiked, isFavourited, setFavouriteCount, refreshRoutes, routeGeom, duration, intermediatePts }) {
   const username = useSelector(state => state.auth.displayName);
   const [starFilled, setStarFilled] = useState(isFavourited);
   const [heartFilled, setHeartFilled] = useState(isLiked);
   const [likeCount, setLikeCount] = useState(likes);
+
+  const navigate = useNavigate();
+
+  const clickHandler = () => {
+    const mode = intermediatePts && intermediatePts.length === 0 ? "lucky" : "default"
+    navigate(P.CREATEROUTE + `?page=1&mode=${mode}`, {
+      state: {
+        routeInfo: {
+          routeGeom,
+          routeDistance: distance,
+          routeDuration: duration,
+          start: startPt,
+          places: intermediatePts
+        }
+      }
+    })
+  }
 
   const getDate = () => {
     const time = new Date(timestamp * 1000).toISOString();
@@ -38,7 +57,8 @@ export default function RouteCard({ startPt, endPt, distance, timestamp, routeUs
     return routeName;
   }
 
-  const starClickHandler = async () => {
+  const starClickHandler = async (e) => {
+    e.stopPropagation();
     setStarFilled(!starFilled);
     if (setFavouriteCount) {
       setFavouriteCount((prevValue) => starFilled ? --prevValue : ++prevValue);
@@ -57,7 +77,8 @@ export default function RouteCard({ startPt, endPt, distance, timestamp, routeUs
       console.error(error);
     }
   };
-  const heartClickHandler = async () => {
+  const heartClickHandler = async (e) => {
+    e.stopPropagation();
     setHeartFilled(!heartFilled);
     setLikeCount((prevValue) => heartFilled ? --prevValue : ++prevValue);
     const url = heartFilled ? urls.backend + "/routes/unlike" : urls.backend + "/routes/like";
@@ -75,7 +96,7 @@ export default function RouteCard({ startPt, endPt, distance, timestamp, routeUs
   };
 
   return (
-    <div className="wholecard w-[337px] h-[328px] rounded-[5px] border-[2px] border-solid border-dark-gray shadow-lg hover:border-black hover:cursor-pointer min-w-[337px]">
+    <div className="wholecard w-[337px] h-[328px] rounded-[5px] border-[2px] border-solid border-dark-gray shadow-lg hover:border-black hover:cursor-pointer min-w-[337px]" onClick={clickHandler}>
       <div className="map h-[216px] overflow-x-hidden">
         <Map options={{ gestureHandling: 'none', disableDefaultUI: true }} />
       </div>
@@ -116,11 +137,11 @@ export default function RouteCard({ startPt, endPt, distance, timestamp, routeUs
         </div>
         <div className="second flex pt-[5px] pl-[15px]">
           <p className="startlocation font-[Roboto] font-normal text-[10px] leading-[12px] text-[#6B6B6B]">
-            {startPt}
+            {startPt.name}
           </p>
           <ArrowRightIcon className="arrow w-[11.26px] h-[12] mx-[2px]" />
           <p className="endlocation font-[Roboto] font-normal text-[10px] leading-[12px] text-[#6B6B6B]">
-            {endPt} | {distance / 1000}KM
+            {endPt.name} | {distance / 1000}KM
           </p>
         </div>
         <div className="third flex pl-[15px] pt-[8px]">
