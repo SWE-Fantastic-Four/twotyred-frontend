@@ -10,10 +10,14 @@ export default function RouteCard({ startPt, endPt, distance, timestamp, usernam
   const [starFilled, setStarFilled] = useState(false);
   const [heartFilled, setHeartFilled] = useState(false);
 
-  const time = new Date(timestamp * 1000).toISOString();
-  const year = time.slice(0, 4);
-  const month = time.slice(5, 7);
-  const day = time.slice(8, 10);
+  const get_date = () => {
+    const time = new Date(timestamp * 1000).toISOString();
+    const year = time.slice(0, 4);
+    const month = time.slice(5, 7);
+    const day = time.slice(8, 10);
+    return (`${year}/${month}/${day}`)
+  }
+
 
   const name = id.slice(-3);
   let routeName = "";
@@ -101,7 +105,7 @@ export default function RouteCard({ startPt, endPt, distance, timestamp, usernam
               @{username}
             </h1>
             <p className="date font-[Roboto] font-normal text-[10px] leading-[12px] text-[#6B6B6B]">
-              {year}/{month}/{day}
+              {get_date()}
             </p>
           </div>
         </div>
