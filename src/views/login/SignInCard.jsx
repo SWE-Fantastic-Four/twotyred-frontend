@@ -41,7 +41,7 @@ const SignInCard = ({ links }) => {
   return (
     <>
       <p className="sm:mb-[7px] mb-[2px] font-extralight sm:text-[32px] text-[26px]">Sign In</p>
-      <p className="sm:mb-[10px] font-extralight sm:text-[20px] text-[15px] text-[#C52424] sm:h-[23px] h-[18px]">{errorMsg}</p>
+    <p className="sm:mb-[10px] font-extralight sm:text-[20px] text-[15px] text-[#C52424] sm:h-[23px] h-[18px]">{errorMsg}</p>
       <form className="flex flex-col" onSubmit={loginHandler}>
         <div className="flex flex-col sm:gap-[20px] gap-[15px]">
           <LoginInput placeholder="enter email address" type="email" name="email" onChange={inputHandler} value={email} />

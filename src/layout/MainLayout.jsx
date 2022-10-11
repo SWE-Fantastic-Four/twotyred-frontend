@@ -7,15 +7,12 @@ import MainHeaderDisabled from './MainHeaderDisabled';
 const MainLayout = ({ children }) => {
   const location = useLocation();
   return (
-    <div>
+    <div className="w-full">
       {location.pathname === P.LOGIN ? <MainHeaderDisabled /> : <MainHeader />}
-      <div className="flex flex-col justify-center items-center">
-        <div className={`${location.pathname === P.PROFILE || location.pathname === P.CREATEROUTE ? "" : "max-w-[var(--max-screen-width)]"}`}>
+      <div className="flex flex-col justify-center items-center w-full">
+        <div className={`w-full ${location.pathname === P.PROFILE || location.pathname === P.CREATEROUTE ? "" : "max-w-[var(--max-screen-width)]"}`}>
           {children}
         </div>
-        {/* <div className={`${location.pathname === P.DASHBOARD || location.pathname === P.LOGIN || location.pathname === P.PROFILE ? "max-w-[var(--max-screen-width)]" : ""}`}>
-          {children}
-        </div> */}
       </div>
     </div>
   )
