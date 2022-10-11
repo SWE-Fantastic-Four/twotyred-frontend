@@ -1,10 +1,18 @@
 import {
-  ArrowRightIcon, HeartIcon, StarIcon
+  ArrowRightIcon,
+  HeartIcon,
+  StarIcon,
 } from "@heroicons/react/24/outline";
-import { HeartIcon as HeartIconSolid, StarIcon as StarIconSolid } from "@heroicons/react/24/solid";
+import {
+  HeartIcon as HeartIconSolid,
+  StarIcon as StarIconSolid,
+} from "@heroicons/react/24/solid";
 import React, { useState } from "react";
 import ProfilePic from "../assets/ProfilePic.svg";
 import Map from "./Map";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { urls } from "../constants/constants";
 
 export default function RouteCard({ startPt, endPt, distance, timestamp, username, likes, id }) {
   const [starFilled, setStarFilled] = useState(false);
@@ -29,29 +37,27 @@ export default function RouteCard({ startPt, endPt, distance, timestamp, usernam
     return routeName;
   }
 
-  const starClickHandler = () => {
-    setStarFilled(!starFilled)
-    if (starFilled) {
-      // increment favourite here
-      try {
-        // const response = await axios.post("dsadsad", { routeId });
-        // const data = response.data;
-        // setLikeCount(data.likes);
-      } catch (error) {
-        console.error(error);
-      }
-    } else {
-      // decrement favourite here
+  const starClickHandler = async () => {
+    setStarFilled(!starFilled);
+    const url = starFilled ? urls.backend + "/routes/favourite" : urls.backend + "/routes/unfavourite";
+    try {
+      const response = await axios.post(url, { user: username, route: routeId });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
     }
-  }
-  const heartClickHandler = () => {
-    setHeartFilled(!heartFilled)
-    if (heartFilled) {
-      // increment likes here
-    } else {
-      // decrement likes here
+  };
+  const heartClickHandler = async () => {
+    setHeartFilled(!heartFilled);
+    const url = heartFilled ? urls.backend + "/routes/like" : urls.backend + "/routes/unlike";
+    try {
+      const response = await axios.post(url, { username, routeId });
+      const data = response.data;
+      setLikeState(data.newLikeCount);
+    } catch (error) {
+      console.error(error);
     }
-  }
+  };
 
   return (
     <div className="wholecard w-[337px] h-[328px] rounded-[5px] border-[2px] border-solid border-dark-gray shadow-lg hover:border-black hover:cursor-pointer">
@@ -78,17 +84,15 @@ export default function RouteCard({ startPt, endPt, distance, timestamp, usernam
             </button>
             {/* heart button */}
             <button onClick={heartClickHandler}>
-              {
-                heartFilled ? (
-                  <HeartIconSolid
-                    className={`heart stroke-[3] mt-[7px] h-[19px] pl-[4px] pr-[4px] text-red-600`}
-                  />
-                ) : (
-                  <HeartIcon
-                    className={`heart stroke-[3] mt-[7px] h-[19px] pl-[4px] pr-[4px] text-black`}
-                  />
-                )
-              }
+              {heartFilled ? (
+                <HeartIconSolid
+                  className={`heart stroke-[3] mt-[7px] h-[19px] pl-[4px] pr-[4px] text-red-600`}
+                />
+              ) : (
+                <HeartIcon
+                  className={`heart stroke-[3] mt-[7px] h-[19px] pl-[4px] pr-[4px] text-black`}
+                />
+              )}
             </button>
             <h1 className="totalLikes flex justify-start mt-2 font-bold text-[20px]">
               {likes}
