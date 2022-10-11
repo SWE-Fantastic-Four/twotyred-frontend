@@ -47,7 +47,9 @@ export default function RouteCard({ startPt, endPt, distance, timestamp, routeUs
     try {
       const response = await axios.post(url, { user: username, route: id });
       console.log(response.data);
-      refreshRoutes();
+      if (refreshRoutes) {
+        refreshRoutes();
+      }
     } catch (error) {
       if (setFavouriteCount) {
         setFavouriteCount((prevValue) => --prevValue);
@@ -63,7 +65,9 @@ export default function RouteCard({ startPt, endPt, distance, timestamp, routeUs
       const response = await axios.post(url, { username, routeId: id });
       const data = response.data;
       setLikeCount(data.newLikeCount);
-      refreshRoutes();
+      if (refreshRoutes) {
+        refreshRoutes();
+      }
     } catch (error) {
       setLikeCount((prevValue) => heartFilled ? ++prevValue : --prevValue);
       console.error(error);
