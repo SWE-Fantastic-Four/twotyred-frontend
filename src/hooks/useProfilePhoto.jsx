@@ -1,26 +1,31 @@
-import React, { useState, useEffect } from 'react'
-import { getAuth } from 'firebase/auth'
+import React, { useEffect, useState } from 'react'
 import { getStorage, getDownloadURL, ref } from 'firebase/storage'
+import { useSelector } from 'react-redux'
+import { updateProfile } from 'firebase/auth'
 import AvatarImage from "../assets/AvatarImage.png"
 
 const useProfilePhoto = () => {
-  const auth = getAuth;
   const storage = getStorage();
-  
-  const [imageSrc, setImageSrc] = useState(AvatarImage)
+  const photoUrl = useSelector(state => state.auth.photoUrl);
+  const [profileSrc, setProfileSrc] = useState(AvatarImage);
 
   useEffect(() => {
     const updateProfileImage = async () => {
-      const photoUrl = auth.currentUser.photoURL;
       if (photoUrl) {
-        const url = await getDownloadURL(ref(storage, photoUrl));
-        setImageSrc(url);
+        try {
+          const url = await getDownloadURL(ref(storage, photoUrl));
+          setProfileSrc(url);
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        setProfileSrc(AvatarImage);
       }
     }
     updateProfileImage();
-  },[auth.currentUser.photoURL]);
+  },[photoUrl]);
 
-  return imageSrc;
+  return profileSrc;
 }
 
 export default useProfilePhoto

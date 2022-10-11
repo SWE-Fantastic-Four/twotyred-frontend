@@ -3,8 +3,8 @@ import { ChevronDownIcon, ChevronLeftIcon } from "@heroicons/react/24/outline";
 import { Transition, Disclosure } from "@headlessui/react";
 import { getAuth, signOut } from "firebase/auth";
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, NavLink, useLocation, useSearchParams } from 'react-router-dom';
 import CreateSpeechBtmDark from "../assets/CreateSpeechBtmDark.svg";
 import CreateSpeechTopDark from "../assets/CreateSpeechTopDark.svg";
 import Menu from "../assets/Menu.svg";
@@ -13,21 +13,21 @@ import ProfileSpeechTopDark from "../assets/ProfileSpeechTopDark.svg";
 import P from '../constants/paths';
 import { logout } from '../store/auth';
 import AvatarIcon from "../components/AvatarIcon";
-import AvatarImage from "../assets/AvatarImage.png";
+import useProfilePhoto from "../hooks/useProfilePhoto";
 
 const MainHeader = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const auth = getAuth();
-  const username = auth.currentUser.displayName;
-  const displayImage = auth.currentUser.photoURL;
+  const [searchParams] = useSearchParams();
+
+  const username = useSelector(state => state.auth.displayName);
+  
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const profilePhoto = useProfilePhoto();
 
   const pathname = location.pathname;
-  let state = null;
-  if (pathname === P.CREATEROUTE) {
-    state = location.state.mode;
-  }
+  const state = searchParams.get("mode");
 
   let mobileNavbarText;
   switch (pathname) {
@@ -63,7 +63,7 @@ const MainHeader = () => {
       <nav className="hidden sm:flex w-full justify-center shadow-lg h-[98px] sticky top-0 bg-white z-50">
         <div className="flex flex-row-reverse items-center max-w-[var(--max-screen-width)] w-full text-dark-gray text-[24px] font-medium">
           <div className="hover:border-b-[3px] h-full mr-[24px] flex items-center border-dark-gray relative group">
-            <div className={`${pathname === P.PROFILE ? "border-2 border-black" : "border"} rounded-full h-[50px] w-[50px]`} />
+            <img className={`${pathname === P.PROFILE ? "border-2 border-black" : "border"} rounded-full h-[50px] w-[50px]`} src={profilePhoto} />
             <div className="absolute top-[81px] transition-all opacity-0 scale-90 group-hover:scale-100 group-hover:opacity-100 w-[218px] h-[171px] right-0 translate-x-[12px] flex flex-col bg-[url('assets/ProfileSpeech.svg')]">
               <div className="h-[64px] w-[202px] mt-[32px] mx-auto">
                 <Link to={P.PROFILE} className="h-full w-full hover:text-black cursor-pointer flex items-center justify-center peer">Profile</Link>
@@ -79,11 +79,11 @@ const MainHeader = () => {
             <p>Create New Route</p>
             <div className="absolute top-[81px] transition-all opacity-0 scale-90 group-hover:scale-100 group-hover:opacity-100 w-[242px] h-[171px] left-1/2 -translate-x-1/2 flex flex-col bg-[url('assets/CreateSpeech.svg')] ">
               <div className="h-[64px] w-[226px] mt-[32px] mx-auto" >
-                <NavLink to={P.CREATEROUTE} state={{mode: "default"}} className="h-full w-full hover:text-black cursor-pointer flex items-center justify-center peer">Customise Route</NavLink>
+                <NavLink to={P.CREATEROUTE + "?page=0&mode=default"} className="h-full w-full hover:text-black cursor-pointer flex items-center justify-center peer">Customise Route</NavLink>
                 <img src={CreateSpeechTopDark} className="absolute left-1/2 -translate-x-1/2 invisible peer-hover:visible top-[6px] -z-10" />
               </div>
               <div className="h-[64px] w-[226px] mx-auto">
-                <NavLink to={P.CREATEROUTE} state={{mode: "lucky"}} className="h-full w-full flex items-center justify-center peer hover:text-black cursor-pointer">I'm Feeling Lucky</NavLink>
+                <NavLink to={P.CREATEROUTE + "?page=0&mode=lucky"} className="h-full w-full flex items-center justify-center peer hover:text-black cursor-pointer">I'm Feeling Lucky</NavLink>
                 <img src={CreateSpeechBtmDark} className="absolute left-1/2 -translate-x-1/2 invisible peer-hover:visible top-[98px] -z-10" />
               </div>
             </div>
@@ -114,7 +114,7 @@ const MainHeader = () => {
           <ChevronLeftIcon className="absolute right-0 top-0 text-dark-gray stroke-2 cursor-pointer" height={25} width={25} onClick={() => setShowMobileMenu(false)}/>
           <div>
             <Link to={P.PROFILE} className="flex flex-col items-center max-w-max">
-              <AvatarIcon className="mt-[20px]" size="[105.24px]" src={displayImage === null ? AvatarImage : displayImage} />
+              <AvatarIcon className="mt-[20px] h-[139px] w-[139px]" src={profilePhoto} />
               <p className="mt-[10px] font-medium text-[18.93px]">@{username}</p>
             </Link>
             <div className="border-t w-[236.36px] mt-[17.5px] py-[16px] font-medium">
@@ -138,8 +138,8 @@ const MainHeader = () => {
                       leaveTo="-translate-y-4 opacity-50"
                     >
                       <Disclosure.Panel>
-                        <Link to={P.CREATEROUTE} state={{mode: "default"}} className={`block text-[20px] mt-[20px] w-[215px] pl-[8px] py-[5px] ${state === "default" ? "bg-light-gray" : "bg-white"} rounded-[10px]`}>Customise Route</Link>
-                        <Link to={P.CREATEROUTE} state={{mode: "lucky"}} className={`block text-[20px] mt-[8px] w-[215px] pl-[8px] py-[5px] ${state === "lucky" ? "bg-light-gray" : "bg-white"} rounded-[10px]`}>I'm Feeling Lucky</Link>
+                        <Link to={P.CREATEROUTE + "?page=0&mode=default"} className={`block text-[20px] mt-[20px] w-[215px] pl-[8px] py-[5px] ${state === "default" ? "bg-light-gray" : "bg-white"} rounded-[10px]`}>Customise Route</Link>
+                        <Link to={P.CREATEROUTE + "?page=0&mode=lucky"} className={`block text-[20px] mt-[8px] w-[215px] pl-[8px] py-[5px] ${state === "lucky" ? "bg-light-gray" : "bg-white"} rounded-[10px]`}>I'm Feeling Lucky</Link>
                       </Disclosure.Panel>
                     </Transition>
                   </>

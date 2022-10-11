@@ -1,75 +1,99 @@
-import React from 'react'
-import location from "../../assets/location.svg";
-import green from "../../assets/green.svg";
-import search from "../../assets/search.svg";
+import React, { useState } from "react";
 import cross from "../../assets/cross.svg";
+import green from "../../assets/green.svg";
+import location from "../../assets/location.svg";
+import search from "../../assets/search.svg";
+import DistanceMarker from "../../assets/DistanceMarker.svg";
+import GreenButton from "./GreenButton";
 
-const SmallBox = ({ children, className }) => {
+const SmallBox = ({ children, className, onClick }) => {
   return (
     <button
-      className={`flex flex-row gap-[20px] items-center rounded-[10px] w-full px-[20px] py-[14px] hover:px-[19px] hover:py-[13px] bg-white text-[20px] text-[#0c0c0c] leading-[23px] box-border hover:border ${className}`}
+      className={`flex items-center rounded-[10px] sm:h-[51px] h-[42px] w-full sm:pl-[10px] pl-[8px] bg-white sm:text-[20px] hover:border hover:pl-[9px] shadow-lg pr-[23px] hover:pr-[22px] ${className}`}
+      onClick={onClick}
     >
       {children}
     </button>
   );
 };
 
-const PointsBox = ({ children, className }) => {
-  return (
-    <button
-      className={`flex gap-[23px] flex-row items-center rounded-[10px] w-full px-[20px] py-[14px] bg-white text-[20px] text-[#0c0c0c] leading-[23px] box-border hover:border hover:px-[19px] hover:py-[13px] ${className}`}
-    >
-      {children}
-    </button>
-  );
-};
+const RouteSelection = ({ places, removeItem, setSelection, selection, start, onGenerate, mode, distanceInput, setDistanceInput }) => {
+  const placesList = places.map((place) => (
+    <div key={place.id} className="flex flex-row bg-white rounded-[10px] sm:h-[51px] h-[42px] items-center sm:pl-[10px] pl-[8px] sm:pr-[25px] pr-[20px] hover:border sm:hover:pl-[9px] sm:hover:pr-[24px] hover:pl-[7px] hover:pr-[19px] cursor-default">
+      <div className="sm:w-[40px] sm:h-[40px] w-[33px] h-[33px] flex justify-center items-center">
+        <img
+          src={location}
+          className="sm:h-[40px] h-[34px]"
+        />
+      </div>
+      <p className="sm:ml-[20px] ml-[16px] overflow-ellipsis whitespace-nowrap w-[75%] overflow-hidden text-left">
+        {place.name}
+      </p>
+      <img
+        className="ml-auto cursor-pointer"
+        src={cross}
+        onClick={() => removeItem(places.indexOf(place))}
+      />
+    </div>
+  ));
 
-const SmallButton = ({ children, className}) => {
-  return (
-    <button
-      className={`flex justify-center w-[203px] h-[55px] items-center px-[10px] py-[6px] rounded-[4px] bg-[#70C174] text-[20px]  text-[#ffffff] leading-[23px] box-border hover:border hover:py-[5px] hover:px-[9px] ${className}`}
-    >
-      {children}
-    </button>
-  );
-};
-
-const RouteSelection = () => {
   return (
     <>
-      <div className="flex flex-col m-[10px] h-[593px] w-[387px] bg-[#918d8db4] px-[12px] py-[14px] rounded-[10px] overflow-hidden">
-        <div className="flex flex-col gap-[25px]">
-          <div>
-            <SmallBox>
-              <img src={green} className="h-[40px] mt-[-9px] mb-[-9px]" />
-              Taman Jurong Food Centre
+      <div
+        className={`flex flex-col sm:w-[387px] w-full text-[20px] ${
+          start !== null && "sm:bg-[#918d8db4] sm:h-full"
+        } sm:px-[12px] sm:py-[14px] py-[8px] rounded-[10px] overflow-hidden`}
+      >
+        <div className="flex flex-col sm:gap-[25px] gap-[20px]">
+          <button className={`flex bg-white sm:h-[51px] h-[42px] rounded-[10px] items-center sm:pl-[10px] pl-[8px] sm:pr-[25px] pr-[20px] hover:border hover:pl-[9px] ${selection === 0 ? "border-2 sm:pl-[8px] hover:border-2 sm:hover:pl-[8px] pl-[6px] hover:pl-[6px]" : ""}`} onClick={() => setSelection(0)}>
+            <div className="sm:h-[40px] sm:w-[40px] w-[33px] h-[33px] flex items-center justify-center">
+              <img
+                src={start === null ? search : green}
+                className="sm:h-[40px] h-[32px]"
+              />
+            </div>
+            <p className="sm:ml-[20px] ml-[16px] overflow-ellipsis whitespace-nowrap w-[75%] overflow-hidden text-left">
+              {start === null ? "Enter Start Point" : start.name}
+            </p>
+          </button>
+          {mode === "default" && placesList}
+          {(start !== null) && (mode === "default" ? (
+            <SmallBox
+              onClick={() => setSelection(1)}
+              className={selection === 1 ? "border-2 sm:pl-[7.5px] hover:border-2 sm:hover:pl-[7.5px] pl-[5.5px] hover:pl-[5.5px]" : ""}
+            >
+              <div className="sm:w-[40px] sm:h-[40px] w-[33px] h-[33px] flex items-center justify-center">
+                <img
+                  src={search}
+                  className="sm:h-[40px] h-[28px]"
+                />
+              </div>
+              <p className="sm:ml-[20px] ml-[16px] text-dark-gray">Add destination</p>
             </SmallBox>
-          </div>
-          <div className="justify-between">
-            <PointsBox>  
-              <div className="flex flex-grow-0"><img src={location} className="h-[40px] mt-[-9px] mb-[-9px]" /></div>
-              <div className="flex flex-grow"><p>Jurong Lake Gardens </p></div>
-              <div className="flex flex-grow-1"><img src={cross} className="" /></div>
-            </PointsBox>
-          </div>
-          <div className="flex justify-between flex-row">
-            <PointsBox>
-              <div className="flex flex-grow-0"><img src={location} className="h-[40px] mt-[-9px] mb-[-9px]" /></div>
-              <div className="flex flex-grow"><p>Boon Lay Place Market </p></div>
-              <div className="flex flex-grow-1"><img src={cross} className="" /></div>
-            </PointsBox>
-          </div>
-          <SmallBox className="text-[#696868]">
-            <img src={search} className="h-[40px] mt-[-9px] mb-[-9px]" />
-            Add destination
-          </SmallBox>        
+          ) : (
+            <SmallBox
+              onClick={() => setSelection(1)}
+              className={selection === 1 ? "border-2 sm:pl-[8px] hover:border-2 sm:hover:pl-[8px] pl-[6px] hover:pl-[6px] pr-[21px] hover:pr-[21px]" : ""}
+            >
+              <div className="sm:w-[40px] sm:h-[40px] w-[33px] h-[33px] flex items-center justify-center">
+                <img
+                  src={DistanceMarker}
+                  className="sm:h-[33px] h-[33px]"
+                />
+              </div>
+              <input className="sm:ml-[20px] ml-[16px] outline-none text-black placeholder-dark-gray w-[190px]" placeholder="Choose Distance" value={distanceInput} onChange={(e) => setDistanceInput(e.target.value)}></input>
+              <p className="ml-auto">km</p>
+            </SmallBox>
+          ))}
         </div>
-        <div className="flex justify-end mt-auto self-end">
-          <SmallButton>Generate Route</SmallButton>
-        </div>
+        {(mode === "default" && places.length > 0 || mode === "lucky" && distanceInput) && (
+          <div className="sm:flex hidden justify-end mt-auto self-end">
+            <GreenButton onClick={onGenerate}>Generate Route</GreenButton>
+          </div>
+        )}
       </div>
     </>
-  )
-}
+  );
+};
 
-export default RouteSelection
+export default RouteSelection;
