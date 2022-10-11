@@ -48,7 +48,7 @@ export default function RouteCard({ startPt, endPt, distance, timestamp, usernam
       <div className="stats w-[337px] h-[112px] flex flex-col">
         <div className="first pl-[15px] pr-[12px] flex justify-between">
           <h1 className="title pt-[12px] font-[Roboto] font-bold text-[20px] leading-[20px] text-black ">
-            Route
+            Route #{routeName}
           </h1>
           <div className="icons flex justify-[right]">
             {/* star button */}
