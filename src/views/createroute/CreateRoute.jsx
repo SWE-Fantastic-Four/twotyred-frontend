@@ -113,7 +113,7 @@ const CreateRoute = () => {
       method: "POST",
       body: JSON.stringify({'chosenLocations':coordinates})
     };
-    const planRouteRes = await fetch( urls.backend + "/planroute", options);
+    const planRouteRes = await fetch(urls.backend + "/planroute", options);
     const route = await planRouteRes.json()
     const routeGeom = route.route_geometry;
     const routeDistance = route.distance;
@@ -157,10 +157,6 @@ const CreateRoute = () => {
       // TODO: go to error page
       console.error(error);
     }
-  }
-
-  const toggleMobileDrawerShrunk = () => {
-    setMobileDrawerShrunk(!mobileDrawerShrunk);
   }
 
   const displayPage = () => {
