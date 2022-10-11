@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import RouteCard from '../../components/RouteCard';
+import { urls } from '../../constants/constants';
 
 const ProfileBody = ({ className }) => {
   const username = useSelector(state => state.auth.displayName);
@@ -12,7 +13,7 @@ const ProfileBody = ({ className }) => {
 
   useEffect(() => {
     const obtainRoutes = async () => {
-      const response = await fetch(`https://swe-backend.chayhuixiang.repl.co/routes/user/${username}`);
+      const response = await fetch(`${urls.backend}/routes/user/${username}`);
       const data = await response.json();
       updateRouteCount(data.routeInfoArray.length);
       showRoutes(data.routeInfoArray);
@@ -25,7 +26,7 @@ const ProfileBody = ({ className }) => {
 
   useEffect(() => {
     const obtainFavouriteRoutes = async () => {
-      const response = await fetch(`https://swe-backend.chayhuixiang.repl.co/routes/user/${username}?favourite=true`);
+      const response = await fetch(`${urls.backend}/routes/user/${username}?favourite=true`);
       const data = await response.json();
       updateFavouriteCount(data.routeInfoArray.length)
       setFavouriteRoutes(data.routeInfoArray);

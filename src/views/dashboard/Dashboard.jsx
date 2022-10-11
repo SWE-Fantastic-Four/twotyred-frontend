@@ -2,28 +2,31 @@ import React, { useEffect, useState } from 'react'
 import MainLayout from '../../layout/MainLayout';
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import RouteCard from '../../components/RouteCard';
+import { urls } from '../../constants/constants';
 
 const Dashboard = () => {
   const [routes, showRoutes] = useState([]);
-  const [likeRoutes, showLikeRoutes] = useState([]);
+  const [routeOption] = useState(0); // 0 is for showing recent, 1 is for showing likes
 
   useEffect(() => {
     const obtainRoutes = async () => {
-      const response = await fetch(`https://swe-backend.chayhuixiang.repl.co/routes/dashboard`);
-      const data = await response.json();
-      showRoutes(data.routeInfoArray);
+      let url = "";
+      if (routeOption === 0) {
+        url = `${urls.backend}/routes/dashboard`;
+      } else if (routeOption === 1) {
+        url = `${urls.backend}/routes/dashboard?like=true`;
+      }
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        showRoutes(data.routeInfoArray);
+      } catch (error) {
+        // TODO: implement error handling
+        console.error(error.message);
+      }
     }
     obtainRoutes();
-  }, []);
-
-  useEffect(() => {
-    const obtainLikeRoutes = async () => {
-      const response = await fetch(`https://swe-backend.chayhuixiang.repl.co/routes/dashboard?like=true`);
-      const data = await response.json();
-      showLikeRoutes(data.routeInfoArray);
-    }
-    obtainLikeRoutes();
-  }, []);
+  }, [routeOption]);
 
   return (
     <MainLayout>
