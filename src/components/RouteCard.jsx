@@ -1,39 +1,66 @@
 import {
-  ArrowRightIcon, HeartIcon, StarIcon
+  ArrowRightIcon,
+  HeartIcon,
+  StarIcon,
 } from "@heroicons/react/24/outline";
-import { HeartIcon as HeartIconSolid, StarIcon as StarIconSolid } from "@heroicons/react/24/solid";
+import {
+  HeartIcon as HeartIconSolid,
+  StarIcon as StarIconSolid,
+} from "@heroicons/react/24/solid";
 import React, { useState } from "react";
 import ProfilePic from "../assets/ProfilePic.svg";
 import Map from "./Map";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
-export default function RouteCard({ likeCount }) {
+export default function RouteCard({ likeCount, routeId }) {
   const [starFilled, setStarFilled] = useState(false);
   const [heartFilled, setHeartFilled] = useState(false);
   const [likeState, setLikeState] = useState(likeCount);
+  const username = useSelector(state => state.auth.displayName);
 
   const starClickHandler = async () => {
-    setStarFilled(!starFilled)
+    setStarFilled(!starFilled);
     if (starFilled) {
-      // increment favourite here
       try {
-        // const response = await axios.post("dsadsad", { routeId });
-        // const data = response.data;
-        // setLikeState(data.likes);
-      } catch (error) {
+        const response = await axios.post("https://SWE-Backend.chayhuixiang.repl.co/routes/favourite" , { user: username, route: routeId });
+        console.log(response.data);
+      }
+      catch (error) {
         console.error(error);
       }
     } else {
-      // decrement favourite here
+      try {
+        const response = await axios.post("https://SWE-Backend.chayhuixiang.repl.co/routes/unfavourite" , { user: username, route: routeId });
+        console.log(response.data);
+      }
+      catch (error) {
+        console.error(error);
+      }
     }
-  }
-  const heartClickHandler = () => {
-    setHeartFilled(!heartFilled)
+  };
+  const heartClickHandler = async () => {
+    setHeartFilled(!heartFilled);
     if (heartFilled) {
-      // increment likes here
+      try {
+        const response = await axios.post("https://SWE-Backend.chayhuixiang.repl.co/routes/like", { username, routeId });
+        const data = response.data;
+        setLikeState(data.newLikeCount);
+      }
+      catch (error) {
+        console.error(error);
+      }
     } else {
-      // decrement likes here
+      try {
+        const response = await axios.post("https://SWE-Backend.chayhuixiang.repl.co/routes/unlike", { username, routeId });
+        const data = response.data;
+        setLikeState(data.newLikeCount);
+      }
+      catch (error) {
+        console.error(error);
+      }
     }
-  }
+  };
 
   return (
     <div className="wholecard w-[337px] h-[328px] rounded-[5px] border-[2px] border-solid border-dark-gray shadow-lg hover:border-black hover:cursor-pointer">
@@ -50,9 +77,9 @@ export default function RouteCard({ likeCount }) {
             <button onClick={starClickHandler}>
               {starFilled ? (
                 <StarIconSolid
-                className={`star stroke-[3] mt-[7px] h-[18px] text-yellow-300`}
+                  className={`star stroke-[3] mt-[7px] h-[18px] text-yellow-300`}
                 />
-                ) : (
+              ) : (
                 <StarIcon
                   className={`star stroke-[3] mt-[7px] h-[18px] text-black`}
                 />
@@ -60,17 +87,15 @@ export default function RouteCard({ likeCount }) {
             </button>
             {/* heart button */}
             <button onClick={heartClickHandler}>
-              {
-                heartFilled ? (
-                  <HeartIconSolid
+              {heartFilled ? (
+                <HeartIconSolid
                   className={`heart stroke-[3] mt-[7px] h-[19px] pl-[4px] pr-[4px] text-red-600`}
-                  />
-                ):(
-                  <HeartIcon
+                />
+              ) : (
+                <HeartIcon
                   className={`heart stroke-[3] mt-[7px] h-[19px] pl-[4px] pr-[4px] text-black`}
-                  />
-                )
-              }
+                />
+              )}
             </button>
             <h1 className="totalLikes flex justify-start mt-2 font-bold text-[20px]">
               {likeState}
