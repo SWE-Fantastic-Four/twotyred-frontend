@@ -14,7 +14,7 @@ const ProfileBody = ({ className }) => {
     const obtainRoutes = async () => {
       const response = await fetch(`https://swe-backend.chayhuixiang.repl.co/routes/user/${username}`);
       const data = await response.json();
-      updateRouteCount(data.routeInfoArray.length)
+      updateRouteCount(data.routeInfoArray.length);
       showRoutes(data.routeInfoArray);
       return data.routeInfoArray;
     }
@@ -54,11 +54,11 @@ const ProfileBody = ({ className }) => {
           </div>
         </div>
       </div>
-      {showFavourites && favouriteRoutes.length && favouriteRoutes.map((route) => {
-        return (<RouteCard startPt={route.routeInfo.StartPt} endPt={route.routeInfo.EndPt} distance={route.routeInfo.Distance} timestamp={route.routeInfo.Timestamp._seconds} username={route.routeInfo.Username} />)
+      {showFavourites && favouriteRoutes.length !== 0 && favouriteRoutes.map((route) => {
+        return (<RouteCard startPt={route.routeInfo.StartPt.name} endPt={route.routeInfo.EndPt.name} distance={route.routeInfo.Distance} timestamp={route.routeInfo.Timestamp._seconds} username={route.routeInfo.Username} likes={route.routeInfo.Likes} id={route.id} />)
       })}
-      {!showFavourites && routes.length && routes.map((route) => {
-        return (<RouteCard startPt={route.routeInfo.StartPt} endPt={route.routeInfo.EndPt} distance={route.routeInfo.Distance} timestamp={route.routeInfo.Timestamp._seconds} username={route.routeInfo.Username} />)
+      {!showFavourites && routes.length !== 0 && routes.map((route) => {
+        return (<RouteCard startPt={route.routeInfo.StartPt.name} endPt={route.routeInfo.EndPt.name} distance={route.routeInfo.Distance} timestamp={route.routeInfo.Timestamp._seconds} username={route.routeInfo.Username} likes={route.routeInfo.Likes} id={route.id} />)
       })}
     </div>
   )

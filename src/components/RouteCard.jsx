@@ -6,14 +6,22 @@ import React, { useState } from "react";
 import ProfilePic from "../assets/ProfilePic.svg";
 import Map from "./Map";
 
-export default function RouteCard({ startPt, endPt, distance, timestamp, username }) {
+export default function RouteCard({ startPt, endPt, distance, timestamp, username, likes, id }) {
   const [starFilled, setStarFilled] = useState(false);
   const [heartFilled, setHeartFilled] = useState(false);
 
   const time = new Date(timestamp * 1000).toISOString();
-  const year = time.slice(0,4);
-  const month = time.slice(5,7);
-  const day = time.slice(8,10);
+  const year = time.slice(0, 4);
+  const month = time.slice(5, 7);
+  const day = time.slice(8, 10);
+
+  const name = id.slice(-3);
+  let routeName = "";
+  for (let i = 0; i < 3; i++) {
+    let ascii = name.charCodeAt(i);
+    routeName += ascii;
+  }
+  // console.log(routeName);
 
   const starClickHandler = () => {
     setStarFilled(!starFilled)
@@ -40,7 +48,7 @@ export default function RouteCard({ startPt, endPt, distance, timestamp, usernam
       <div className="stats w-[337px] h-[112px] flex flex-col">
         <div className="first pl-[15px] pr-[12px] flex justify-between">
           <h1 className="title pt-[12px] font-[Roboto] font-bold text-[20px] leading-[20px] text-black ">
-            My first cycle
+            Route
           </h1>
           <div className="icons flex justify-[right]">
             {/* star button */}
@@ -70,7 +78,7 @@ export default function RouteCard({ startPt, endPt, distance, timestamp, usernam
               }
             </button>
             <h1 className="totalLikes flex justify-start mt-2 font-bold text-[20px]">
-              5000
+              {likes}
             </h1>
           </div>
         </div>
