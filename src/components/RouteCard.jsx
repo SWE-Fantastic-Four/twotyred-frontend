@@ -11,22 +11,23 @@ export default function RouteCard({ startPt, endPt, distance, timestamp, usernam
   const [heartFilled, setHeartFilled] = useState(false);
   const [likeCount, setLikeCount] = useState(likes);
 
-  const get_date = () => {
+  const getDate = () => {
     const time = new Date(timestamp * 1000).toISOString();
     const year = time.slice(0, 4);
     const month = time.slice(5, 7);
     const day = time.slice(8, 10);
-    return (`${year}/${month}/${day}`)
+    return (`${year}/${month}/${day}`);
   }
 
-
-  const name = id.slice(-3);
-  let routeName = "";
-  for (let i = 0; i < 3; i++) {
-    let ascii = name.charCodeAt(i);
-    routeName += ascii;
+  const getRouteName = () => {
+    const name = id.slice(-3);
+    let routeName = "";
+    for (let i = 0; i < 3; i++) {
+      let ascii = name.charCodeAt(i);
+      routeName += ascii;
+    }
+    return routeName;
   }
-  // console.log(routeName);
 
   const starClickHandler = () => {
     setStarFilled(!starFilled)
@@ -60,7 +61,7 @@ export default function RouteCard({ startPt, endPt, distance, timestamp, usernam
       <div className="stats w-[337px] h-[112px] flex flex-col">
         <div className="first pl-[15px] pr-[12px] flex justify-between">
           <h1 className="title pt-[12px] font-[Roboto] font-bold text-[20px] leading-[20px] text-black ">
-            Route #{routeName}
+            Route #{getRouteName()}
           </h1>
           <div className="icons flex justify-[right]">
             {/* star button */}
@@ -113,7 +114,7 @@ export default function RouteCard({ startPt, endPt, distance, timestamp, usernam
               @{username}
             </h1>
             <p className="date font-[Roboto] font-normal text-[10px] leading-[12px] text-[#6B6B6B]">
-              {get_date()}
+              {getDate()}
             </p>
           </div>
         </div>

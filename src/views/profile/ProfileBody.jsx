@@ -16,7 +16,6 @@ const ProfileBody = ({ className }) => {
       const data = await response.json();
       updateRouteCount(data.routeInfoArray.length);
       showRoutes(data.routeInfoArray);
-      return data.routeInfoArray;
     }
 
     if (username) {
@@ -30,7 +29,6 @@ const ProfileBody = ({ className }) => {
       const data = await response.json();
       updateFavouriteCount(data.routeInfoArray.length)
       setFavouriteRoutes(data.routeInfoArray);
-      return data.routeInfoArray;
     }
 
     if (username) {
@@ -56,10 +54,10 @@ const ProfileBody = ({ className }) => {
         </div>
       </div>
       {showFavourites && favouriteRoutes.length !== 0 && favouriteRoutes.map((route) => {
-        return (<RouteCard startPt={route.routeInfo.StartPt.name} endPt={route.routeInfo.EndPt.name} distance={route.routeInfo.Distance} timestamp={route.routeInfo.Timestamp._seconds} username={route.routeInfo.Username} likes={route.routeInfo.Likes} id={route.id} />)
+        return (<RouteCard key={route.id} startPt={route.routeInfo.StartPt.name} endPt={route.routeInfo.EndPt.name} distance={route.routeInfo.Distance} timestamp={route.routeInfo.Timestamp._seconds} username={route.routeInfo.Username} likes={route.routeInfo.Likes} id={route.id} />)
       })}
       {!showFavourites && routes.length !== 0 && routes.map((route) => {
-        return (<RouteCard startPt={route.routeInfo.StartPt.name} endPt={route.routeInfo.EndPt.name} distance={route.routeInfo.Distance} timestamp={route.routeInfo.Timestamp._seconds} username={route.routeInfo.Username} likes={route.routeInfo.Likes} id={route.id} />)
+        return (<RouteCard key={route.id} startPt={route.routeInfo.StartPt.name} endPt={route.routeInfo.EndPt.name} distance={route.routeInfo.Distance} timestamp={route.routeInfo.Timestamp._seconds} username={route.routeInfo.Username} likes={route.routeInfo.Likes} id={route.id} />)
       })}
     </div>
   )
