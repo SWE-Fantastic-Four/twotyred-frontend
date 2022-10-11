@@ -7,6 +7,7 @@ import RouteSelection from './RouteSelection';
 const CreateRoute = () => {
   const [page, setPage] = useState(0); // 0 is RouteSelection page, 1 is RouteDescription page
   const [selection, setSelection] = useState(0); // 0 is selecting start point, 1 is selecting intermediate points
+  const [alert, setAlert] = useState(0);
   const [start, setStart] = useState({
     id: "1.29306,103.856",
     name: "Taman Jurong Food Centre",
@@ -57,7 +58,18 @@ const CreateRoute = () => {
         return <RouteSelection places={places} removeItem={removeItem} setSelection={setSelection} setPage={setPage} />
       
       case 1:
-        return <RouteDescription setPage={setPage}/>
+        return <RouteDescription setPage={setPage} setAlert={setAlert}/>
+    }
+  }
+
+  const displayAlert = () => {
+    switch (alert) {
+      case 1:
+        return (
+          <div className="absolute z-10 right-0 top-0 h-[43px] w-[250px] bg-white rounded-[10px] mt-[8px] mr-[20px] text-black text-[20px] text-center py-[7px] font-bold">
+            Route successfully saved!
+          </div>          
+        )
     }
   }
 
@@ -67,9 +79,7 @@ const CreateRoute = () => {
         <div className="text-red-300 font-bold text-[32px] z-10 absolute">
           {displayPage()}
         </div>
-        {/* edit this component below */}
-        <div className="absolute z-10 right-0 top-0 h-[30px] w-[100px] bg-red-500">
-        </div>
+        {displayAlert()}
         <div className="h-full w-full">
           <Map location={location} onClick={clickHandler} places={places} start={start} />
         </div>

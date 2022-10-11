@@ -25,7 +25,7 @@ const SmallButton = ({ children, className, onClick }) => {
   );
 };
 
-const RouteDescription = ({setPage}) => {
+const RouteDescription = ({setPage, setAlert}) => {
   return (
     <>
       <div className="flex flex-col m-[10px] w-[387px] h-[593px] px-[12px] py-[13px] bg-[#918d8db4] p-[20px] rounded-[10px] overflow-hidden">
@@ -59,7 +59,7 @@ const RouteDescription = ({setPage}) => {
           </SmallBox>
           <div className="flex justify-between mt-auto">
             <SmallButton onClick={() => setPage(0)}>Edit route</SmallButton>
-            <SmallButton>Cycle route</SmallButton>
+            <SmallButton onClick={() => setAlert(1)}>Cycle route</SmallButton>
           </div>   
         </div>
       </div>
