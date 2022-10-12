@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import MainLayout from '../../layout/MainLayout'
 import Map from '../../components/Map';
 import RouteDescription from './RouteDescription';
@@ -28,11 +28,14 @@ const CreateRoute = () => {
   const [mobileDrawerShrunk, setMobileDrawerShrunk] = useState(true);
   const [mapCenter, setMapCenter] = useState({lat: 1.363675, lng: 103.808922});
   const username = useSelector(state => state.auth.displayName);
+
+  const ref = useRef(null);
   
   const [searchParams, setSearchParams] = useSearchParams();
   const page = searchParams.get("page"); // "0" is RouteSelection page, "1" is RouteDescription page
   const mode = searchParams.get("mode");
 
+  const [height, setHeight] = useState(0);
   
   if (mode !== "default" && mode !== "lucky" && page !== "0" && page !== "1") {
     setSearchParams({mode: "default", page: "0"});
@@ -64,6 +67,23 @@ const CreateRoute = () => {
     }
   },[page, location]);
 
+  useEffect(() => {
+    const resetViewHeight = () => {
+      let vh = window.innerHeight * 0.01;
+      if (ref) {
+        if (ref.current.clientWidth < 640) {
+          setHeight(100 * vh - 53);
+        } else {
+          setHeight(100 * vh - 98);
+        }
+      }
+    }
+
+    window.addEventListener('resize', resetViewHeight);
+    return () => {
+      window.removeEventListener('resize', resetViewHeight);
+    }
+  },[ref]);
 
   const removeItem = (index) => {
     setPlaces(places.filter((o, i) => index !== i));
@@ -265,7 +285,7 @@ const CreateRoute = () => {
   return (
     <MainLayout>
       {/* w-screen */}
-      <div className="sm:h-[calc(100vh-98px)] h-[calc(100vh-53px)] w-full relative">
+      <div style={{ height }} className="w-full relative" ref={ref}>
         {displayPage()}
         <div className="absolute z-10 sm:right-0 sm:left-auto left-0 top-0 sm:mt-[11px] mt-[8px] sm:mr-[20px] ml-[10px] flex flex-col gap-[10px] font-medium sm:text-[20px] text-[16px] sm:items-end items-start">
           <AnimatePresence>
