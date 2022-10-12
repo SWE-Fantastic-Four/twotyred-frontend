@@ -11,6 +11,7 @@ import P from '../../constants/paths';
 import { useSelector } from 'react-redux';
 import Star from "../../assets/star.svg";
 import { AnimatePresence, motion } from 'framer-motion';
+import { useCallback } from 'react';
 
 const CreateRoute = () => {
   const location = useLocation();
@@ -36,6 +37,17 @@ const CreateRoute = () => {
   const mode = searchParams.get("mode");
 
   const [height, setHeight] = useState(0);
+
+  const resetViewHeight = useCallback(() => {
+    let vh = window.innerHeight * 0.01;
+    if (ref) {
+      if (ref.current.clientWidth < 640) {
+        setHeight(100 * vh - 53);
+      } else {
+        setHeight(100 * vh - 98);
+      }
+    }
+  },[ref]);
   
   if (mode !== "default" && mode !== "lucky" && page !== "0" && page !== "1") {
     setSearchParams({mode: "default", page: "0"});
@@ -68,22 +80,15 @@ const CreateRoute = () => {
   },[page, location]);
 
   useEffect(() => {
-    const resetViewHeight = () => {
-      let vh = window.innerHeight * 0.01;
-      if (ref) {
-        if (ref.current.clientWidth < 640) {
-          setHeight(100 * vh - 53);
-        } else {
-          setHeight(100 * vh - 98);
-        }
-      }
-    }
-
     window.addEventListener('resize', resetViewHeight);
     return () => {
       window.removeEventListener('resize', resetViewHeight);
     }
-  },[ref]);
+  },[resetViewHeight]);
+
+  useEffect(() => {
+    resetViewHeight();
+  },[]);
 
   const removeItem = (index) => {
     setPlaces(places.filter((o, i) => index !== i));
