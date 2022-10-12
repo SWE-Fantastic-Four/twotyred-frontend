@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 
 const Dashboard = () => {
   const [routes, showRoutes] = useState([]);
-  const [routeOption] = useState(0); // 0 is for showing recent, 1 is for showing likes
+  const [routeOption, setRouteOption] = useState(0); // 0 is for showing recent, 1 is for showing likes
   const username = useSelector((state) => state.auth.displayName);
 
   useEffect(() => {
@@ -41,10 +41,9 @@ const Dashboard = () => {
             </span>
             <MagnifyingGlassIcon className="md:w-[64px] sm:w-[52px] w-[32.45px] rotate-90 stroke-2" />
           </div>
-
           <div>
-            <Filter />
-            <div className="Cards grid computer:grid-cols-3 gap-4 z-0 mt-[10px] phone:grid-cols-1 tablet:grid-cols-2">
+            <Filter routeOption={routeOption} setRouteOption={setRouteOption} />
+            <div className="Cards grid computer:grid-cols-3 gap-4 z-0 mt-[23px] phone:grid-cols-1 tablet:grid-cols-2">
               {routes.length > 0 &&
                 routes.map((route) => {
                   return (

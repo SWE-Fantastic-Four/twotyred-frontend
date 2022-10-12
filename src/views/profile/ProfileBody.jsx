@@ -31,7 +31,7 @@ const ProfileBody = ({ className }) => {
     }
     obtainFavouriteRoutes();
     obtainUserRoutes();
-  }, []);
+  }, [username]);
 
   useEffect(() => {
     if (username) {
@@ -58,7 +58,7 @@ const ProfileBody = ({ className }) => {
             onClick={() => setShowFavourites(false)}
           >
             <div className="mr-[3px]">Past Routes</div>
-            <div className="sm:px-[2px] px-[1.5px] sm:h-[17px] h-[13px] bg-gray rounded-full mb-[2px] pt-[1px]">
+            <div className="sm:px-[2px] px-[1.5px] sm:h-[17px] h-[13px] bg-gray rounded-full mb-[2px]">
               {routeCount}
             </div>
           </div>
@@ -71,62 +71,65 @@ const ProfileBody = ({ className }) => {
             onClick={() => setShowFavourites(true)}
           >
             <div className="mr-[3px]">Favourites</div>
-            <div className="sm:px-[2px] px-[1.5px] sm:h-[17px] h-[13px] bg-gray rounded-full mb-[2px] pt-[1px]">
+            <div className="sm:px-[2px] px-[1.5px] sm:h-[17px] h-[13px] bg-gray rounded-full mb-[2px]">
               {favouriteCount}
             </div>
           </div>
         </div>
       </div>
-      {showFavourites &&
-        favouriteRoutes.length !== 0 &&
-        favouriteRoutes.map((route) => {
-          return (
-            <RouteCard
-              key={route.id}
-              startPt={route.routeInfo.StartPt.name}
-              endPt={route.routeInfo.EndPt.name}
-              intermediatePts={route.routeInfo.IntermediatePts}
-              distance={route.routeInfo.Distance}
-              timestamp={route.routeInfo.Timestamp._seconds}
-              username={route.routeInfo.Username}
-              likes={route.routeInfo.Likes}
-              id={route.id}
-              likedUsers={route.routeInfo.LikedUsers}
-              favouritedUsers={route.routeInfo.FavouritedUsers}
-              isLiked={route.routeInfo.LikedUsers.includes(username)}
-              isFavourited={route.routeInfo.FavouritedUsers.includes(username)}
-              setFavouriteCount={updateFavouriteCount}
-              refreshRoutes={obtainRoutes}
-              routeGeom={route.routeInfo.Geometry}
-              duration={route.routeInfo.Duration}
-            />
-          );
-        })}
-      {!showFavourites &&
-        routes.length !== 0 &&
-        routes.map((route) => {
-          return (
-            <RouteCard
-              key={route.id}
-              startPt={route.routeInfo.StartPt.name}
-              endPt={route.routeInfo.EndPt.name}
-              intermediatePts={route.routeInfo.IntermediatePts}
-              distance={route.routeInfo.Distance}
-              timestamp={route.routeInfo.Timestamp._seconds}
-              username={route.routeInfo.Username}
-              likes={route.routeInfo.Likes}
-              id={route.id}
-              likedUsers={route.routeInfo.LikedUsers}
-              favouritedUsers={route.routeInfo.FavouritedUsers}
-              isLiked={route.routeInfo.LikedUsers.includes(username)}
-              isFavourited={route.routeInfo.FavouritedUsers.includes(username)}
-              setFavouriteCount={updateFavouriteCount}
-              refreshRoutes={obtainRoutes}
-              routeGeom={route.routeInfo.Geometry}
-              duration={route.routeInfo.Duration}
-            />
-          );
-        })}
+      <div className="Cards grid computer:grid-cols-3 gap-4 z-0 mt-[23px] phone:grid-cols-1 tablet:grid-cols-2">
+        {showFavourites &&
+          favouriteRoutes.length !== 0 &&
+          favouriteRoutes.map((route) => {
+            return (
+              <RouteCard
+                key={route.id}
+                startPt={route.routeInfo.StartPt}
+                endPt={route.routeInfo.EndPt}
+                intermediatePts={route.routeInfo.IntermediatePts}
+                distance={route.routeInfo.Distance}
+                timestamp={route.routeInfo.Timestamp._seconds}
+                routeUsername={route.routeInfo.Username}
+                likes={route.routeInfo.Likes}
+                id={route.id}
+                likedUsers={route.routeInfo.LikedUsers}
+                favouritedUsers={route.routeInfo.FavouritedUsers}
+                isLiked={route.routeInfo.LikedUsers.includes(username)}
+                isFavourited={route.routeInfo.FavouritedUsers.includes(username)}
+                setFavouriteCount={updateFavouriteCount}
+                refreshRoutes={obtainRoutes}
+                routeGeom={route.routeInfo.Geometry}
+                duration={route.routeInfo.Duration}
+              />
+            );
+          })}
+        {!showFavourites &&
+          routes.length !== 0 &&
+          routes.map((route) => {
+            return (
+              <RouteCard
+                key={route.id}
+                startPt={route.routeInfo.StartPt}
+                endPt={route.routeInfo.EndPt}
+                intermediatePts={route.routeInfo.IntermediatePts}
+                distance={route.routeInfo.Distance}
+                timestamp={route.routeInfo.Timestamp._seconds}
+                routeUsername={route.routeInfo.Username}
+                likes={route.routeInfo.Likes}
+                id={route.id}
+                likedUsers={route.routeInfo.LikedUsers}
+                favouritedUsers={route.routeInfo.FavouritedUsers}
+                isLiked={route.routeInfo.LikedUsers.includes(username)}
+                isFavourited={route.routeInfo.FavouritedUsers.includes(username)}
+                setFavouriteCount={updateFavouriteCount}
+                refreshRoutes={obtainRoutes}
+                routeGeom={route.routeInfo.Geometry}
+                duration={route.routeInfo.Duration}
+              />
+            );
+          })}
+
+      </div>
     </div>
   );
 };

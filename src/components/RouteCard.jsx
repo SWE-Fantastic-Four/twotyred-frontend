@@ -1,11 +1,11 @@
 import {
   ArrowRightIcon,
   HeartIcon,
-  StarIcon
+  StarIcon,
 } from "@heroicons/react/24/outline";
 import {
   HeartIcon as HeartIconSolid,
-  StarIcon as StarIconSolid
+  StarIcon as StarIconSolid,
 } from "@heroicons/react/24/solid";
 import axios from "axios";
 import React, { useState } from "react";
@@ -15,17 +15,33 @@ import { urls } from "../constants/constants";
 import Map from "./Map";
 import { useNavigate } from "react-router-dom";
 import P from "../constants/paths";
-import polyUtil from "polyline-encoded";
+import { motion } from "framer-motion";
 
-export default function RouteCard({ startPt, endPt, distance, timestamp, routeUsername, likes, id, isLiked, isFavourited, setFavouriteCount, refreshRoutes, routeGeom, duration, intermediatePts }) {
-  const username = useSelector(state => state.auth.displayName);
+export default function RouteCard({
+  startPt,
+  endPt,
+  distance,
+  timestamp,
+  routeUsername,
+  likes,
+  id,
+  isLiked,
+  isFavourited,
+  setFavouriteCount,
+  refreshRoutes,
+  routeGeom,
+  duration,
+  intermediatePts,
+}) {
+  const username = useSelector((state) => state.auth.displayName);
   const [starFilled, setStarFilled] = useState(isFavourited);
   const [heartFilled, setHeartFilled] = useState(isLiked);
   const [likeCount, setLikeCount] = useState(likes);
   const navigate = useNavigate();
 
   const clickHandler = () => {
-    const mode = intermediatePts && intermediatePts.length === 0 ? "lucky" : "default"
+    const mode =
+      intermediatePts && intermediatePts.length === 0 ? "lucky" : "default";
     navigate(P.CREATEROUTE + `?page=1&mode=${mode}`, {
       state: {
         routeInfo: {
@@ -33,19 +49,19 @@ export default function RouteCard({ startPt, endPt, distance, timestamp, routeUs
           routeDistance: distance,
           routeDuration: duration,
           start: startPt,
-          places: intermediatePts
-        }
-      }
-    })
-  }
+          places: intermediatePts,
+        },
+      },
+    });
+  };
 
   const getDate = () => {
     const time = new Date(timestamp * 1000).toISOString();
     const year = time.slice(0, 4);
     const month = time.slice(5, 7);
     const day = time.slice(8, 10);
-    return (`${day}/${month}/${year}`);
-  }
+    return `${day}/${month}/${year}`;
+  };
 
   const getRouteName = () => {
     const name = id.slice(-3);
@@ -55,15 +71,19 @@ export default function RouteCard({ startPt, endPt, distance, timestamp, routeUs
       routeName += ascii;
     }
     return routeName;
-  }
+  };
 
   const starClickHandler = async (e) => {
     e.stopPropagation();
     setStarFilled(!starFilled);
     if (setFavouriteCount) {
-      setFavouriteCount((prevValue) => starFilled ? --prevValue : ++prevValue);
+      setFavouriteCount((prevValue) =>
+        starFilled ? --prevValue : ++prevValue
+      );
     }
-    const url = starFilled ? urls.backend + "/routes/unfavourite" : urls.backend + "/routes/favourite";
+    const url = starFilled
+      ? urls.backend + "/routes/unfavourite"
+      : urls.backend + "/routes/favourite";
     try {
       const response = await axios.post(url, { user: username, route: id });
       console.log(response.data);
@@ -80,8 +100,10 @@ export default function RouteCard({ startPt, endPt, distance, timestamp, routeUs
   const heartClickHandler = async (e) => {
     e.stopPropagation();
     setHeartFilled(!heartFilled);
-    setLikeCount((prevValue) => heartFilled ? --prevValue : ++prevValue);
-    const url = heartFilled ? urls.backend + "/routes/unlike" : urls.backend + "/routes/like";
+    setLikeCount((prevValue) => (heartFilled ? --prevValue : ++prevValue));
+    const url = heartFilled
+      ? urls.backend + "/routes/unlike"
+      : urls.backend + "/routes/like";
     try {
       const response = await axios.post(url, { username, routeId: id });
       const data = response.data;
@@ -90,15 +112,25 @@ export default function RouteCard({ startPt, endPt, distance, timestamp, routeUs
         refreshRoutes();
       }
     } catch (error) {
-      setLikeCount((prevValue) => heartFilled ? ++prevValue : --prevValue);
+      setLikeCount((prevValue) => (heartFilled ? ++prevValue : --prevValue));
       console.error(error);
     }
   };
 
   return (
-    <div className="wholecard w-[337px] h-[328px] rounded-[5px] border-[2px] border-solid border-dark-gray shadow-lg hover:border-black hover:cursor-pointer min-w-[337px]" onClick={clickHandler}>
+    <motion.div
+      className="wholecard w-[337px] h-[328px] rounded-[5px] border-[2px] border-solid border-black shadow-lg hover:cursor-pointer min-w-[337px] hover:outline-black"
+      onClick={clickHandler}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{
+        scale: 1,
+      }}
+    >
       <div className="map h-[216px] overflow-x-hidden">
-        <Map options={{ gestureHandling: 'none', disableDefaultUI: true }} routeGeom={routeGeom} />
+        <Map
+          options={{ gestureHandling: "none", disableDefaultUI: true }}
+          routeGeom={routeGeom}
+        />
       </div>
       <div className="stats w-[337px] h-[112px] pl-[15px] pr-[12px] pt-[12px] pb-[14px] flex flex-col">
         <div className="first flex justify-between items-center">
@@ -113,25 +145,20 @@ export default function RouteCard({ startPt, endPt, distance, timestamp, routeUs
                   className={`star stroke-[3] h-[18px] text-yellow-300`}
                 />
               ) : (
-                <StarIcon
-                  className={`star stroke-[3] h-[18px] text-black`}
-                />
+                <StarIcon className={`star stroke-[3] h-[18px] text-black`} />
               )}
             </button>
             {/* heart button */}
             <button onClick={heartClickHandler}>
-
-              {
-                heartFilled ? (
-                  <HeartIconSolid
+              {heartFilled ? (
+                <HeartIconSolid
                   className={`heart stroke-[3] h-[19px] pl-[4px] pr-[4px] text-red-600`}
-                  />
-                ):(
-                  <HeartIcon
+                />
+              ) : (
+                <HeartIcon
                   className={`heart stroke-[3] h-[19px] pl-[4px] pr-[4px] text-black`}
-                  />
-                )
-              }
+                />
+              )}
             </button>
             <p className="totalLikes flex justify-start font-bold text-[20px] leading-[23px]">
               {likeCount}
@@ -143,16 +170,11 @@ export default function RouteCard({ startPt, endPt, distance, timestamp, routeUs
             {startPt.name}
           </p>
           <ArrowRightIcon className="arrow w-[11.26px] mx-[2px]" />
-          <p className="endlocation mr-[3px]">
-            {endPt.name} 
-          </p>
-          <p className="ml-auto">| {Math.round(distance/1000)}KM</p>
+          <p className="endlocation mr-[3px]">{endPt.name}</p>
+          <p className="ml-auto">| {Math.round(distance / 1000)}KM</p>
         </div>
         <div className="third flex mt-[11px]">
-          <img
-            className="profilepic w-[34px] h-[34px]"
-            src={ProfilePic}
-          />
+          <img className="profilepic w-[34px] h-[34px]" src={ProfilePic} />
           <div className="userinfo pt-[3px] pl-[5px]">
             <h1 className="name font-[Roboto] font-bold text-[12px] leading-[14px] text-black">
               @{routeUsername}
@@ -163,6 +185,6 @@ export default function RouteCard({ startPt, endPt, distance, timestamp, routeUs
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
