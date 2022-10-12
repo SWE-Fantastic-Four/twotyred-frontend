@@ -198,7 +198,8 @@ const CreateRoute = () => {
     }
   }
 
-  const saveRouteHandler = async() => {
+  const saveRouteHandler = async(e) => {
+    e.stopPropagation();
     try {
       const response = await fetch(urls.backend + "/routes/save", {
         method: "POST",

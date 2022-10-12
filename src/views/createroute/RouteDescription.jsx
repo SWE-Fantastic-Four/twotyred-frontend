@@ -126,7 +126,7 @@ const RouteDescription = ({ routeDistance, onSave, shrinkMobileDrawer, expandMob
           <p>Route distance: {(routeDistance / 1000).toFixed(2)} km</p>
         </div>
         <div className="mt-auto text-[#2E57A7] text-[22px] w-full flex justify-between">
-          <p className="hover:underline decoration-[#2E57A7]" onClick={() => setSearchParams({page: "0", mode})}>Edit route</p>
+          <p className="hover:underline decoration-[#2E57A7]" onClick={(e) => {e.stopPropagation(); setSearchParams({page: "0", mode})}}>Edit route</p>
           <p className="hover:underline decoration-[#2E57A7]" onClick={onSave}>Cycle route</p>
         </div>
       </Transition>
