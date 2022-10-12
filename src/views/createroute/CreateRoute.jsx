@@ -100,6 +100,7 @@ const CreateRoute = () => {
     const centerLat = map.center.lat();
     const centerLng = map.center.lng();
     console.log(lat, lng, selection);
+    if (selection === 1 && mode === "lucky") return;
     try {
       if (places.length >= 4) {
         throw new Error("Too many places selected.");
@@ -168,7 +169,6 @@ const CreateRoute = () => {
         }
         const planRouteRes = await fetch(urls.lucky, options);
         const route = await planRouteRes.json();
-        console.log(route);
         routeGeom = route.route_geom;
         routeDistance = route.distance;
         routeDuration = 0; // TODO: CHANGE THIS ACC TO API
