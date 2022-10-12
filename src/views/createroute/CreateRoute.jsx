@@ -231,7 +231,7 @@ const CreateRoute = () => {
         setAlerts((prevAlerts) => prevAlerts.slice(1));
       }, 5000);
     } catch (error) {
-      // TODO: go to error page
+      // TODO: error handling
       console.error(error.message);
     }
   }

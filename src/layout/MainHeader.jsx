@@ -52,7 +52,7 @@ const MainHeader = () => {
       signOut(auth);
       dispatch(logout());
     } catch (error) {
-      // TODO: link to 404 page
+      // TODO: error handling
       console.error(error);
     }
   }

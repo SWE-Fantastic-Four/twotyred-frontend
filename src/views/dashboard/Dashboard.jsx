@@ -24,7 +24,7 @@ const Dashboard = () => {
         const data = await response.json();
         showRoutes(data.routeInfoArray);
       } catch (error) {
-        // TODO: implement error handling
+        // TODO: error handling
         console.error(error.message);
       }
     };
