@@ -21,7 +21,9 @@ const useProfileDetails = () => {
         console.error(error.message);
       }
     }
-    fetchUserDetails();
+    if (username) {
+      fetchUserDetails();
+    }
   },[username]);
 
   return profileDetails;

@@ -41,6 +41,17 @@ function App() {
         dispatch(updateProfilePhoto(""));
       }
     });
+
+    const resetViewHeight = () => {
+      let vh = window.innerHeight * 0.01
+      console.log(vh);
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+
+    window.addEventListener('resize', resetViewHeight);
+    return () => {
+      window.removeEventListener('resize', resetViewHeight);
+    }
   },[]);
 
   return (
