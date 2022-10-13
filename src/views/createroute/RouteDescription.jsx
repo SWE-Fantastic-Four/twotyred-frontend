@@ -16,6 +16,7 @@ import BottomDrawerButton from "../../assets/BottomDrawerButton.svg";
 import { useSearchParams } from "react-router-dom";
 import { Transition } from "@headlessui/react";
 import axios from 'axios'
+import { urls } from "../../constants/constants";
 
 
 
