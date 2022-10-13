@@ -1,10 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import smile from "../../assets/smile.svg";
 import star from "../../assets/star.svg";
 import sun from "../../assets/sun.svg";
+import moon from "../../assets/moon.svg";
+import cloudy from "../../assets/cloudy.svg"
+import partCloudyDay from "../../assets/partCloudyDay.svg";
+import partCloudyNight from "../../assets/partCloudyNight.svg";
+import rain from "../../assets/rain.svg";
+import thunderyShowers from "../../assets/thunderyShowers.svg";
+import pmNormal from "../../assets/pmNormal.svg";
+import pmElevated from "../../assets/pmElevated.svg";
+import pmHigh from "../../assets/pmHigh.svg";
+import pmVeryHigh from "../../assets/pmVeryHigh.svg";
 import BottomDrawerButton from "../../assets/BottomDrawerButton.svg";
 import { useSearchParams } from "react-router-dom";
 import { Transition } from "@headlessui/react";
+import axios from 'axios'
+
+
 
 const SmallBox = ({ children, className }) => {
   return (
@@ -27,10 +40,109 @@ const SmallButton = ({ children, className, onClick }) => {
   );
 };
 
-const RouteDescription = ({ routeDistance, onSave, shrinkMobileDrawer, expandMobileDrawer }) => {
+const RouteDescription = ({ routeDistance, onSave, shrinkMobileDrawer, expandMobileDrawer, start }) => {
+;
+  const [psi, setPsi] = useState("-");
+  const [pm25, setPm25] = useState("-");
+  const [pm25Img, setPm25Img] = useState("-");
+  const [pm25Status, setPm25Status] = useState("-");
+  const [date, setDate] = useState("-");
+  const [temperature, setTemperature] = useState("-");
+  const [time, setTime] = useState("-");
+  const [weatherStatus, setWeatherStatus] = useState("-");
+  const [weather, setWeather] = useState("unknown");
+  const [weatherImg, setWeatherImg] = useState(sun);
+
+
   const [showDrawer, setShowDrawer] = useState(false);
   const [searchParams,setSearchParams] = useSearchParams();
   const mode = searchParams.get("mode");
+
+
+     
+  const getWeatherImg = () => {
+    switch(weatherStatus){
+      case "Fair(Day)":
+        setWeather("Sunny");
+        setWeatherImg(sun);
+        break;
+      case "Fair(Night)":
+        setWeather("Fair");
+        setWeatherImg(moon);
+        break;
+      case "Partly Cloudy (Day)":
+        setWeather("Partly Cloudy");
+        setWeatherImg(partCloudyDay);
+        break;
+      case "Partly Cloudy (Night)":
+        setWeather("Partly Cloudy");
+        setWeatherImg(partCloudyNight);
+        break;
+      case "Cloudy":
+        setWeather("Cloudy");
+        setWeatherImg(cloudy);
+        break;
+      case "Light Rain":
+      case "Moderate Rain":
+      case "Light Showers":
+      case "Showers":
+        setWeather("Rain");
+        setWeatherImg(rain);
+        break;
+      case "Thundery Showers":
+      case "Heavy Thundery Showers":
+      case "Heavy Thundery Showers with Gusty Winds":
+        setWeather("Thundery Showers");
+        setWeatherImg(thunderyShowers);
+        break;
+      default:
+        setWeather("Unknown");
+        setWeatherImg(sun);
+    }
+  }
+
+  const getPSIImg = () => {
+    
+      if (0 < pm25 && pm25 <= 55){
+        setPm25Img(pmNormal);
+        setPm25Status("Normal");
+      }
+      else if (56 < pm25 && pm25 <= 150){
+        setPm25Img(pmElevated);
+        setPm25Status("Elevated");
+      }
+      else if (151 < pm25 && pm25 <= 250){
+        setPm25Img(pmHigh);
+        setPm25Status("High");
+      }
+      else if (pm25 > 250){
+        setPm25Img(pmVeryHigh);
+        setPm25Status("Very High");
+      }
+      else{
+        setPm25Img(pmElevated);
+        setPm25Status("Unknown");
+      }
+      
+    
+  }
+
+  useEffect(() => {
+    
+    const getEnvs = async () => {
+      const res = await (await axios.post("http://localhost:3000/envfactors",{"lat": start.lat, "lng": start.lng})).data
+      setPsi(res['24HourPSI']);
+      setPm25(res['PM2.5']);
+      setDate(res['date'].split(" ").slice(0,2).join(' ')); // get 12 Aug from 12 Aug 2022
+      setTemperature(res['temperature']);
+      setTime(res['time']);
+      setWeatherStatus(res['weatherStatus']);
+    }
+    getEnvs();
+    getWeatherImg();
+    getPSIImg();
+  })
+
   return (
     <>
       {/* Desktop Route Description */}
@@ -42,30 +154,34 @@ const RouteDescription = ({ routeDistance, onSave, shrinkMobileDrawer, expandMob
         <div className="flex flex-col flex-grow bg-white m-[10px] rounded-[10px]  text-black text-[20px] p-[16px]">
           <p>Route Details</p>
           <SmallBox className="bg-[#98bdfc81]">
-            <div className="flex flex-row justify-between">
-              <img src={sun} className="mt-[10px] mb-[10px]" />
+            <div className="flex flex-row justify-between w-full">
+              <img src={weatherImg} className="mt-[10px] mb-[10px]" />
               <div className="flex flex-col items-end">
                 <h1 className="mt-[25px] text-[43px] text-[#565150] self-end">
-                  29 Aug
+                  {date}
                 </h1>
                 <p className="mt-[20px] text-[#565150] text-[24px] self-end">
-                  7:00 am
+                  {time}
                 </p>
-                <p className="mt-[10px] mb-[10px] text-[#565150] text-[24px] self-end">
-                  Sunny | 32°C
-                </p>
+                {/* <p className="mt-[10px] mb-[10px] text-[#565150] text-[24px] self-end">
+                  {weather} | {temperature}°C
+                </p> */}
+                <div className="flex mt-[10px] mb-[10px] text-[#565150] self-end">
+                  <div className="flex items-center text-right pr-2 border-r-2 text-[20px]">{weather}</div> 
+                  <div className="flex items-center text-left pl-2 text-[24px]">{temperature}°C</div>
+                </div>
               </div>
             </div>
           </SmallBox>
           <SmallBox className="bg-[#bbdd8578]">
             <div className="flex flex-row gap-[25px] items-center">
               <p className="text-[#565150] text-[20px]">
-                PM 2.5 Index: 30 µg/m³
+                PM 2.5 Index: {pm25} µg/m³
               </p>
               <div className="mt-[5px]">
-                <img src={smile} className="self-end h-[35px]" />
+                <img src={pm25Img} className="self-end h-[35px]" />
                 <p className="mt-auto self-end text-[12px] text-[#565150]">
-                  Normal
+                  {pm25Status}
                 </p>
               </div>
             </div>
