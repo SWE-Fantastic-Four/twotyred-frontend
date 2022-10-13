@@ -253,7 +253,7 @@ const CreateRoute = () => {
       case "1":
         return (
           <div className={`font-medium sm:p-[10px] text-[32px] z-10 absolute bottom-0 ${mobileDrawerShrunk ? "h-[59px]" : "h-[414px]"} sm:h-full w-full xs:w-[480px] sm:w-auto overflow-hidden`}>
-            <RouteDescription routeDistance={routeDistance} onSave={saveRouteHandler} shrinkMobileDrawer={() => setMobileDrawerShrunk(true)} expandMobileDrawer={() => setMobileDrawerShrunk(false)} />
+            <RouteDescription routeDistance={routeDistance} start={start} onSave={saveRouteHandler} shrinkMobileDrawer={() => setMobileDrawerShrunk(true)} expandMobileDrawer={() => setMobileDrawerShrunk(false)} />
           </div>
         )
     }
