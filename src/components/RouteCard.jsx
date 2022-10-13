@@ -40,8 +40,7 @@ export default function RouteCard({
   const navigate = useNavigate();
 
   const clickHandler = () => {
-    const mode =
-      intermediatePts && intermediatePts.length === 0 ? "lucky" : "default";
+    const mode = intermediatePts && intermediatePts.length === 0 ? "lucky" : "default";
     navigate(P.CREATEROUTE + `?page=1&mode=${mode}`, {
       state: {
         routeInfo: {
