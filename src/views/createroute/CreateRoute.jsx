@@ -56,13 +56,17 @@ const CreateRoute = () => {
   } else if (page !== "0" && page !== "1") {
     setSearchParams({mode: mode, page: "0"});
   }
+
+  useEffect(() => {
+    setPlaces([]);
+  },[mode]);
   
   useEffect(() => {
     if (page === "1") {
       const routeInfo = (!location.state || !location.state.routeInfo) ? {} : location.state.routeInfo;
       console.log(routeInfo);
       if (routeInfo.routeDistance) {
-        setRouteDistance(routeInfo.routeDistance * 1000);
+        setRouteDistance(routeInfo.routeDistance);
       }
       if (routeInfo.routeDuration) {
         setRouteDuration(routeInfo.routeDuration);
@@ -78,10 +82,6 @@ const CreateRoute = () => {
       }
     }
   },[page, location]);
-
-  useEffect(() => {
-    setPlaces([]);
-  },[mode]);
 
   useEffect(() => {
     if (resetViewHeight) {
@@ -175,7 +175,7 @@ const CreateRoute = () => {
         const planRouteRes = await fetch(urls.lucky_huixx + "/imfeelinglucky", options);
         const route = await planRouteRes.json();
         routeGeom = route.route_geom;
-        routeDistance = route.distance;
+        routeDistance = route.distance * 1000;
         routeDuration = route.duration;
         const endPt = route.end_pt;
         endPt.id = `${endPt.lat},${endPt.lng}`;
