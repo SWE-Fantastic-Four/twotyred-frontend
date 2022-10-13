@@ -178,11 +178,9 @@ const CreateRoute = () => {
         routeDistance = route.distance;
         routeDuration = route.duration;
         const endPt = route.end_pt;
-        console.log(`start: ${JSON.stringify(endPt)}`)
         endPt.id = `${endPt.lat},${endPt.lng}`;
         endPt.name = endPt.pt_address;
         delete endPt.pt_address;
-        console.log(`end: ${JSON.stringify(endPt)}`)
         routePlaces = [endPt];
       }
       navigate(P.CREATEROUTE + `?page=1&mode=${mode}`, {
