@@ -57,8 +57,6 @@ const RouteDescription = ({ routeDistance, onSave, shrinkMobileDrawer, expandMob
   const [showDrawer, setShowDrawer] = useState(false);
   const [searchParams,setSearchParams] = useSearchParams();
   const mode = searchParams.get("mode");
-
-
      
   const getWeatherImg = () => {
     switch(weatherStatus){
@@ -107,36 +105,35 @@ const RouteDescription = ({ routeDistance, onSave, shrinkMobileDrawer, expandMob
         setPm25Img(pmNormal);
         setPm25Status("Normal");
       }
-      else if (56 < pm25 && pm25 <= 150){
+      else if (55 < pm25 && pm25 <= 150){
         setPm25Img(pmElevated);
         setPm25Status("Elevated");
       }
-      else if (151 < pm25 && pm25 <= 250){
+      else if (150 < pm25 && pm25 <= 250){
         setPm25Img(pmHigh);
         setPm25Status("High");
       }
-      else if (pm25 > 250){
+      else if (pm25 > 250) {
         setPm25Img(pmVeryHigh);
         setPm25Status("Very High");
       }
-      else{
+      else {
         setPm25Img(pmElevated);
         setPm25Status("Unknown");
       }
-      
-    
   }
 
   useEffect(() => {
     
     const getEnvs = async () => {
-      const res = await (await axios.post("http://localhost:3000/envfactors",{"lat": start.lat, "lng": start.lng})).data
-      setPsi(res['24HourPSI']);
-      setPm25(res['PM2.5']);
-      setDate(res['date'].split(" ").slice(0,2).join(' ')); // get 12 Aug from 12 Aug 2022
-      setTemperature(res['temperature']);
-      setTime(res['time']);
-      setWeatherStatus(res['weatherStatus']);
+      const res = await axios.post(urls.backend + "/envfactors",{"lat": start.lat, "lng": start.lng});
+      const data = res.data;
+      setPsi(data['24HourPSI']);
+      setPm25(data['PM2.5']);
+      setDate(data['date'].split(" ").slice(0,2).join(' ')); // get 12 Aug from 12 Aug 2022
+      setTemperature(data['temperature']);
+      setTime(data['time']);
+      setWeatherStatus(data['weatherStatus']);
     }
     getEnvs();
     getWeatherImg();
