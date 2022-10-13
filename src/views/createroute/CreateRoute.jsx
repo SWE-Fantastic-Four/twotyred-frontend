@@ -62,7 +62,7 @@ const CreateRoute = () => {
       const routeInfo = (!location.state || !location.state.routeInfo) ? {} : location.state.routeInfo;
       console.log(routeInfo);
       if (routeInfo.routeDistance) {
-        setRouteDistance(routeInfo.routeDistance);
+        setRouteDistance(routeInfo.routeDistance * 1000);
       }
       if (routeInfo.routeDuration) {
         setRouteDuration(routeInfo.routeDuration);
@@ -80,15 +80,18 @@ const CreateRoute = () => {
   },[page, location]);
 
   useEffect(() => {
+    setPlaces([]);
+  },[mode]);
+
+  useEffect(() => {
+    if (resetViewHeight) {
+      resetViewHeight();
+    }
     window.addEventListener('resize', resetViewHeight);
     return () => {
       window.removeEventListener('resize', resetViewHeight);
     }
   },[resetViewHeight]);
-
-  useEffect(() => {
-    resetViewHeight();
-  },[]);
 
   const removeItem = (index) => {
     setPlaces(places.filter((o, i) => index !== i));
@@ -137,6 +140,7 @@ const CreateRoute = () => {
       let routeGeom;
       let routeDistance;
       let routeDuration;
+      let routePlaces = [];
       if (mode === "default") {
         let allPlaces = [start,...places];
         const coordinates = allPlaces.map((place) => `${place.lat},${place.lng}`);
@@ -152,6 +156,7 @@ const CreateRoute = () => {
         routeGeom = route.route_geometry;
         routeDistance = route.distance;
         routeDuration = route.duration;
+        routePlaces = places;
       } else {
         if (isNaN(distanceInput)) {
           throw new Error("Input not numeric");
@@ -167,16 +172,18 @@ const CreateRoute = () => {
             target_dist: distanceInput
           })
         }
-        const planRouteRes = await fetch(urls.lucky, options);
+        const planRouteRes = await fetch(urls.lucky_huixx + "/imfeelinglucky", options);
         const route = await planRouteRes.json();
         routeGeom = route.route_geom;
         routeDistance = route.distance;
-        routeDuration = 0; // TODO: CHANGE THIS ACC TO API
+        routeDuration = route.duration;
         const endPt = route.end_pt;
+        console.log(`start: ${JSON.stringify(endPt)}`)
         endPt.id = `${endPt.lat},${endPt.lng}`;
         endPt.name = endPt.pt_address;
         delete endPt.pt_address;
-        setPlaces([endPt]);
+        console.log(`end: ${JSON.stringify(endPt)}`)
+        routePlaces = [endPt];
       }
       navigate(P.CREATEROUTE + `?page=1&mode=${mode}`, {
         state: {
@@ -185,7 +192,7 @@ const CreateRoute = () => {
             routeDistance,
             routeDuration,
             start,
-            places
+            places: routePlaces
           }
         }
       })
@@ -301,7 +308,7 @@ const CreateRoute = () => {
         {/* <div>
           {page === "0" && places.length > 0 && alerts.filter(alert => alert === 2).length > 0 && <div>Fuck</div>}
         </div> */}
-        {places.length > 0 && page === "0" && 
+        {page === "0" && (mode === "default" && places.length > 0 || mode === "lucky" && distanceInput !== "") && 
           <div className="absolute bottom-0 right-0 z-10 m-[10px] flex flex-col sm:hidden gap-[12px] items-end">
             {alerts.filter(alert => alert === 2).length > 0 && alerts.filter(alert => alert === 2).map((_,i) => <motion.div key={i} initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} className="flex h-[39px] items-center px-[28px] rounded-[10px] bg-[#EACDCD] text-[#AE3213] text-[18px] shadow-lg font-medium">
               Error: Failed to generate route

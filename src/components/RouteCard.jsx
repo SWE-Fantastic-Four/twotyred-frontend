@@ -16,6 +16,10 @@ import Map from "./Map";
 import { useNavigate } from "react-router-dom";
 import P from "../constants/paths";
 import { motion } from "framer-motion";
+import AwesomeDebouncePromise from "awesome-debounce-promise";
+
+const likeRequest = AwesomeDebouncePromise((username, id, url) => axios.post(url, { username, routeId: id }),500);
+const favouriteRequest = AwesomeDebouncePromise((username, id, url) => axios.post(url, { user: username, route: id }),500);
 
 export default function RouteCard({
   startPt,
@@ -80,11 +84,9 @@ export default function RouteCard({
         starFilled ? --prevValue : ++prevValue
       );
     }
-    const url = starFilled
-      ? urls.backend + "/routes/unfavourite"
-      : urls.backend + "/routes/favourite";
+    const url = starFilled ? urls.backend + "/routes/unfavourite" : urls.backend + "/routes/favourite";
     try {
-      const response = await axios.post(url, { user: username, route: id });
+      const response = await favouriteRequest(username, id, url);
       console.log(response.data);
       if (refreshRoutes) {
         refreshRoutes();
@@ -96,16 +98,16 @@ export default function RouteCard({
       console.error(error);
     }
   };
+
   const heartClickHandler = async (e) => {
     e.stopPropagation();
     setHeartFilled(!heartFilled);
     setLikeCount((prevValue) => (heartFilled ? --prevValue : ++prevValue));
-    const url = heartFilled
-      ? urls.backend + "/routes/unlike"
-      : urls.backend + "/routes/like";
+    const url = heartFilled ? urls.backend + "/routes/unlike" : urls.backend + "/routes/like";
     try {
-      const response = await axios.post(url, { username, routeId: id });
+      const response = await likeRequest(username, id, url);
       const data = response.data;
+      console.log(data);
       setLikeCount(data.newLikeCount);
       if (refreshRoutes) {
         refreshRoutes();

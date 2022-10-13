@@ -20,9 +20,6 @@ const MainHeaderDisabled = () => {
       </nav>
       {/* Mobile Navbar */}
       <nav className="flex sm:hidden h-[53px] bg-light-gray z-50 shadow-lg top-0 sticky w-full cursor-default py-[18px] px-[16px]">
-        {/* <div className="w-full flex justify-center items-center"> */}
-          {/* <p className="font-medium text-[20px]">{""}</p> */}
-        {/* </div> */}
       </nav>
     </>
   )

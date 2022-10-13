@@ -91,7 +91,7 @@ const ProfileModal = ({ open, onClose }) => {
       }
       onClose();
     } catch (error) {
-      // Redirect to 404 page
+      // TODO: error handling
       console.error(error.message);
     }
   }

@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
-// import GoogleMapReact from 'google-map-react'
 import IntermediateMarker from "../assets/Marker.svg";
 import StartMarker from "../assets/StartMarker.svg";
 import { GoogleMap, LoadScript, Marker, Polyline } from '@react-google-maps/api';
-// import { useMemo } from 'react';
 import { useEffect } from 'react';
 import polyUtil from 'polyline-encoded';
 
@@ -21,10 +19,6 @@ const Map = ({ options, onClick, places, start, routeGeom="", center }) => {
   useEffect(() => {
     if (map && window.google && !center) {
       const bounds = new window.google.maps.LatLngBounds();
-      // bounds.extend(new window.google.maps.LatLng(start.lat, start.lng));
-      // places.forEach(place => {
-      //   bounds.extend(new window.google.maps.LatLng(place.lat, place.lng));
-      // });
       routePoints.forEach((routePoint) => {
         bounds.extend(new window.google.maps.LatLng(routePoint.lat, routePoint.lng));
       })

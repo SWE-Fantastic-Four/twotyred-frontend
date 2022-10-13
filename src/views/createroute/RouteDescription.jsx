@@ -35,10 +35,6 @@ const RouteDescription = ({ routeDistance, onSave, shrinkMobileDrawer, expandMob
     <>
       {/* Desktop Route Description */}
       <div className="flex-col m-[10px] w-[387px] h-[calc(100%-20px)] px-[12px] py-[13px] bg-[#918d8db4] p-[20px] rounded-[10px] overflow-hidden hidden sm:flex">
-        {/* <div className="flex flex-row items-center gap-[10px] flex-grow-8 bg-white m-[10px] rounded-[10px] text-black text-[20px] p-[10px]">
-          <img src={star} className="self-end h-[40px]" />
-          <p>New route created!</p>
-        </div> */}
         <div className="flex flex-col flex-grow bg-white m-[10px] rounded-[10px]  text-black text-[20px] p-[16px]">
           <p>Route Details</p>
           <SmallBox className="bg-[#98bdfc81]">
