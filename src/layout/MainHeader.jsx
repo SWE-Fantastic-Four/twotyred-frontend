@@ -2,7 +2,7 @@
 import { ChevronDownIcon, ChevronLeftIcon } from "@heroicons/react/24/outline";
 import { Transition, Disclosure } from "@headlessui/react";
 import { getAuth, signOut } from "firebase/auth";
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink, useLocation, useSearchParams } from 'react-router-dom';
 import CreateSpeechBtmDark from "../assets/CreateSpeechBtmDark.svg";
@@ -24,6 +24,8 @@ const MainHeader = () => {
   const username = useSelector(state => state.auth.displayName);
   
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [mobileMenuHeight, setMobileMenuHeight] = useState(0);
+
   const profilePhoto = useProfilePhoto();
 
   const pathname = location.pathname;
@@ -56,6 +58,18 @@ const MainHeader = () => {
       console.error(error);
     }
   }
+
+  const resetViewHeight = useCallback(() => {
+    setMobileMenuHeight(window.innerHeight);
+  },[]);
+
+  useEffect(() => {
+    resetViewHeight();
+    window.addEventListener('resize', resetViewHeight);
+    return () => {
+      window.removeEventListener('resize', resetViewHeight);
+    }
+  },[resetViewHeight]);
 
   return (
     <>
@@ -101,14 +115,15 @@ const MainHeader = () => {
         </div>
       </nav>
       <Transition
-        className="top-0 w-[297px] fixed h-screen z-50 bg-white shadow-2xl rounded-r-[20px] pt-[23px] pr-[15px] pb-[27px] pl-[25px] flex flex-col"
-        show={showMobileMenu}
+        className="top-0 w-[297px] fixed z-50 bg-white shadow-2xl rounded-r-[20px] pt-[23px] pr-[15px] pb-[27px] pl-[25px] flex flex-col"
+        show={showMobileMenu} 
         enter="transition-all duration-500 ease-in-out"
         enterFrom="-translate-x-full"
         enterTo="-translate-x-0"
         leave="transition-all duration-500 ease-in-out"
         leaveFrom="-translate-x-0"
         leaveTo="-translate-x-full"
+        style={{ height: mobileMenuHeight }}
       >
         <div className="relative flex flex-col h-full justify-between">
           <ChevronLeftIcon className="absolute right-0 top-0 text-dark-gray stroke-2 cursor-pointer" height={25} width={25} onClick={() => setShowMobileMenu(false)}/>
