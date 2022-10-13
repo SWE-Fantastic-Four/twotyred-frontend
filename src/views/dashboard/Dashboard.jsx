@@ -43,7 +43,7 @@ const Dashboard = () => {
           </div>
           <div>
             <Filter routeOption={routeOption} setRouteOption={setRouteOption} />
-            <div className="Cards grid computer:grid-cols-3 gap-4 z-0 sm:mt-[23px] mt-[18px] phone:grid-cols-1 tablet:grid-cols-2">
+            <div className="Cards grid computer:grid-cols-3 gap-4 z-0 sm:my-[23px] my-[18px] phone:grid-cols-1 tablet:grid-cols-2">
               {routes.length > 0 &&
                 routes.map((route) => {
                   return (

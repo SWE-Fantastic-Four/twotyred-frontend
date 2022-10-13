@@ -78,12 +78,12 @@ export default function RouteCard({
 
   const starClickHandler = async (e) => {
     e.stopPropagation();
-    setStarFilled(!starFilled);
-    if (setFavouriteCount) {
-      setFavouriteCount((prevValue) =>
-        starFilled ? --prevValue : ++prevValue
-      );
-    }
+    setStarFilled((prevValue) => !prevValue);
+    // if (setFavouriteCount) {
+    //   setFavouriteCount((prevValue) =>
+    //     starFilled ? --prevValue : ++prevValue
+    //   );
+    // }
     const url = starFilled ? urls.backend + "/routes/unfavourite" : urls.backend + "/routes/favourite";
     try {
       const response = await favouriteRequest(username, id, url);
@@ -92,20 +92,21 @@ export default function RouteCard({
         refreshRoutes();
       }
     } catch (error) {
-      if (setFavouriteCount) {
-        setFavouriteCount((prevValue) => --prevValue);
-      }
+      // if (setFavouriteCount) {
+      //   setFavouriteCount((prevValue) => --prevValue);
+      // }
       console.error(error);
     }
   };
 
   const heartClickHandler = async (e) => {
     e.stopPropagation();
-    setHeartFilled(!heartFilled);
-    setLikeCount((prevValue) => (heartFilled ? --prevValue : ++prevValue));
+    setHeartFilled((prevValue) => !prevValue);
+    // setLikeCount((prevValue) => (heartFilled ? --prevValue : ++prevValue));
     const url = heartFilled ? urls.backend + "/routes/unlike" : urls.backend + "/routes/like";
     try {
       const response = await likeRequest(username, id, url);
+      console.log(heartFilled ? "unlike" : "like");
       const data = response.data;
       console.log(data);
       setLikeCount(data.newLikeCount);
@@ -113,7 +114,7 @@ export default function RouteCard({
         refreshRoutes();
       }
     } catch (error) {
-      setLikeCount((prevValue) => (heartFilled ? ++prevValue : --prevValue));
+      // setLikeCount(initialLikeCount);
       console.error(error);
     }
   };
