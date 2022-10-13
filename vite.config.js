@@ -17,7 +17,7 @@ export default defineConfig({
         name: 'SWE Fantastic Four',
         short_name: 'SWE',
         description: 'Automatic cycling route planner',
-        theme_color: '#BCDD85',
+        theme_color: '#ffffff',
         display: "standalone",
         icons: [
           {
