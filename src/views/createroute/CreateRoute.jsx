@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 import Star from "../../assets/star.svg";
 import { AnimatePresence, motion } from 'framer-motion';
 import { useCallback } from 'react';
+import { Spinner } from 'flowbite-react';
 
 const CreateRoute = () => {
   const location = useLocation();
@@ -29,6 +30,8 @@ const CreateRoute = () => {
   const [mobileDrawerShrunk, setMobileDrawerShrunk] = useState(true);
   const [mapCenter, setMapCenter] = useState({lat: 1.363675, lng: 103.808922});
   const username = useSelector(state => state.auth.displayName);
+
+  const [generating, setGenerating] = useState(false);
 
   const ref = useRef(null);
   
@@ -135,7 +138,8 @@ const CreateRoute = () => {
     }
   }
 
-  const generateHandler = async () =>{
+  const generateHandler = async () => {
+    setGenerating(true);
     try {
       let routeGeom;
       let routeDistance;
@@ -172,7 +176,24 @@ const CreateRoute = () => {
             target_dist: distanceInput
           })
         }
-        const planRouteRes = await fetch(urls.lucky_huixx + "/imfeelinglucky", options);
+        let planRouteRes;
+        for (const urlKey in urls) {
+          if (urlKey === "backend") {
+            continue;
+          }
+          const url = urls[urlKey];
+          try {
+            planRouteRes = await fetch(url + "/imfeelinglucky", options);
+          } catch (error) {
+            continue;
+          }
+          if (planRouteRes.ok) {
+            break;
+          }
+        }
+        if (!planRouteRes || !planRouteRes.ok) {
+          throw new Error("Failed to generate route");
+        }
         const route = await planRouteRes.json();
         routeGeom = route.route_geom;
         routeDistance = route.distance * 1000;
@@ -205,6 +226,8 @@ const CreateRoute = () => {
       setTimeout(() => {
         setAlerts((prevAlerts) => prevAlerts.slice(1));
       }, 5000);
+    } finally {
+      setGenerating(false);
     }
   }
 
@@ -246,7 +269,7 @@ const CreateRoute = () => {
       case "0":
         return (
           <div className={`font-medium p-[10px] z-10 absolute ${start === null ? "" : "sm:h-full"} w-full sm:w-auto`}>
-            <RouteSelection places={places} removeItem={removeItem} setSelection={setSelection} onGenerate={generateHandler} selection={selection} start={start} mode={mode} distanceInput={distanceInput} setDistanceInput={setDistanceInput} />
+            <RouteSelection places={places} removeItem={removeItem} setSelection={setSelection} onGenerate={generateHandler} selection={selection} start={start} mode={mode} distanceInput={distanceInput} setDistanceInput={setDistanceInput} generating={generating}/>
           </div>
         );
 
@@ -312,7 +335,7 @@ const CreateRoute = () => {
               Error: Failed to generate route
             </motion.div>)
             }
-            <GreenButton className="w-[175px]" onClick={generateHandler}>Generate Route</GreenButton>
+            <GreenButton className="w-[175px]" onClick={generateHandler}>{generating ? <Spinner /> : "Generate Route"}</GreenButton>
           </div>
         }
         <div className="h-full w-full">

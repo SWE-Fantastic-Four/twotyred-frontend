@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import MainLayout from "../../layout/MainLayout";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import RouteCard from "../../components/RouteCard";
+import RouteCardLoadingSet from "../../components/RouteCardLoading/RouteCardLoadingSet";
 import Filter from "../../components/Filter";
 import { urls } from "../../constants/constants";
 import { useSelector } from "react-redux";
+import RouteCardLoading from "../../components/RouteCardLoading/RouteCardLoading";
 
 const Dashboard = () => {
   const [routes, showRoutes] = useState([]);
@@ -44,7 +46,7 @@ const Dashboard = () => {
           <div>
             <Filter routeOption={routeOption} setRouteOption={setRouteOption} />
             <div className="Cards grid computer:grid-cols-3 gap-4 z-0 sm:my-[23px] my-[18px] phone:grid-cols-1 tablet:grid-cols-2">
-              {routes.length > 0 &&
+              {routes.length > 0 ?
                 routes.map((route) => {
                   return (
                     <RouteCard
@@ -65,7 +67,9 @@ const Dashboard = () => {
                       duration={route.routeInfo.Duration}
                     />
                   );
-                })}
+                }) :
+                <RouteCardLoadingSet />
+                }
             </div>
           </div>
         </div>

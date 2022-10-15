@@ -5,6 +5,7 @@ import location from "../../assets/location.svg";
 import search from "../../assets/search.svg";
 import DistanceMarker from "../../assets/DistanceMarker.svg";
 import GreenButton from "./GreenButton";
+import { Spinner } from "flowbite-react";
 
 const SmallBox = ({ children, className, onClick }) => {
   return (
@@ -17,7 +18,7 @@ const SmallBox = ({ children, className, onClick }) => {
   );
 };
 
-const RouteSelection = ({ places, removeItem, setSelection, selection, start, onGenerate, mode, distanceInput, setDistanceInput }) => {
+const RouteSelection = ({ places, removeItem, setSelection, selection, start, onGenerate, mode, distanceInput, setDistanceInput, generating }) => {
   const placesList = places.map((place) => (
     <div key={place.id} className="flex flex-row bg-white rounded-[10px] sm:h-[51px] h-[42px] items-center sm:pl-[10px] pl-[8px] sm:pr-[25px] pr-[20px] hover:border sm:hover:pl-[9px] sm:hover:pr-[24px] hover:pl-[7px] hover:pr-[19px] cursor-default">
       <div className="sm:w-[40px] sm:h-[40px] w-[33px] h-[33px] flex justify-center items-center">
@@ -88,7 +89,7 @@ const RouteSelection = ({ places, removeItem, setSelection, selection, start, on
         </div>
         {(mode === "default" && places.length > 0 || mode === "lucky" && distanceInput) && (
           <div className="sm:flex hidden justify-end mt-auto self-end">
-            <GreenButton onClick={onGenerate}>Generate Route</GreenButton>
+            <GreenButton onClick={onGenerate}>{generating ? <Spinner /> : "Generate Route"}</GreenButton>
           </div>
         )}
       </div>

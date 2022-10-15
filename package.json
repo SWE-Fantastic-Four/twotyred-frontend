@@ -17,6 +17,8 @@
     "awesome-debounce-promise": "^2.1.0",
     "axios": "^1.1.2",
     "firebase": "^9.10.0",
+    "flowbite": "^1.5.3",
+    "flowbite-react": "^0.2.0",
     "framer-motion": "^7.5.3",
     "google-map-react": "^2.2.0",
     "polyline-encoded": "^0.0.9",

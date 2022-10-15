@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useSelector } from "react-redux";
 import RouteCard from "../../components/RouteCard";
 import { urls } from "../../constants/constants";
+import RouteCardLoadingSet from "../../components/RouteCardLoading/RouteCardLoadingSet";
 
 const ProfileBody = ({ className }) => {
   const username = useSelector((state) => state.auth.displayName);
@@ -48,7 +49,6 @@ const ProfileBody = ({ className }) => {
     <div
       className={`w-full flex flex-col items-center ${className} font-medium sm:text-[15px] text-[11.1px]`}
     >
-      {/* w-screen */}
       <div className="sm:w-[284px] w-[210px] border-b flex">
         <div className="w-1/2 flex justify-center items-center">
           <div
@@ -79,7 +79,7 @@ const ProfileBody = ({ className }) => {
       </div>
       <div className="Cards grid computer:grid-cols-3 gap-4 sm:mt-[20px] mt-[10px] phone:grid-cols-1 tablet:grid-cols-2">
         {showFavourites &&
-          favouriteRoutes.length !== 0 &&
+          (favouriteRoutes.length !== 0 ?
           favouriteRoutes.map((route) => {
             return (
               <RouteCard
@@ -102,9 +102,10 @@ const ProfileBody = ({ className }) => {
                 duration={route.routeInfo.Duration}
               />
             );
-          })}
+          }) : <RouteCardLoadingSet />)
+          }
         {!showFavourites &&
-          routes.length !== 0 &&
+          (routes.length !== 0 ?
           routes.map((route) => {
             return (
               <RouteCard
@@ -127,8 +128,8 @@ const ProfileBody = ({ className }) => {
                 duration={route.routeInfo.Duration}
               />
             );
-          })}
-
+          }) : <RouteCardLoadingSet />)
+          }
       </div>
     </div>
   );
