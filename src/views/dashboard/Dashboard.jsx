@@ -6,15 +6,28 @@ import RouteCardLoadingSet from "../../components/RouteCardLoading/RouteCardLoad
 import Filter from "../../components/Filter";
 import { urls } from "../../constants/constants";
 import { useSelector } from "react-redux";
-import RouteCardLoading from "../../components/RouteCardLoading/RouteCardLoading";
+
+/* 
+  Dashboard.jsx implements the Dashboard boundary class.
+  The attributes implemented are:
+  1. allRoutes as routes
+  2. mostLikedRoutes as routes
+
+  The key public methods are:
+  1. dashboardRoutes() under obtainRoutes(), which fetches the list of routes to be rendered on the dashboard
+
+  @author chayhuixiang
+*/
 
 const Dashboard = () => {
-  const [routes, showRoutes] = useState([]);
+  const [loadingRoutes, setLoadingRoutes] = useState(false);
+  const [routes, setRoutes] = useState([]);
   const [routeOption, setRouteOption] = useState(0); // 0 is for showing recent, 1 is for showing likes
   const username = useSelector((state) => state.auth.displayName);
 
   useEffect(() => {
     const obtainRoutes = async () => {
+      setLoadingRoutes(true);
       let url = "";
       if (routeOption === 0) {
         url = `${urls.backend}/routes/dashboard`;
@@ -24,10 +37,12 @@ const Dashboard = () => {
       try {
         const response = await fetch(url);
         const data = await response.json();
-        showRoutes(data.routeInfoArray);
+        setRoutes(data.routeInfoArray);
       } catch (error) {
         // TODO: error handling
-        console.error(error.message);
+        console.error(error.message);        
+      } finally {
+        setLoadingRoutes(false);
       }
     };
     obtainRoutes();
@@ -67,9 +82,8 @@ const Dashboard = () => {
                       duration={route.routeInfo.Duration}
                     />
                   );
-                }) :
-                <RouteCardLoadingSet />
-                }
+                }) : loadingRoutes && <RouteCardLoadingSet />
+              }
             </div>
           </div>
         </div>

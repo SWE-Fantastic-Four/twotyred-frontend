@@ -5,6 +5,21 @@ import SecondaryButton from '../../components/SecondaryButton';
 import LoginInput from './LoginInput';
 import { urls } from "../../constants/constants";
 
+/* 
+  RegistrationCard.jsx implements the Sign up boundary class.
+  The attributes implemented are:
+  1. email
+  2. username
+  3. password
+
+  The key public methods are:
+  1. submitForm() as registerHandler to submit the user's credentials to the authentication system for registration
+  2. displaySuccessMessage() as links.showRegistrationSuccess() to indicate to the user that their signup was successful
+  3. displayErrorMessage() as setErrorMsg(), which displays the signup error message for the user's reference
+
+  @author chayhuixiang
+*/
+
 const RegistrationCard = ({ links }) => {
   const auth = getAuth();
   const [email, setEmail] = useState("");

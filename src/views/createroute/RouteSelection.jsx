@@ -7,16 +7,22 @@ import DistanceMarker from "../../assets/DistanceMarker.svg";
 import GreenButton from "./GreenButton";
 import { Spinner } from "flowbite-react";
 
-const SmallBox = ({ children, className, onClick }) => {
-  return (
-    <button
-      className={`flex items-center rounded-[10px] sm:h-[51px] h-[42px] w-full sm:pl-[10px] pl-[8px] bg-white sm:text-[20px] hover:border hover:pl-[9px] shadow-lg pr-[23px] hover:pr-[22px] ${className}`}
-      onClick={onClick}
-    >
-      {children}
-    </button>
-  );
-};
+/* 
+  RouteSelection.jsx implements the Route Planning Page boundary class.
+  The attributes implemented are:
+  1. startPt as start, 
+  2. intermediatePts and endPt as places.
+
+  @author chayhuixiang
+*/
+
+/*
+  RouteSelection.jsx also implements the I'mFeelingLucky Page boundary class:
+  The attributes implemented are:
+  1. startPt as start.
+
+  @author chayhuixiang
+*/
 
 const RouteSelection = ({ places, removeItem, setSelection, selection, start, onGenerate, mode, distanceInput, setDistanceInput, generating }) => {
   const placesList = places.map((place) => (
@@ -94,6 +100,17 @@ const RouteSelection = ({ places, removeItem, setSelection, selection, start, on
         )}
       </div>
     </>
+  );
+};
+
+const SmallBox = ({ children, className, onClick }) => {
+  return (
+    <button
+      className={`flex items-center rounded-[10px] sm:h-[51px] h-[42px] w-full sm:pl-[10px] pl-[8px] bg-white sm:text-[20px] hover:border hover:pl-[9px] shadow-lg pr-[23px] hover:pr-[22px] ${className}`}
+      onClick={onClick}
+    >
+      {children}
+    </button>
   );
 };
 

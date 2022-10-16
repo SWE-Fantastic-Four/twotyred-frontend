@@ -7,42 +7,48 @@ import RouteCardLoadingSet from "../../components/RouteCardLoading/RouteCardLoad
 const ProfileBody = ({ className }) => {
   const username = useSelector((state) => state.auth.displayName);
   const [showFavourites, setShowFavourites] = useState(false);
-  const [routes, showRoutes] = useState([]);
+  const [loadingJobs, setLoadingJobs] = useState(0);
+  const [routes, setRoutes] = useState([]);
   const [favouriteRoutes, setFavouriteRoutes] = useState([]);
   const [routeCount, updateRouteCount] = useState(0);
   const [favouriteCount, updateFavouriteCount] = useState(0);
 
-  const obtainRoutes = useCallback(() => {
+  const obtainRoutes = useEffect(() => {
     // obtain user routes
     const obtainUserRoutes = async() => {
-      const response = await fetch(`${urls.backend}/routes/user/${username}`);
-      const data = await response.json();
-      updateRouteCount(data.routeInfoArray.length);
-      showRoutes(data.routeInfoArray);
+      setLoadingJobs((prevValue) => ++prevValue);
+      try {
+        const response = await fetch(`${urls.backend}/routes/user/${username}`);
+        const data = await response.json();
+        updateRouteCount(data.routeInfoArray.length);
+        setRoutes(data.routeInfoArray);
+      } catch (error) {
+        // TODO: error handling
+        console.error(error.message);
+      } finally {
+        setLoadingJobs((prevValue) => --prevValue);
+      }
     }
 
     // obtain favourite routes
     const obtainFavouriteRoutes = async() => {
-      const response = await fetch(
-        `${urls.backend}/routes/user/${username}?favourite=true`
-      );
-      const data = await response.json();
-      updateFavouriteCount(data.routeInfoArray.length);
-      setFavouriteRoutes(data.routeInfoArray);
-    }
-    obtainFavouriteRoutes();
-    obtainUserRoutes();
-  }, [username]);
-
-  useEffect(() => {
-    if (username) {
+      setLoadingJobs((prevValue) => ++prevValue);
       try {
-        obtainRoutes();
+        const response = await fetch(
+          `${urls.backend}/routes/user/${username}?favourite=true`
+        );
+        const data = await response.json();
+        updateFavouriteCount(data.routeInfoArray.length);
+        setFavouriteRoutes(data.routeInfoArray);
       } catch (error) {
         // TODO: error handling
         console.error(error.message);
+      } finally {
+        setLoadingJobs((prevValue) => --prevValue);
       }
     }
+    obtainFavouriteRoutes();
+    obtainUserRoutes();
   }, [username]);
 
   return (
@@ -102,7 +108,7 @@ const ProfileBody = ({ className }) => {
                 duration={route.routeInfo.Duration}
               />
             );
-          }) : <RouteCardLoadingSet />)
+          }) : loadingJobs > 0 && <RouteCardLoadingSet />)
           }
         {!showFavourites &&
           (routes.length !== 0 ?
@@ -128,7 +134,7 @@ const ProfileBody = ({ className }) => {
                 duration={route.routeInfo.Duration}
               />
             );
-          }) : <RouteCardLoadingSet />)
+          }) : loadingJobs > 0 && <RouteCardLoadingSet />)
           }
       </div>
     </div>

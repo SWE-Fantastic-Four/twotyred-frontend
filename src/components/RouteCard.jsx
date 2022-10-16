@@ -21,6 +21,26 @@ import AwesomeDebouncePromise from "awesome-debounce-promise";
 const likeRequest = AwesomeDebouncePromise((username, id, url) => axios.post(url, { username, routeId: id }),500);
 const favouriteRequest = AwesomeDebouncePromise((username, id, url) => axios.post(url, { user: username, route: id }),500);
 
+/* 
+  RouteCard.jsx implements the Route Card boundary class.
+  The attributes implemented are:
+  1. likes
+  2. startPt 
+  3. endPt 
+  4. date as timestamp 
+  5. username
+  6. distance
+
+  The key public methods are:
+  1. favouriteRoute() under favouriteHandler(), which enables the user to add the route to his/her favourites
+  2. unfavouriteRoute() under favouriteHandler(), which enables the user to remove the route from his/her favourites
+  3. likeRoute() under likeHandler(), which enables the user to like the current route
+  4. unlikeRoute() under likeHandler(), which enables the user to unlike the current route
+  5. viewMore(), which redirects the user to the Route Description page for more information about the current route
+
+  @author chayhuixiang
+*/
+
 export default function RouteCard({
   startPt,
   endPt,
@@ -43,7 +63,7 @@ export default function RouteCard({
   const [likeCount, setLikeCount] = useState(likes);
   const navigate = useNavigate();
 
-  const clickHandler = () => {
+  const viewMore = () => {
     const mode = intermediatePts && intermediatePts.length === 0 ? "lucky" : "default";
     navigate(P.CREATEROUTE + `?page=1&mode=${mode}`, {
       state: {
@@ -76,7 +96,7 @@ export default function RouteCard({
     return routeName;
   };
 
-  const starClickHandler = async (e) => {
+  const favouriteHandler = async (e) => {
     e.stopPropagation();
     setStarFilled((prevValue) => !prevValue);
     // if (setFavouriteCount) {
@@ -99,7 +119,7 @@ export default function RouteCard({
     }
   };
 
-  const heartClickHandler = async (e) => {
+  const likeHandler = async (e) => {
     e.stopPropagation();
     setHeartFilled((prevValue) => !prevValue);
     // setLikeCount((prevValue) => (heartFilled ? --prevValue : ++prevValue));
@@ -122,7 +142,7 @@ export default function RouteCard({
   return (
     <motion.div
       className="wholecard sm:w-[337px] w-[288px] sm:h-[328px] h-[280.31px] rounded-[5px] border-[2px] border-solid border-black shadow-lg hover:cursor-pointer hover:outline-black"
-      onClick={clickHandler}
+      onClick={viewMore}
       whileHover={{ scale: 1.05 }}
       whileTap={{
         scale: 1,
@@ -141,7 +161,7 @@ export default function RouteCard({
           </h1>
           <div className="icons flex items-center">
             {/* star button */}
-            <button onClick={starClickHandler}>
+            <button onClick={favouriteHandler}>
               {starFilled ? (
                 <StarIconSolid
                   className={`star stroke-[3] sm:h-[18px] h-[15.38px] text-yellow-300`}
@@ -151,7 +171,7 @@ export default function RouteCard({
               )}
             </button>
             {/* heart button */}
-            <button onClick={heartClickHandler}>
+            <button onClick={likeHandler}>
               {heartFilled ? (
                 <HeartIconSolid
                   className={`heart stroke-[3] sm:h-[19px] h-[16.24px] pl-[4px] pr-[4px] text-red-600`}

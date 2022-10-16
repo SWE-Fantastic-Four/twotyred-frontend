@@ -4,6 +4,19 @@ import PrimaryButton from '../../components/PrimaryButton';
 import SecondaryButton from '../../components/SecondaryButton';
 import LoginInput from './LoginInput';
 
+/* 
+  ResetCard.jsx implements the Password Reset boundary class.
+  The attributes implemented are:
+  1. email
+
+  The key public methods are:
+  1. submitEmail() as passwordResetHandler(), which submits the user-inputted email for password reset
+  2. displaySuccessMessage() as links.showResetSuccess() to indicate to the user that the email has been successfully sent
+  3. displayErrorMessage() as setErrorMsg(), which displays the password reset error message for the user's reference
+
+  @author chayhuixiang
+*/
+
 const ResetCard = ({ links }) => {
   const auth = getAuth();
   const [email, setEmail] = useState("");

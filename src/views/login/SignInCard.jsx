@@ -6,6 +6,19 @@ import TertiaryButton from "../../components/TertiaryButton";
 import { login } from "../../store/auth";
 import LoginInput from "./LoginInput";
 
+/* 
+  SignInCard.jsx implements the Log In class.
+  The attributes implemented are:
+  1. email
+  2. password
+
+  The key public methods are:
+  1. submitForm() as loginHandler(), which submits the user-inputted email and password to the authentication system
+  2. displayErrorMessage() as setErrorMsg(), which displays the login error message for the user's reference
+
+  @author chayhuixiang
+*/
+
 const SignInCard = ({ links }) => {
   const dispatch = useDispatch();
   const auth = getAuth();

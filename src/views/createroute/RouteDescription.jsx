@@ -17,40 +17,45 @@ import sun from "../../assets/sun.svg";
 import thunderyShowers from "../../assets/thunderyShowers.svg";
 import { urls } from "../../constants/constants";
 
-const SmallBox = ({ children, className }) => {
-  return (
-    <button
-      className={`flex flex-col gap-[10px] py-[4px] mt-[10px] rounded-[10px] w-full px-[16px] text-[20px] text-[#0c0c0c] leading-[23px] box-border hover:border hover:py-[3px] hover:px-[15px] ${className}`}
-    >
-      {children}
-    </button>
-  );
-};
+/* 
+  RouteDescription.jsx implements the Route Description Page boundary class.
+  The attributes implemented are:
+  1. routeDistance
+  2. routeWeather
+  3. routePM2.5Index as pm25 
+  4. routeDate 
+  5. routeTemperature
 
-const SmallButton = ({ children, className, onClick }) => {
-  return (
-    <button
-      className={`mt-[8px] w-max text-[15px] text-[#2E57A7] hover:underline rounded-[4px] ${className}`}
-      onClick={onClick}
-    >
-      {children}
-    </button>
-  );
-};
+  The key public methods are:
+  1. cycleRoute(), which saves the current route into the database
+  2. editRoute(), which enables the user to head back to the route planning page and edit the current route
+
+  @author chayhuixiang
+*/
 
 const RouteDescription = ({ routeDistance, onSave, shrinkMobileDrawer, expandMobileDrawer, start }) => {
   const [pm25, setPm25] = useState("-");
   const [pm25Img, setPm25Img] = useState(pmNormal);
   const [pm25Status, setPm25Status] = useState("-");
-  const [date, setDate] = useState("-");
-  const [temperature, setTemperature] = useState("-");
-  const [time, setTime] = useState("-");
-  const [weather, setWeather] = useState("unknown");
+  const [routeDate, setDate] = useState("-");
+  const [routeTemperature, setTemperature] = useState("-");
+  const [routeTime, setTime] = useState("-");
+  const [routeWeather, setWeather] = useState("unknown");
   const [weatherImg, setWeatherImg] = useState(sun);
 
   const [showDrawer, setShowDrawer] = useState(false);
   const [searchParams,setSearchParams] = useSearchParams();
   const mode = searchParams.get("mode");
+
+  const cycleRoute = (e) => {
+    e.stopPropagation(); 
+    onSave(setShowDrawer);
+  }
+
+  const editRoute = (e) => {
+    e.stopPropagation(); 
+    setSearchParams({page: "0", mode});
+  }
   
   useEffect(() => {
     const getWeatherImg = (weatherStatus) => {
@@ -145,14 +150,14 @@ const RouteDescription = ({ routeDistance, onSave, shrinkMobileDrawer, expandMob
               <img src={weatherImg} className="mt-[10px] mb-[10px]" />
               <div className="flex flex-col items-end">
                 <h1 className="mt-[25px] text-[43px] text-[#565150] self-end">
-                  {date}
+                  {routeDate}
                 </h1>
                 <p className="mt-[20px] text-[#565150] text-[24px] self-end">
-                  {time}
+                  {routeTime}
                 </p>
                 <div className="flex mt-[10px] mb-[10px] text-[#565150] self-end">
-                  <div className="flex items-center text-right pr-2 border-r-2 text-[20px]">{"Thundery Showers"}</div> 
-                  <div className="flex items-center text-left pl-2 text-[24px]">{temperature}°C</div>
+                  <div className="flex items-center text-right pr-2 border-r-2 text-[20px]">{routeWeather}</div> 
+                  <div className="flex items-center text-left pl-2 text-[24px]">{routeTemperature}°C</div>
                 </div>
               </div>
             </div>
@@ -207,13 +212,13 @@ const RouteDescription = ({ routeDistance, onSave, shrinkMobileDrawer, expandMob
         <div className="bg-[#98BDFC81] pt-[14px] w-full pb-[20px] rounded-[10px] pl-[9px] pr-[33px] flex justify-between">
           <img src={weatherImg} className="w-[97px] h-[97px]" />
           <div className="flex flex-col items-end">
-            <p className="text-[36px] leading-[42px]">{date}</p>
-            <p className="mt-[4px] text-[24px] leading-[28px]">{time}</p>
+            <p className="text-[36px] leading-[42px]">{routeDate}</p>
+            <p className="mt-[4px] text-[24px] leading-[28px]">{routeTime}</p>
             <div className="flex justify-center items-center mt-[5px] text-[20px]">
               <div className="h-full border-r-[3px] border-[#565150] pr-[9px] flex items-center text-right">
-                {weather}
+                {routeWeather}
               </div>
-              <p className="ml-[9px]">{temperature}°C</p>
+              <p className="ml-[9px]">{routeTemperature}°C</p>
             </div>
           </div>
         </div>
@@ -230,8 +235,8 @@ const RouteDescription = ({ routeDistance, onSave, shrinkMobileDrawer, expandMob
           <p>Route distance: {(routeDistance / 1000).toFixed(2)} km</p>
         </div>
         <div className="mt-auto text-[#2E57A7] text-[22px] w-full flex justify-between">
-          <p className="hover:underline decoration-[#2E57A7]" onClick={(e) => {e.stopPropagation(); setSearchParams({page: "0", mode})}}>Edit route</p>
-          <p className="hover:underline decoration-[#2E57A7]" onClick={(e) => {e.stopPropagation(); onSave(setShowDrawer)}}>Cycle route</p>
+          <p className="hover:underline decoration-[#2E57A7]" onClick={editRoute}>Edit route</p>
+          <p className="hover:underline decoration-[#2E57A7]" onClick={cycleRoute}>Cycle route</p>
         </div>
       </Transition>
       <div className="w-full h-[59px] bg-white absolute bottom-0 rounded-t-[10px] flex sm:hidden flex-col px-[15px] pt-[22px] pb-[10px] font-medium z-0" onTouchStart={() => setShowDrawer(!showDrawer)}>
@@ -242,6 +247,27 @@ const RouteDescription = ({ routeDistance, onSave, shrinkMobileDrawer, expandMob
         <h1 className="text-[22px] text-black leading-[26px]">Route Details</h1>
       </div>
     </>
+  );
+};
+
+const SmallBox = ({ children, className }) => {
+  return (
+    <button
+      className={`flex flex-col gap-[10px] py-[4px] mt-[10px] rounded-[10px] w-full px-[16px] text-[20px] text-[#0c0c0c] leading-[23px] box-border hover:border hover:py-[3px] hover:px-[15px] ${className}`}
+    >
+      {children}
+    </button>
+  );
+};
+
+const SmallButton = ({ children, className, onClick }) => {
+  return (
+    <button
+      className={`mt-[8px] w-max text-[15px] text-[#2E57A7] hover:underline rounded-[4px] ${className}`}
+      onClick={onClick}
+    >
+      {children}
+    </button>
   );
 };
 
