@@ -101,12 +101,12 @@ const CreateRoute = () => {
   };
 
   const clickHandler = async(e, map) => {
+    if ((selection === 1 && mode === "lucky") || page === "1") return;
     const lat = e.latLng.lat();
     const lng = e.latLng.lng();
     const centerLat = map.center.lat();
     const centerLng = map.center.lng();
     console.log(lat, lng, selection);
-    if (selection === 1 && mode === "lucky") return;
     try {
       if (places.length >= 4) {
         throw new Error("Too many places selected.");
