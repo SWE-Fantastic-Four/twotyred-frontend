@@ -318,7 +318,6 @@ const CreateRoute = () => {
 
   return (
     <MainLayout>
-      {/* w-screen */}
       <div style={{ height }} className="w-full relative" ref={ref}>
         {displayPage()}
         <div className="absolute z-10 sm:right-0 sm:left-auto left-0 top-0 sm:mt-[11px] mt-[8px] sm:mr-[20px] ml-[10px] flex flex-col gap-[10px] font-medium sm:text-[20px] text-[16px] sm:items-end items-start">
@@ -326,9 +325,6 @@ const CreateRoute = () => {
             {displayAlert()}
           </AnimatePresence>
         </div>
-        {/* <div>
-          {page === "0" && places.length > 0 && alerts.filter(alert => alert === 2).length > 0 && <div>Fuck</div>}
-        </div> */}
         {page === "0" && (mode === "default" && places.length > 0 || mode === "lucky" && distanceInput !== "") && 
           <div className="absolute bottom-0 right-0 z-10 m-[10px] flex flex-col sm:hidden gap-[12px] items-end">
             {alerts.filter(alert => alert === 2).length > 0 && alerts.filter(alert => alert === 2).map((_,i) => <motion.div key={i} initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} className="flex h-[39px] items-center px-[28px] rounded-[10px] bg-[#EACDCD] text-[#AE3213] text-[18px] shadow-lg font-medium">

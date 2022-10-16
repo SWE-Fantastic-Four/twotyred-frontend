@@ -108,7 +108,7 @@ const MainHeader = () => {
       </nav>
       {/* Mobile Navbar */}
       <nav className="flex sm:hidden h-[53px] bg-light-gray z-40 shadow-lg top-0 sticky w-full cursor-default py-[18px] px-[16px]">
-        <img src={Menu} alt="menu" onClick={() => setShowMobileMenu(!showMobileMenu)} />
+        <img src={Menu} alt="menu" onClick={() => setShowMobileMenu(!showMobileMenu)} className="absolute h-[17px]"/>
         <div className="w-full flex justify-center items-center">
           <p className="font-medium text-[20px]">{mobileNavbarText}</p>
         </div>

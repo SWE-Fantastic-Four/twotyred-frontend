@@ -7,7 +7,6 @@ import P from '../../constants/paths';
 const NotFound = () => {
   return (
     <MainLayout>
-      {/* w-screen */}
       <div className="h-[calc(100vh-98px)] w-full flex sm:flex-row flex-col items-center justify-center gap-[5%]">
         <img src={NotFoundGhost} alt="Ghost" className="xl:w-[450px] lg:w-[350px] sm:w-[250px] w-[183px]" />
         <div className="xl:w-[608px] xl:h-[492px] lg:w-[500px] lg:h-[404px] md:w-[400px] md:h-[350px] sm:w-[350px] sm:h-[323px] w-[263px] h-[213px] bg-gray rounded-[30px] xl:py-[56px] md:py-[32px] sm:py-[20px] sm:px-[28px] pt-[24px] pb-[17px] px-[12px] flex flex-col items-center justify-between">

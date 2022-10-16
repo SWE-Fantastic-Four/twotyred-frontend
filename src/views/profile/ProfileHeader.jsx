@@ -15,7 +15,6 @@ const ProfileHeader = ({ openSettings }) => {
   return (
     <div className="header justify-center">
       <div className="HeaderImage">
-        {/* w-screen */}
         <img className="w-full sm:h-[221px] h-[103px] object-cover" src={ProfileHeaderImg} />
       </div>
       <div className="userInfo">
