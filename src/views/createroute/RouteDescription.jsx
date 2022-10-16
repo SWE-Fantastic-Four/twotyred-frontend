@@ -150,9 +150,6 @@ const RouteDescription = ({ routeDistance, onSave, shrinkMobileDrawer, expandMob
                 <p className="mt-[20px] text-[#565150] text-[24px] self-end">
                   {time}
                 </p>
-                {/* <p className="mt-[10px] mb-[10px] text-[#565150] text-[24px] self-end">
-                  {weather} | {temperature}°C
-                </p> */}
                 <div className="flex mt-[10px] mb-[10px] text-[#565150] self-end">
                   <div className="flex items-center text-right pr-2 border-r-2 text-[20px]">{"Thundery Showers"}</div> 
                   <div className="flex items-center text-left pl-2 text-[24px]">{temperature}°C</div>
@@ -194,14 +191,18 @@ const RouteDescription = ({ routeDistance, onSave, shrinkMobileDrawer, expandMob
        leave="transition-all duration-500 ease-in-out"
        leaveFrom="translate-y-0"
        leaveTo="translate-y-[355px]"
-       onTouchStart={() => setShowDrawer(!showDrawer)}
        beforeEnter={expandMobileDrawer}
        afterLeave={shrinkMobileDrawer}
       >
-        <img
-          src={BottomDrawerButton}
-          className="w-[26px] absolute left-1/2 -translate-x-1/2 -translate-y-[6px]"
-        />
+        <div 
+          className="w-[100px] h-[13px] absolute left-1/2 -translate-x-1/2 -translate-y-[12px] flex justify-center items-center"
+          onTouchStart={() => setShowDrawer(!showDrawer)}
+        >
+          <img
+            src={BottomDrawerButton}
+            className="w-[26px] m-auto"
+          />
+        </div>
         <h1 className="text-[22px] text-black leading-[26px]">Route Details</h1>
         <div className="bg-[#98BDFC81] pt-[14px] w-full pb-[20px] rounded-[10px] pl-[9px] pr-[33px] flex justify-between">
           <img src={weatherImg} className="w-[97px] h-[97px]" />
@@ -230,7 +231,7 @@ const RouteDescription = ({ routeDistance, onSave, shrinkMobileDrawer, expandMob
         </div>
         <div className="mt-auto text-[#2E57A7] text-[22px] w-full flex justify-between">
           <p className="hover:underline decoration-[#2E57A7]" onClick={(e) => {e.stopPropagation(); setSearchParams({page: "0", mode})}}>Edit route</p>
-          <p className="hover:underline decoration-[#2E57A7]" onClick={onSave}>Cycle route</p>
+          <p className="hover:underline decoration-[#2E57A7]" onClick={(e) => {e.stopPropagation(); onSave(setShowDrawer)}}>Cycle route</p>
         </div>
       </Transition>
       <div className="w-full h-[59px] bg-white absolute bottom-0 rounded-t-[10px] flex sm:hidden flex-col px-[15px] pt-[22px] pb-[10px] font-medium z-0" onTouchStart={() => setShowDrawer(!showDrawer)}>

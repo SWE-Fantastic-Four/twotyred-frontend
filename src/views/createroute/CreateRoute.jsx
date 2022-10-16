@@ -231,8 +231,7 @@ const CreateRoute = () => {
     }
   }
 
-  const saveRouteHandler = async(e) => {
-    e.stopPropagation();
+  const saveRouteHandler = async(setShowDrawer) => {
     try {
       const response = await fetch(urls.backend + "/routes/save", {
         method: "POST",
@@ -261,6 +260,8 @@ const CreateRoute = () => {
     } catch (error) {
       // TODO: error handling
       console.error(error.message);
+    } finally {
+      setShowDrawer(false);
     }
   }
 
