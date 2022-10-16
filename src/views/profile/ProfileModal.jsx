@@ -1,16 +1,16 @@
-import React, { Fragment, useState, useRef, useEffect } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
+import { ChevronLeftIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { getAuth, updateProfile } from 'firebase/auth'
+import { deleteObject, getStorage, ref, uploadBytes } from "firebase/storage"
+import React, { Fragment, useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import AvatarImage from "../../assets/AvatarImage.png"
+import AvatarIcon from '../../components/AvatarIcon'
 import PrimaryButton from '../../components/PrimaryButton'
 import SecondaryButton from '../../components/SecondaryButton'
-import { XMarkIcon, ChevronLeftIcon } from '@heroicons/react/24/outline'
-import AvatarIcon from '../../components/AvatarIcon'
-import AvatarImage from "../../assets/AvatarImage.png"
-import { updateProfile, getAuth } from 'firebase/auth'
-import { getStorage, ref, uploadBytes, deleteObject } from "firebase/storage";
-import { useSelector, useDispatch } from 'react-redux'
+import { urls } from '../../constants/constants'
 import useProfilePhoto from '../../hooks/useProfilePhoto'
 import { updateDisplayName, updateProfilePhoto } from '../../store/auth'
-import { urls } from '../../constants/constants'
 
 const ProfileModal = ({ open, onClose }) => {
   const auth = getAuth();

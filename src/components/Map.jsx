@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import { GoogleMap, LoadScript, Marker, Polyline } from '@react-google-maps/api';
+import polyUtil from 'polyline-encoded';
+import React, { useEffect, useState } from 'react';
 import IntermediateMarker from "../assets/Marker.svg";
 import StartMarker from "../assets/StartMarker.svg";
-import { GoogleMap, LoadScript, Marker, Polyline } from '@react-google-maps/api';
-import { useEffect } from 'react';
-import polyUtil from 'polyline-encoded';
 
 const Map = ({ options, onClick, places, start, routeGeom="", center }) => {
   const zoom = 12;

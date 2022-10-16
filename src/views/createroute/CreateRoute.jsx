@@ -1,18 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react'
-import MainLayout from '../../layout/MainLayout'
+import { Spinner } from 'flowbite-react';
+import { AnimatePresence, motion } from 'framer-motion';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import Star from "../../assets/star.svg";
 import Map from '../../components/Map';
-import RouteDescription from './RouteDescription';
-import RouteSelection from './RouteSelection';
 import { urls } from '../../constants/constants';
+import P from '../../constants/paths';
+import MainLayout from '../../layout/MainLayout';
 import { capitalise } from '../../utils/string';
 import GreenButton from './GreenButton';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import P from '../../constants/paths';
-import { useSelector } from 'react-redux';
-import Star from "../../assets/star.svg";
-import { AnimatePresence, motion } from 'framer-motion';
-import { useCallback } from 'react';
-import { Spinner } from 'flowbite-react';
+import RouteDescription from './RouteDescription';
+import RouteSelection from './RouteSelection';
 
 const CreateRoute = () => {
   const location = useLocation();

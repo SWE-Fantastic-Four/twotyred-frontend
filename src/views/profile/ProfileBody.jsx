@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import RouteCard from "../../components/RouteCard";
-import { urls } from "../../constants/constants";
 import RouteCardLoadingSet from "../../components/RouteCardLoading/RouteCardLoadingSet";
+import { urls } from "../../constants/constants";
 
 const ProfileBody = ({ className }) => {
   const username = useSelector((state) => state.auth.displayName);

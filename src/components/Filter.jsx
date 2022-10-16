@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
 import { BarsArrowDownIcon, CheckIcon } from "@heroicons/react/24/solid";
+import React, { useEffect, useRef, useState } from "react";
 
 export default function Filter({ routeOption, setRouteOption }) {
   const [isClicked, setisClicked] = useState(false);

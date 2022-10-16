@@ -1,22 +1,22 @@
 import {
   ArrowRightIcon,
   HeartIcon,
-  StarIcon,
+  StarIcon
 } from "@heroicons/react/24/outline";
 import {
   HeartIcon as HeartIconSolid,
-  StarIcon as StarIconSolid,
+  StarIcon as StarIconSolid
 } from "@heroicons/react/24/solid";
+import AwesomeDebouncePromise from "awesome-debounce-promise";
 import axios from "axios";
+import { motion } from "framer-motion";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import ProfilePic from "../assets/ProfilePic.svg";
 import { urls } from "../constants/constants";
-import Map from "./Map";
-import { useNavigate } from "react-router-dom";
 import P from "../constants/paths";
-import { motion } from "framer-motion";
-import AwesomeDebouncePromise from "awesome-debounce-promise";
+import Map from "./Map";
 
 const likeRequest = AwesomeDebouncePromise((username, id, url) => axios.post(url, { username, routeId: id }),500);
 const favouriteRequest = AwesomeDebouncePromise((username, id, url) => axios.post(url, { user: username, route: id }),500);

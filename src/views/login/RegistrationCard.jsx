@@ -2,8 +2,8 @@ import { createUserWithEmailAndPassword, getAuth, updateProfile } from "firebase
 import React, { useState } from 'react';
 import PrimaryButton from '../../components/PrimaryButton';
 import SecondaryButton from '../../components/SecondaryButton';
-import LoginInput from './LoginInput';
 import { urls } from "../../constants/constants";
+import LoginInput from './LoginInput';
 
 /* 
   RegistrationCard.jsx implements the Sign up boundary class.

@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { Spinner } from "flowbite-react";
+import React from "react";
 import cross from "../../assets/cross.svg";
+import DistanceMarker from "../../assets/DistanceMarker.svg";
 import green from "../../assets/green.svg";
 import location from "../../assets/location.svg";
 import search from "../../assets/search.svg";
-import DistanceMarker from "../../assets/DistanceMarker.svg";
 import GreenButton from "./GreenButton";
-import { Spinner } from "flowbite-react";
 
 /* 
   RouteSelection.jsx implements the Route Planning Page boundary class.

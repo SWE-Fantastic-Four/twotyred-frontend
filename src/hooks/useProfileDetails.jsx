@@ -1,5 +1,4 @@
-import { getAuth } from 'firebase/auth';
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { urls } from '../constants/constants';
 

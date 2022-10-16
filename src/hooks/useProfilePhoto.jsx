@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { getStorage, getDownloadURL, ref } from 'firebase/storage'
+import { getDownloadURL, getStorage, ref } from 'firebase/storage'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { updateProfile } from 'firebase/auth'
 import AvatarImage from "../assets/AvatarImage.png"
 
 const useProfilePhoto = () => {

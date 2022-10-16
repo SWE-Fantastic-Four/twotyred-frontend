@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import MainLayout from '../../layout/MainLayout'
+import ProfileBody from './ProfileBody'
 import ProfileHeader from './ProfileHeader'
 import ProfileModal from './ProfileModal'
-import ProfileBody from './ProfileBody'
 
 /* 
   Profile.jsx implements the User Profile boundary class.

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import Edit from "../assets/Edit.svg";
 
 const AvatarIcon = ({ src, className, editPhoto, imgClassName }) => {

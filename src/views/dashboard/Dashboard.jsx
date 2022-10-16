@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import MainLayout from "../../layout/MainLayout";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import Filter from "../../components/Filter";
 import RouteCard from "../../components/RouteCard";
 import RouteCardLoadingSet from "../../components/RouteCardLoading/RouteCardLoadingSet";
-import Filter from "../../components/Filter";
 import { urls } from "../../constants/constants";
-import { useSelector } from "react-redux";
+import MainLayout from "../../layout/MainLayout";
 
 /* 
   Dashboard.jsx implements the Dashboard boundary class.

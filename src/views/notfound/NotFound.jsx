@@ -1,8 +1,8 @@
-import React from 'react'
-import MainLayout from '../../layout/MainLayout'
-import NotFoundGhost from "../../assets/NotFoundGhost.svg";
+import React from 'react';
 import { Link } from 'react-router-dom';
+import NotFoundGhost from "../../assets/NotFoundGhost.svg";
 import P from '../../constants/paths';
+import MainLayout from '../../layout/MainLayout';
 
 const NotFound = () => {
   return (
