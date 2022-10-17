@@ -4,6 +4,7 @@ import PrimaryButton from '../../components/PrimaryButton';
 import SecondaryButton from '../../components/SecondaryButton';
 import { urls } from "../../constants/constants";
 import LoginInput from './LoginInput';
+import { checkPasswordStrength } from "../../utils/string";
 
 /* 
   RegistrationCard.jsx implements the Sign up boundary class.
@@ -55,6 +56,7 @@ const RegistrationCard = ({ links }) => {
   const registerHandler = async (e) => {
     e.preventDefault();
     try {
+      checkPasswordStrength(password);
       if (password !== cfmPassword) {
         throw new Error("Passwords do not match.");
       }
@@ -88,7 +90,11 @@ const RegistrationCard = ({ links }) => {
 
       links.showRegistrationSuccess();
     } catch (error) {
-      setErrorMsg(error.message);
+      if (error.message === "Firebase: Error (auth/email-already-in-use).") {
+        setErrorMsg("Username has already been taken.")
+      } else {
+        setErrorMsg(error.message);
+      }
     }
   }
 
@@ -96,7 +102,7 @@ const RegistrationCard = ({ links }) => {
     <>
       <div>
         <p className="sm:mb-[7px] mb-[2px] font-extralight sm:text-[32px] text-[26px]">Account Registration</p>
-        <p className="sm:mb-[10px] font-extralight sm:text-[20px] text-[15px] text-[#C52424] sm:h-[23px] h-[18px] sm:leading-[23px] leading-[18px]">{errorMsg}</p>
+        <p className="sm:mb-[10px] font-extralight sm:text-[18px] text-[12px] text-[#C52424] sm:h-[23px] h-[18px] sm:leading-[23px] leading-[18px]">{errorMsg}</p>
         <form className="flex flex-col" onSubmit={registerHandler}>
           <div className="flex flex-col sm:gap-[20px] gap-[15px] sm:mb-[40px] mb-[30px]">
             <LoginInput placeholder="enter email address" type="email" onChange={inputHandler} value={email} name="email" />

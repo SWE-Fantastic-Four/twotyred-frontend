@@ -47,7 +47,13 @@ const SignInCard = ({ links }) => {
       await signInWithEmailAndPassword(auth, email, password);
       dispatch(login());
     } catch (error) {
-      setErrorMsg(error.message);
+      if (error.message === "Firebase: Error (auth/wrong-password)." || error.message === "Firebase: Error (auth/user-not-found).") {
+        setErrorMsg("Wrong username or password.");
+      } else if (error.message === "Firebase: Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later. (auth/too-many-requests).") {
+        setErrorMsg("You have been locked out of your account.");
+      } else {
+        setErrorMsg(error.message);
+      }
     }
   }
 

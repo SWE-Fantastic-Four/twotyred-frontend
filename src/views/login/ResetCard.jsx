@@ -33,7 +33,11 @@ const ResetCard = ({ links }) => {
       await sendPasswordResetEmail(auth, email);
       links.showResetSuccess();
     } catch (error) {
-      setErrorMsg(error.message);
+      if (error.message === "Firebase: Error (auth/user-not-found).") {
+        setErrorMsg("No accounts found.")
+      } else {
+        setErrorMsg(error.message);
+      }
     }
   }
 
