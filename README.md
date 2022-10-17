@@ -1,6 +1,6 @@
 ## SWE Frontend
 
-The SWE-Fantastic-Four webapp is built using React. Simply install Node.js and node package dependencies to begin.
+The SWE-Fantastic-Four webapp is built using React. Simply install Node.js `(Version 16.17.0)` and node package dependencies to begin.
 
 ```bash
 npm i
