@@ -7,7 +7,7 @@ import { login } from "../../store/auth";
 import LoginInput from "./LoginInput";
 
 /* 
-  SignInCard.jsx implements the Log In class.
+  SignInCard.jsx implements the Log In boundary class.
   The attributes implemented are:
   1. email
   2. password

@@ -12,6 +12,7 @@ import { checkPasswordStrength } from "../../utils/string";
   1. email
   2. username
   3. password
+  4. confirmedPassword as cfmPassword
 
   The key public methods are:
   1. submitForm() as registerHandler to submit the user's credentials to the authentication system for registration

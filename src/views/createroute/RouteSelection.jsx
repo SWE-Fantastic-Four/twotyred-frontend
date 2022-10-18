@@ -13,6 +13,9 @@ import GreenButton from "./GreenButton";
   1. startPt as start, 
   2. intermediatePts and endPt as places.
 
+  The key public methods are:
+  1. choosePoints(), which enables users to pick points along the route
+
   @author chayhuixiang
 */
 
@@ -20,6 +23,10 @@ import GreenButton from "./GreenButton";
   RouteSelection.jsx also implements the I'mFeelingLucky Page boundary class:
   The attributes implemented are:
   1. startPt as start.
+
+  The key public methods are:
+  1. cycleRoute(), which enables users to choose the starting point
+  2. inputDistance(), which enables users to input the desired distance for the route
 
   @author chayhuixiang
 */

@@ -19,6 +19,14 @@ import MainLayout from "../../layout/MainLayout";
   @author chayhuixiang
 */
 
+/* 
+  Dashboard.jsx implements the RouteCardSet boundary class.
+  The attributes implemented are:
+  1. routeCards
+
+  @author chayhuixiang
+*/
+
 const Dashboard = () => {
   const [loadingRoutes, setLoadingRoutes] = useState(false);
   const [routes, setRoutes] = useState([]);

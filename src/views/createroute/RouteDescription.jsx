@@ -25,6 +25,7 @@ import { urls } from "../../constants/constants";
   3. routePM2.5Index as pm25 
   4. routeDate 
   5. routeTemperature
+  6. routeTime
 
   The key public methods are:
   1. cycleRoute(), which saves the current route into the database
