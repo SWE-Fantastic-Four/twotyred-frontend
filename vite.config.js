@@ -12,10 +12,10 @@ export default defineConfig({
       devOptions: {
         enabled: true
       },
-      includeAssets: ["icons/apple-icon-180.png", "icons/favicon-196.png", "vite.svg"],
+      includeAssets: ["icons/apple-icon-180.png", "icons/favicon-196.png", "logo.svg"],
       manifest: {
-        name: 'SWE Fantastic Four',
-        short_name: 'SWE',
+        name: 'TwoTyred',
+        short_name: 'TwoTyred',
         description: 'Automatic cycling route planner',
         theme_color: '#ffffff',
         display: "standalone",
