@@ -147,6 +147,7 @@ const CreateRoute = () => {
       if (mode === "default") {
         let allPlaces = [start,...places];
         const coordinates = allPlaces.map((place) => `${place.lat},${place.lng}`);
+        console.log(coordinates);
         const options = {
           headers:{
             'Content-Type': 'application/json'
@@ -188,6 +189,8 @@ const CreateRoute = () => {
           }
           if (planRouteRes.ok) {
             break;
+          } else if (planRouteRes.status === 400) {
+            throw new Error("Failed to generate route");
           }
         }
         if (!planRouteRes || !planRouteRes.ok) {
