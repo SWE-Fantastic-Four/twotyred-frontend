@@ -9,9 +9,9 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       injectRegister: 'auto',
-      devOptions: {
-        enabled: true
-      },
+      // devOptions: {
+      //   enabled: true
+      // },
       includeAssets: ["icons/apple-icon-180.png", "icons/favicon-196.png", "logo.svg"],
       manifest: {
         name: 'TwoTyred',
