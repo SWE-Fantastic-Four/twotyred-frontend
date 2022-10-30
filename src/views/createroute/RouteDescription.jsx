@@ -26,6 +26,9 @@ import { urls } from "../../constants/constants";
   4. routeDate 
   5. routeTemperature
   6. routeTime
+  7. startPt
+  8. intermediatePts
+  9. endPt
 
   The key public methods are:
   1. cycleRoute(), which saves the current route into the database

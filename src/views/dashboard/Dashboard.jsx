@@ -20,7 +20,7 @@ import MainLayout from "../../layout/MainLayout";
 */
 
 /* 
-  Dashboard.jsx implements the RouteCardSet boundary class.
+  Dashboard.jsx implements the Route Card Set boundary class.
   The attributes implemented are:
   1. routeCards
 
