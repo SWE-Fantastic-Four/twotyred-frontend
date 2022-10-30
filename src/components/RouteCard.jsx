@@ -13,9 +13,10 @@ import { motion } from "framer-motion";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import ProfilePic from "../assets/ProfilePic.svg";
 import { urls } from "../constants/constants";
 import P from "../constants/paths";
+import useProfileDetails from "../hooks/useProfileDetails";
+import useProfilePhoto from "../hooks/useProfilePhoto";
 import Map from "./Map";
 
 const likeRequest = AwesomeDebouncePromise((username, id, url) => axios.post(url, { username, routeId: id }),500);
@@ -58,6 +59,8 @@ export default function RouteCard({
   intermediatePts,
 }) {
   const username = useSelector((state) => state.auth.displayName);
+  const routeProfileDetails = useProfileDetails(routeUsername);
+  const profilePhoto = useProfilePhoto(routeProfileDetails === null || routeProfileDetails.PhotoURL === undefined ? "" : routeProfileDetails.PhotoURL);
   const [starFilled, setStarFilled] = useState(isFavourited);
   const [heartFilled, setHeartFilled] = useState(isLiked);
   const [likeCount, setLikeCount] = useState(likes);
@@ -196,7 +199,7 @@ export default function RouteCard({
           <p className="ml-auto">| {Math.round(distance / 1000)}KM</p>
         </div>
         <div className="third flex sm:mt-[11px] mt-[8px] items-center">
-          <img className="profilepic sm:w-[34px] sm:h-[34px] w-[29px] h-[29px]" src={ProfilePic} />
+          <img className="profilepic sm:w-[34px] sm:h-[34px] w-[29px] h-[29px] rounded-full border-2" src={profilePhoto} />
           <div className="userinfo pl-[5px]">
             <h1 className="name font-[Roboto] font-bold sm:text-[12px] text-[10.15px] leading-[14px] text-black">
               @{routeUsername}

@@ -29,7 +29,7 @@ const Profile = () => {
   return (
     <MainLayout>
       <ProfileHeader openSettings={() => setShowModal(true)} />
-      <ProfileBody className="sm:my-[36px] my-[5px]" />
+      <ProfileBody showModal={showModal} className="sm:my-[36px] my-[5px]" />
       <ProfileModal open={showModal} onClose={() => setShowModal(false)} />
     </MainLayout>
   )

@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { urls } from '../constants/constants';
 
-const useProfileDetails = () => {
+const useProfileDetails = (username) => {
   const [profileDetails, setProfileDetails] = useState(null);
-  const username = useSelector(state => state.auth.displayName);
+  username = username ? username : useSelector(state => state.auth.displayName);
 
   useEffect(() => {
     const fetchUserDetails = async() => {

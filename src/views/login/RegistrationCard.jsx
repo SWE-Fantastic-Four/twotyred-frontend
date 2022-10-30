@@ -71,6 +71,7 @@ const RegistrationCard = ({ links }) => {
           likes: [],
           totalTime: 0,
           totalDistance: 0,
+          photoUrl: ""
         }),
         headers: {
           "Content-Type": "application/json"

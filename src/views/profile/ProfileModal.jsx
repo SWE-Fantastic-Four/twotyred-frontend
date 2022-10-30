@@ -74,20 +74,53 @@ const ProfileModal = ({ open, onClose }) => {
       // upload new profile pic if it exists
       if (image) {
         const storageRef = ref(storage, "images/" + image.name);
-        const response = await uploadBytes(storageRef, image);
+        let response = await uploadBytes(storageRef, image);
         const uploadedPhotoURL = response.metadata.fullPath;
-        console.log(uploadedPhotoURL);
         await updateProfile(auth.currentUser, {
           displayName: username,
           photoURL: uploadedPhotoURL
         });
         dispatch(updateProfilePhoto(uploadedPhotoURL));
+
+        response = await fetch(urls.backend + "/users/update/photo", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            username,
+            photoUrl: uploadedPhotoURL
+          })
+        });
+
+        if (!response.ok) {
+          console.log(response);
+          const text = await response.text();
+          throw new Error(text);
+        }
+
       } else {
         await updateProfile(auth.currentUser, {
           displayName: username,
           photoURL: ""
         });
         dispatch(updateProfilePhoto(""));
+
+        const response = await fetch(urls.backend + "/users/update/photo", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            username,
+            photoUrl: ""
+          })
+        });
+
+        if (!response.ok) {
+          const text = await response.text();
+          throw new Error(text);
+        }
       }
       onClose();
     } catch (error) {

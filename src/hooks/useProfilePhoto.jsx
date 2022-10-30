@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import AvatarImage from "../assets/AvatarImage.png"
 
-const useProfilePhoto = () => {
+const useProfilePhoto = (photoUrl) => {
   const storage = getStorage();
-  const photoUrl = useSelector(state => state.auth.photoUrl);
+  photoUrl = photoUrl === undefined ? useSelector(state => state.auth.photoUrl) : photoUrl;
   const [profileSrc, setProfileSrc] = useState(AvatarImage);
 
   useEffect(() => {

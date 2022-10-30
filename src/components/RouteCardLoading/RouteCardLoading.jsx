@@ -17,7 +17,7 @@ const RouteCardLoading = ({ className }) => {
       </div>
       <div className="stats w-full sm:h-[112px] h-[95.72px] sm:pl-[15px] pl-[12.82px] sm:pr-[12px] pr-[10.26px] sm:pt-[12px] pt-[10.25px] sm:pb-[14px] flex flex-col">
         <div className="first animate-pulse flex justify-between items-center sm:text-[20px] text-[16.9139px] sm:leading-[23px] leading-[19.82px]">
-          <div class="bg-light-gray rounded-full dark:bg-gray-700 w-48 h-[20px]"></div>
+          <div className="bg-light-gray rounded-full dark:bg-gray-700 w-48 h-[20px]"></div>
           <div className="bg-light-gray icons flex items-center h-full w-[57px] rounded-full">
           </div>
         </div>

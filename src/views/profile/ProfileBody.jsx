@@ -4,7 +4,7 @@ import RouteCard from "../../components/RouteCard";
 import RouteCardLoadingSet from "../../components/RouteCardLoading/RouteCardLoadingSet";
 import { urls } from "../../constants/constants";
 
-const ProfileBody = ({ className }) => {
+const ProfileBody = ({ className, showModal }) => {
   const username = useSelector((state) => state.auth.displayName);
   const [showFavourites, setShowFavourites] = useState(false);
   const [loadingJobs, setLoadingJobs] = useState(0);
@@ -16,6 +16,7 @@ const ProfileBody = ({ className }) => {
   const obtainRoutes = useEffect(() => {
     // obtain user routes
     const obtainUserRoutes = async() => {
+      setRoutes([]);
       setLoadingJobs((prevValue) => ++prevValue);
       try {
         const response = await fetch(`${urls.backend}/routes/user/${username}`);
@@ -32,6 +33,7 @@ const ProfileBody = ({ className }) => {
 
     // obtain favourite routes
     const obtainFavouriteRoutes = async() => {
+      setFavouriteRoutes([]);
       setLoadingJobs((prevValue) => ++prevValue);
       try {
         const response = await fetch(
@@ -47,9 +49,12 @@ const ProfileBody = ({ className }) => {
         setLoadingJobs((prevValue) => --prevValue);
       }
     }
-    obtainFavouriteRoutes();
-    obtainUserRoutes();
-  }, [username]);
+    if (!showModal) {
+      obtainFavouriteRoutes();
+      obtainUserRoutes();
+    }
+    console.log(showModal);
+  }, [username, showModal]);
 
   return (
     <div
