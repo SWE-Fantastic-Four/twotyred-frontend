@@ -1,6 +1,6 @@
-## SWE Frontend
+## TwoTyred (Frontend)
 
-The SWE-Fantastic-Four webapp is built using React. Simply install Node.js `(Version 16.17.0)` and node package dependencies to begin.
+The TwoTyred webapp is built using React. Simply install Node.js `(Version 16.17.0)` and node package dependencies to begin.
 
 ```bash
 npm i
@@ -18,6 +18,12 @@ where all reusable components will go
 
 - `src/constants`:
 where all project constants will go
+
+- `src/hooks`:
+where all react hooks will go
+
+- `src/utils`:
+where all utility functions will go
 
 - `src/layout`:
 where the general layout of each page will go
