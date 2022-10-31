@@ -30,15 +30,18 @@ function App() {
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
+        // while (!(user.displayName) || !(user.profileSrc)) {
+        //   console.log(user, user.displayName);
+        // }
         const displayName = user.displayName;
         const profileSrc = user.photoURL;
-        dispatch(login());
         dispatch(updateDisplayName(displayName));
         dispatch(updateProfilePhoto(profileSrc));
+        dispatch(login());
       } else {
-        dispatch(logout());
         dispatch(updateDisplayName(""));
         dispatch(updateProfilePhoto(""));
+        dispatch(logout());
       }
     });
   },[]);
@@ -46,7 +49,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={P.DASHBOARD} element={<Dashboard />} />
+        <Route path={P.DASHBOARD} element={!isLoggedIn ? <Navigate to={P.LOGIN} replace />: <Dashboard />} />
         <Route path={P.LOGIN} element={isLoggedIn ? <Navigate to={P.DASHBOARD} replace /> : <Login />}/>
         <Route path={P.PROFILE} element={<Profile />}/>
         <Route path={P.CREATEROUTE} element={<CreateRoute />}/>

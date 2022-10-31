@@ -53,7 +53,6 @@ const MainHeader = () => {
   const logoutHandler = () => {
     try {
       signOut(auth);
-      dispatch(logout());
     } catch (error) {
       // TODO: error handling
       console.error(error);
@@ -77,19 +76,6 @@ const MainHeader = () => {
       {/* Desktop Navbar */}
       <nav className="hidden sm:flex w-full justify-center shadow-lg h-[98px] sticky top-0 bg-white z-50">
         <div className="flex flex-row-reverse items-center max-w-[var(--max-screen-width)] w-full text-dark-gray text-[24px] font-medium">
-          {/* <div className="hover:border-b-[3px] h-full mr-[24px] flex items-center border-dark-gray relative group">
-            <img className={`${pathname === P.PROFILE ? "border-2 border-black" : "border"} rounded-full h-[50px] w-[50px]`} src={profilePhoto} />
-            <div className="absolute top-[81px] transition-all opacity-0 scale-90 group-hover:scale-100 group-hover:opacity-100 w-[218px] h-[171px] right-0 translate-x-[12px] flex flex-col bg-[url('assets/ProfileSpeech.svg')]">
-              <div className="h-[64px] w-[202px] mt-[32px] mx-auto">
-                <Link to={P.PROFILE} className="h-full w-full hover:text-black cursor-pointer flex items-center justify-center peer">Profile</Link>
-                <img src={ProfileSpeechTopDark} className="absolute invisible peer-hover:visible top-[6px] -z-10" />
-              </div>
-              <div className="h-[64px] w-[202px] mx-auto">
-                <Link onClick={logoutHandler} to={P.LOGIN} className="h-full w-full hover:text-black cursor-pointer flex items-center justify-center peer">Logout</Link>
-                <img src={ProfileSpeechBtmDark} className="absolute invisible peer-hover:visible top-[98px] -z-10" />
-              </div>
-            </div>
-          </div> */}
           <div className="hover:border-b-[3px] h-full mr-[24px] flex items-center border-dark-gray relative" onMouseOver={() => setProfileHover(true)} onMouseLeave={() => setProfileHover(false)}>
             <img className={`${pathname === P.PROFILE ? "border-2 border-black" : "border"} rounded-full h-[50px] w-[50px]`} src={profilePhoto} />
             <Transition

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useCallback } from 'react';
 import MainLayout from '../../layout/MainLayout';
 import RegistrationCard from './RegistrationCard';
 import RegistrationSuccessCard from './RegistrationSuccessCard';
@@ -29,6 +30,7 @@ const Login = () => {
   }
 
   const showRegistrationSuccess = () => {
+    console.log("Showing registration success....");
     setCard(loginCards.registrationSuccess);
   }
 
@@ -36,7 +38,8 @@ const Login = () => {
     setCard(loginCards.resetSuccess);
   }
 
-  const renderCard = () => {
+  const renderCard = useCallback(() => {
+    console.log("Rerendering card...");
     switch (card) {
       case loginCards.signIn:
         return <SignInCard links={{ showRegistration, showReset }} />
@@ -56,7 +59,7 @@ const Login = () => {
       default:
         break;
     }
-  }
+  },[card]);
 
   return (
     <main className="relative bg-[url('assets/bike.png'),_url('assets/bike.png')] bg-no-repeat sm:bg-[position:calc(50%-700px)_60px,_calc(50%+750px)_200px] bg-[position:calc(50%-150px)_30px,_calc(50%+150px)_300px] bg-[length:300px] sm:bg-[length:auto] self-center"> 

@@ -1,10 +1,12 @@
-import { createUserWithEmailAndPassword, getAuth, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, signOut, updateProfile } from "firebase/auth";
 import React, { useState } from 'react';
 import PrimaryButton from '../../components/PrimaryButton';
 import SecondaryButton from '../../components/SecondaryButton';
 import { urls } from "../../constants/constants";
 import LoginInput from './LoginInput';
 import { checkPasswordStrength } from "../../utils/string";
+import { useDispatch } from "react-redux";
+import { updateDisplayName, updateProfilePhoto } from "../../store/auth";
 
 /* 
   RegistrationCard.jsx implements the Sign up boundary class.
@@ -24,6 +26,7 @@ import { checkPasswordStrength } from "../../utils/string";
 
 const RegistrationCard = ({ links }) => {
   const auth = getAuth();
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -89,7 +92,8 @@ const RegistrationCard = ({ links }) => {
         displayName: username,
         photoUrl: ""
       });
-
+      dispatch(updateDisplayName(username));
+      dispatch(updateProfilePhoto(""));
       links.showRegistrationSuccess();
     } catch (error) {
       if (error.message === "Firebase: Error (auth/email-already-in-use).") {
