@@ -34,7 +34,7 @@ export default function Filter({ routeOption, setRouteOption }) {
         ref={ref}
       >
         <h2 className="description font-[Roboto] text-[19px] font-medium leading-[22px] ml-[20px]">
-          {routeOption === 0 ? "Most Liked" : "Most Recent"}
+          {routeOption === 0 ? "Most Recent" : "Most Liked"}
         </h2>
         <BarsArrowDownIcon
           className={`mr-[20px] stroke-current self-auto w-[24px] h-[24px]`}
@@ -45,13 +45,13 @@ export default function Filter({ routeOption, setRouteOption }) {
             isClicked && ( 
             <div className="dropdown h-[72px] w-[195px] border-black border-[3px] rounded-xl overflow-hidden bg-white">
             <div className="option1 h-[33px] flex justify-between bg-white  hover:bg-[#EFEFEF] hover:cursor-pointer items-center" onClick={()=> {setRouteOption(0); setisClicked(false);}}>
-                <p className="font-[Roboto] text-[19px] font-medium leading-[22px] pl-[20px]">Most Liked</p>
+                <p className="font-[Roboto] text-[19px] font-medium leading-[22px] pl-[20px]">Most Recent</p>
                 {routeOption === 0 && <div className="Icon">
                     <CheckIcon className="w-[23px] stroke-current mr-[19px] pb-[7px] pt-[3px]" /> 
                 </div>}
             </div>
             <div className="option2 h-[33px] bg-white  hover:bg-[#EFEFEF] flex cursor-pointer items-center justify-between" onClick={()=> {setRouteOption(1); setisClicked(false);}}>
-                <p className="option2 font-[Roboto] text-[19px] font-medium leading-[22px] pl-[20px] flex items-center">Most Recent</p>
+                <p className="option2 font-[Roboto] text-[19px] font-medium leading-[22px] pl-[20px] flex items-center">Most Liked</p>
                 {routeOption === 1 && 
                     <CheckIcon className="w-[23px] stroke-current mr-[19px] pb-[7px] pt-[3px]" /> 
                 }
