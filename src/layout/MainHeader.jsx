@@ -2,7 +2,7 @@ import { ChevronDownIcon, ChevronLeftIcon } from "@heroicons/react/24/outline";
 import { Transition, Disclosure } from "@headlessui/react";
 import { getAuth, signOut } from "firebase/auth";
 import React, { useState, useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link, NavLink, useLocation, useSearchParams } from 'react-router-dom';
 import CreateSpeechBtmDark from "../assets/CreateSpeechBtmDark.svg";
 import CreateSpeechTopDark from "../assets/CreateSpeechTopDark.svg";
@@ -10,12 +10,10 @@ import Menu from "../assets/Menu.svg";
 import ProfileSpeechBtmDark from "../assets/ProfileSpeechBtmDark.svg";
 import ProfileSpeechTopDark from "../assets/ProfileSpeechTopDark.svg";
 import P from '../constants/paths';
-import { logout } from '../store/auth';
 import AvatarIcon from "../components/AvatarIcon";
 import useProfilePhoto from "../hooks/useProfilePhoto";
 
 const MainHeader = () => {
-  const dispatch = useDispatch();
   const location = useLocation();
   const auth = getAuth();
   const [searchParams] = useSearchParams();
