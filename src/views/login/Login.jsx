@@ -30,7 +30,6 @@ const Login = () => {
   }
 
   const showRegistrationSuccess = () => {
-    console.log("Showing registration success....");
     setCard(loginCards.registrationSuccess);
   }
 
@@ -39,7 +38,6 @@ const Login = () => {
   }
 
   const renderCard = useCallback(() => {
-    console.log("Rerendering card...");
     switch (card) {
       case loginCards.signIn:
         return <SignInCard links={{ showRegistration, showReset }} />

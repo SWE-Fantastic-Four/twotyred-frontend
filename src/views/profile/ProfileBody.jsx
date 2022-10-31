@@ -53,7 +53,6 @@ const ProfileBody = ({ className, showModal }) => {
       obtainFavouriteRoutes();
       obtainUserRoutes();
     }
-    console.log(showModal);
   }, [username, showModal]);
 
   return (

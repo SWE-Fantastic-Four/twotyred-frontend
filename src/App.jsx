@@ -30,9 +30,6 @@ function App() {
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
-        // while (!(user.displayName) || !(user.profileSrc)) {
-        //   console.log(user, user.displayName);
-        // }
         const displayName = user.displayName;
         const profileSrc = user.photoURL;
         dispatch(updateDisplayName(displayName));

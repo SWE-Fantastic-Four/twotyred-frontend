@@ -15,7 +15,7 @@ const useProfilePhoto = (photoUrl) => {
           const url = await getDownloadURL(ref(storage, photoUrl));
           setProfileSrc(url);
         } catch (error) {
-          console.log(error);
+          console.error(error);
         }
       } else {
         setProfileSrc(AvatarImage);

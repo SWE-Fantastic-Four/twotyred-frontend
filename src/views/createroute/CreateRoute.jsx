@@ -66,7 +66,6 @@ const CreateRoute = () => {
   useEffect(() => {
     if (page === "1") {
       const routeInfo = (!location.state || !location.state.routeInfo) ? {} : location.state.routeInfo;
-      console.log(routeInfo);
       if (routeInfo.routeDistance) {
         setRouteDistance(routeInfo.routeDistance);
       }
@@ -147,7 +146,6 @@ const CreateRoute = () => {
       if (mode === "default") {
         let allPlaces = [start,...places];
         const coordinates = allPlaces.map((place) => `${place.lat},${place.lng}`);
-        console.log(coordinates);
         const options = {
           headers:{
             'Content-Type': 'application/json'

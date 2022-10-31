@@ -110,7 +110,6 @@ export default function RouteCard({
     const url = starFilled ? urls.backend + "/routes/unfavourite" : urls.backend + "/routes/favourite";
     try {
       const response = await favouriteRequest(username, id, url);
-      console.log(response.data);
       if (refreshRoutes) {
         refreshRoutes();
       }
@@ -129,9 +128,7 @@ export default function RouteCard({
     const url = heartFilled ? urls.backend + "/routes/unlike" : urls.backend + "/routes/like";
     try {
       const response = await likeRequest(username, id, url);
-      console.log(heartFilled ? "unlike" : "like");
       const data = response.data;
-      console.log(data);
       setLikeCount(data.newLikeCount);
       if (refreshRoutes) {
         refreshRoutes();

@@ -94,7 +94,6 @@ const ProfileModal = ({ open, onClose }) => {
         });
 
         if (!response.ok) {
-          console.log(response);
           const text = await response.text();
           throw new Error(text);
         }
